@@ -30,9 +30,9 @@ function HOMEINIT($) {
 	var windowOn = $(window);
 	////////////////////////////////////////////////////
 	// 01. PreLoader Js
-	windowOn.on('load', function () {
-		$("#loading").fadeOut(500);
-	});
+	// windowOn.on('load', function () {
+	// 	$("#loading").fadeOut(500);
+	// });
 
 	if ($('.tp-header-height').length > 0) {
 		var headerHeight = document.querySelector(".tp-header-height");      
