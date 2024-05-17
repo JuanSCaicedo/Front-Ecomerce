@@ -9669,7 +9669,7 @@ div.tp-blog-thumb img {
   box-shadow: 0px 1px 1px rgba(1, 15, 28, 0.2);
   border-radius: 6px;
 }
-.tp-footer-social a:not(:first-child):not(:last-child) {
+.tp-footer-social a:not(:first-child) {
   margin-left: 5px;
 }
 .tp-footer-social a:hover {
