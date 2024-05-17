@@ -60,7 +60,7 @@
                             <div class="tp-login-input-wrapper">
                                 <div class="tp-login-input-box">
                                     <div class="tp-login-input">
-                                        <input id="email" type="email" placeholder="shofy@mail.com">
+                                        <input id="email" [(ngModel)]="email" type="email" placeholder="shofy@mail.com">
                                     </div>
                                     <div class="tp-login-input-title">
                                         <label for="email">Your Email</label>
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="tp-login-input-box">
                                     <div class="tp-login-input">
-                                        <input id="tp_password" type="password" placeholder="Min. 6 character">
+                                        <input id="tp_password" [(ngModel)]="password" type="password" placeholder="Min. 6 character">
                                     </div>
                                     <div class="tp-login-input-eye" id="password-show-toggle">
                                         <span id="open-eye" class="open-eye">
@@ -123,7 +123,7 @@
                                 </div>
                             </div>
                             <div class="tp-login-bottom">
-                                <a href="profile.html" class="tp-login-btn w-100">Login</a>
+                                <a href="#" onclick="return false;" (click)="login()" class="tp-login-btn w-100">Login</a>
                             </div>
                         </div>
                     </div>
