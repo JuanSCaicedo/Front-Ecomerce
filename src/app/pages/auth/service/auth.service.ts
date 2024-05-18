@@ -16,7 +16,7 @@ export class AuthService {
   constructor(
     public http: HttpClient,
     public router: Router,
-  ) { 
+  ) {
     this.initAuth();
   }
 
@@ -53,9 +53,17 @@ export class AuthService {
     return false;
   }
 
-  register(data:any) {
-    let URL = URL_SERVICIOS + "/auth/register";
-    return this.http.post(URL, data);
+  register(data: any) {
+    const URL = `${URL_SERVICIOS}/auth/register`;
+    return this.http.post(URL, data).pipe(
+      map((resp: any) => {
+        return resp;
+      }),
+      catchError((err: any) => {
+        // Handle error and return an observable with error message
+        return of({ error: true, message: err.error.message || 'Error desconocido' });
+      })
+    );
   }
 
   logout() {

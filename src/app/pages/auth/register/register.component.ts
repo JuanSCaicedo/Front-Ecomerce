@@ -54,11 +54,14 @@ export class RegisterComponent {
       phone: this.phone
     }
     this.authService.register(data).subscribe((resp: any) => {
-      console.log(resp);
-      this.toastr.success("Éxito", "Confirma tu correo para continuar con el registro");
-      setTimeout(() => {
-        this.router.navigateByUrl("/login");
-      }, 500);
+      if (resp.error) {
+        this.toastr.error("Registro fallido", "Usuario no disponible");
+      } else {
+        this.toastr.success("Éxito", "Confirma tu correo para continuar con el registro");
+        setTimeout(() => {
+          this.router.navigateByUrl("/login");
+        }, 500);
+      }
     });
   }
 }
