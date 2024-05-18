@@ -60,7 +60,7 @@
                             <div class="tp-login-input-wrapper">
                                 <div class="tp-login-input-box">
                                     <div class="tp-login-input">
-                                        <input id="name" type="text" placeholder="Shahnewaz Sakil">
+                                        <input id="name" type="text" [(ngModel)]="name" placeholder="Shahnewaz Sakil">
                                     </div>
                                     <div class="tp-login-input-title">
                                         <label for="name">Your Name</label>
@@ -68,7 +68,23 @@
                                 </div>
                                 <div class="tp-login-input-box">
                                     <div class="tp-login-input">
-                                        <input id="email" type="email" placeholder="shofy@mail.com">
+                                        <input id="surname" type="text" [(ngModel)]="surname" placeholder="Sakil">
+                                    </div>
+                                    <div class="tp-login-input-title">
+                                        <label for="surname">Your Surname</label>
+                                    </div>
+                                </div>
+                                <div class="tp-login-input-box">
+                                    <div class="tp-login-input">
+                                        <input id="phone" type="number" [(ngModel)]="phone" placeholder="9999999">
+                                    </div>
+                                    <div class="tp-login-input-title">
+                                        <label for="phone">Your Phone</label>
+                                    </div>
+                                </div>
+                                <div class="tp-login-input-box">
+                                    <div class="tp-login-input">
+                                        <input id="email" type="email" [(ngModel)]="email" placeholder="shofy@mail.com">
                                     </div>
                                     <div class="tp-login-input-title">
                                         <label for="email">Your Email</label>
@@ -76,7 +92,8 @@
                                 </div>
                                 <div class="tp-login-input-box">
                                     <div class="tp-login-input">
-                                        <input id="tp_password" type="password" placeholder="Min. 6 character">
+                                        <input id="tp_password" [(ngModel)]="password" type="password"
+                                            placeholder="Min. 6 character">
                                     </div>
                                     <div class="tp-login-input-eye" id="password-show-toggle">
                                         <span id="open-eye" class="open-eye">
@@ -120,6 +137,16 @@
                                         <label for="tp_password">Password</label>
                                     </div>
                                 </div>
+                                <!-- Campo de Confirmación de Contraseña -->
+                                <div class="tp-login-input-box">
+                                    <div class="tp-login-input">
+                                        <input id="tp_password2" [(ngModel)]="password2" type="password"
+                                            placeholder="Min. 6 character">
+                                    </div>
+                                    <div class="tp-login-input-title">
+                                        <label for="tp_password2">Confirm Password</label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="tp-login-suggetions d-sm-flex align-items-center justify-content-between mb-20">
                                 <div class="tp-login-remeber">
@@ -129,7 +156,8 @@
                                 </div>
                             </div>
                             <div class="tp-login-bottom">
-                                <a href="#" class="tp-login-btn w-100">Sign Up</a>
+                                <a href="#" onclick="return false;" (click)="register()" class="tp-login-btn w-100">Sign
+                                    Up</a>
                             </div>
                         </div>
                     </div>
