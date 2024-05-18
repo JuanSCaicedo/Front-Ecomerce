@@ -28,7 +28,7 @@ export class LoginComponent {
     if (this.authService.token && this.authService.user) {
       setTimeout(() => {
         this.router.navigateByUrl("/")
-      }, 500);
+      }, 350);
       return;
     }
   }
