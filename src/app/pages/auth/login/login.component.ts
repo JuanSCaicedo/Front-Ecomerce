@@ -42,7 +42,7 @@ export class LoginComponent {
       console.log(resp);
 
       if (resp.error && resp.error.error) {
-        this.toastr.error("Error", 'Las credenciales son incorrectas');
+        this.toastr.error("Error", 'Verifica tus credenciales');
         return;
       }
 
