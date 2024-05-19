@@ -66,6 +66,11 @@ export class AuthService {
     );
   }
 
+  verifiedAuth(data: any) {
+    const URL = `${URL_SERVICIOS}/auth/verified_auth`;
+    return this.http.post(URL, data);
+  }
+
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

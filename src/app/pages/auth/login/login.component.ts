@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../service/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -16,11 +16,13 @@ export class LoginComponent {
 
   email!: string;
   password!: string;
+  code_user!: string;
 
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
-    public router: Router
+    public router: Router,
+    public activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +32,28 @@ export class LoginComponent {
         this.router.navigateByUrl("/")
       }, 350);
       return;
+    }
+    this.activatedRoute.queryParams.subscribe((resp: any) => {
+      this.code_user = resp.code;
+    })
+
+    if (this.code_user) {
+      let data = {
+        code_user: this.code_user,
+      }
+      this.authService.verifiedAuth(data).subscribe((resp: any) => {
+        console.log(resp);
+        if (resp.message == 403) {
+          this.toastr.error("Validación", "Código no válido");
+        }
+        if (resp.message == 200) {
+          this.toastr.success("Éxito", "Correo confirmado correctamente");
+
+          setTimeout(() => {
+            this.router.navigateByUrl("/login");
+          }, 200);
+        }
+      })
     }
   }
 
