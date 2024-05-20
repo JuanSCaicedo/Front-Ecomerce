@@ -40,11 +40,13 @@ export class ForgotPasswordComponent {
       console.log(resp);
       if (resp.message == 200) {
         this.isLoadingMail = 1;
-        localStorage.setItem('isLoadingMail', '1');
+        const timestamp = new Date().getTime();
+        localStorage.setItem('isLoadingMail', JSON.stringify({ value: '1', timestamp: timestamp }));
+
         this.toastr.success("Éxito", "Código enviado a tu correo");
       } else if (resp.message == 403 && this.email) {
         this.isLoadingMail = null;
-        localStorage.setItem('isLoadingMail', '');
+        localStorage.removeItem('isLoadingMail');
         this.toastr.error("Validación", "Correo no existe");
       }
       if (resp.message == 401) {
@@ -54,8 +56,25 @@ export class ForgotPasswordComponent {
   }
 
   ngOnInit() {
-    const storedIsLoadingMail = localStorage.getItem('isLoadingMail'); // Recuperar el valor de localStorage
-    this.isLoadingMail = storedIsLoadingMail ? parseInt(storedIsLoadingMail) : null;
+    const storedData = localStorage.getItem('isLoadingMail');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      const currentTime = new Date().getTime();
+      const expirationTime = 60 * 60 * 1000; // 60 minutos en milisegundos
+      // const expirationTime = 3 * 60 * 60 * 1000; // 3 horas en milisegundos
+
+      if (currentTime - parsedData.timestamp < expirationTime) {
+        this.isLoadingMail = parseInt(parsedData.value);
+      } else {
+        localStorage.removeItem('isLoadingMail');
+        localStorage.removeItem('isLoadingCode');
+        this.isLoadingMail = null;
+        this.isLoadingCode = null;
+      }
+    } else {
+      this.isLoadingMail = null;
+      this.isLoadingCode = null;
+    }
   }
 
   LoadingCode($event: any) {

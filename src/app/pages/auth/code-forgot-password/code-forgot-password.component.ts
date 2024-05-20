@@ -37,7 +37,9 @@ export class CodeForgotPasswordComponent {
         console.log(resp);
         if (resp.message == 200) {
           this.isLoadingCode = 1;
-          localStorage.setItem('isLoadingCode', '1');
+          const timestamp = new Date().getTime();
+          localStorage.setItem('isLoadingCode', JSON.stringify({ value: '1', timestamp: timestamp }));
+          
           this.LoadingCodeStatus.emit(this.isLoadingCode);
           this.toastr.success("Éxito", "Código confirmado correctamente");
         } else if (resp.message == 403) {
