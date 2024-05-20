@@ -24,9 +24,7 @@ export class ForgotPasswordComponent {
   constructor(
     public authService: AuthService,
     public toastr: ToastrService
-  ) {
-
-  }
+  ) { }
 
   verifiedMail() {
     if (!this.email) {
@@ -42,14 +40,25 @@ export class ForgotPasswordComponent {
       console.log(resp);
       if (resp.message == 200) {
         this.isLoadingMail = 1;
+        localStorage.setItem('isLoadingMail', '1');
         this.toastr.success("Éxito", "Código enviado a tu correo");
       } else if (resp.message == 403 && this.email) {
         this.isLoadingMail = null;
+        localStorage.setItem('isLoadingMail', '');
         this.toastr.error("Validación", "Correo no existe");
       }
       if (resp.message == 401) {
         this.toastr.error("Error", "Código ha expirado");
       }
     })
+  }
+
+  ngOnInit() {
+    const storedIsLoadingMail = localStorage.getItem('isLoadingMail'); // Recuperar el valor de localStorage
+    this.isLoadingMail = storedIsLoadingMail ? parseInt(storedIsLoadingMail) : null;
+  }
+
+  LoadingCode($event: any) {
+    this.isLoadingCode = $event;
   }
 }
