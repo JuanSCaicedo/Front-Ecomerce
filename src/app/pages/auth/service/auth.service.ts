@@ -71,6 +71,21 @@ export class AuthService {
     return this.http.post(URL, data);
   }
 
+  verifiedMail(data: any) {
+    const URL = `${URL_SERVICIOS}/auth/verified_email`;
+    return this.http.post(URL, data);
+  }
+
+  verifiedCode(data: any) {
+    const URL = `${URL_SERVICIOS}/auth/verified_code`;
+    return this.http.post(URL, data);
+  }
+
+  verifiedNewPassword(data: any) {
+    const URL = `${URL_SERVICIOS}/auth/new_password`;
+    return this.http.post(URL, data);
+  }
+
   logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
