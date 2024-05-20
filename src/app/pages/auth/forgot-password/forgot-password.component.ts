@@ -77,4 +77,8 @@ export class ForgotPasswordComponent {
   LoadingCode($event: any) {
     this.isLoadingCode = $event;
   }
+
+  CodeValueC($event: any) {
+    this.code = $event;
+  }
 }

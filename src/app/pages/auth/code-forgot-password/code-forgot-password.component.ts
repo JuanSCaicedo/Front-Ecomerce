@@ -17,6 +17,7 @@ export class CodeForgotPasswordComponent {
   isLoadingCode!: any;
 
   @Output() LoadingCodeStatus: EventEmitter<any> = new EventEmitter();
+  @Output() CodeValue: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public authService: AuthService,
@@ -41,6 +42,7 @@ export class CodeForgotPasswordComponent {
           localStorage.setItem('isLoadingCode', JSON.stringify({ value: '1', timestamp: timestamp }));
           
           this.LoadingCodeStatus.emit(this.isLoadingCode);
+          this.CodeValue.emit(this.code);
           this.toastr.success("Éxito", "Código confirmado correctamente");
         } else if (resp.message == 403) {
           this.isLoadingCode = null;
