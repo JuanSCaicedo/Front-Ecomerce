@@ -44,8 +44,12 @@ export class CodeForgotPasswordComponent {
           this.toastr.success("Éxito", "Código confirmado correctamente");
         } else if (resp.message == 403) {
           this.isLoadingCode = null;
-          localStorage.setItem('isLoadingCode', '1');
+          localStorage.removeItem('isLoadingCode');
           this.toastr.error("Validación", "Código no existe");
+        } else if (resp.message == 401) {
+          this.isLoadingCode = null;
+          localStorage.removeItem('isLoadingCode');
+          this.toastr.error("Validación", "Código ha expirado");
         }
       })
     }

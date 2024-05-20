@@ -49,9 +49,6 @@ export class ForgotPasswordComponent {
         localStorage.removeItem('isLoadingMail');
         this.toastr.error("Validación", "Correo no existe");
       }
-      if (resp.message == 401) {
-        this.toastr.error("Error", "Código ha expirado");
-      }
     })
   }
 
