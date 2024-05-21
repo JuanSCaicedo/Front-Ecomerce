@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, afterNextRender } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../service/auth.service';
@@ -25,7 +25,13 @@ export class LoginComponent {
     private authService: AuthService,
     public router: Router,
     public activatedRoute: ActivatedRoute
-  ) { }
+  ) {
+    afterNextRender(() => {
+      setTimeout(() => {
+        password_show_toggle();
+      }, 50);
+    })
+  }
 
   ngOnInit(): void {
     // this.showSuccess();
@@ -38,10 +44,6 @@ export class LoginComponent {
     this.activatedRoute.queryParams.subscribe((resp: any) => {
       this.code_user = resp.code;
     })
-
-    setTimeout(() => {
-      password_show_toggle();
-    }, 50);
 
     if (this.code_user) {
       let data = {

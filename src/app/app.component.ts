@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './shared/header/header.component';
@@ -17,16 +17,18 @@ declare function HOMEINIT([]): any;
 })
 export class AppComponent {
   title = 'ecommerce';
-  
+
   constructor(
 
   ) {
-    setTimeout(() => {
-      HOMEINIT($);
-    }, 50);
+    afterNextRender(() => {
+      setTimeout(() => {
+        HOMEINIT($);
+      }, 50);
 
-    $(window).on('load', function () {
-      $("#loading").fadeOut(500);
-    });
+      $(window).on('load', function () {
+        $("#loading").fadeOut(500);
+      });
+    })
   }
 }

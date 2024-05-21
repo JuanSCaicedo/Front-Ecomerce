@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, afterNextRender } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs';
 import { of } from 'rxjs';
@@ -17,7 +17,9 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
   ) {
-    this.initAuth();
+    afterNextRender(() => {
+      this.initAuth();
+    })
   }
 
   initAuth() {
