@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
+declare function password_show_toggle(): any;
+declare function password_show_toggle2(): any;
+
 @Component({
   selector: 'app-new-password',
   standalone: true,
@@ -23,6 +26,13 @@ export class NewPasswordComponent {
     private toastr: ToastrService,
     private router: Router
   ) { }
+
+  ngOnInit() {
+    setTimeout(() => {
+      password_show_toggle();
+      password_show_toggle2();
+    }, 50);
+  }
 
   verifiedNewPassword() {
     if (
