@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, afterNextRender } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -28,14 +28,12 @@ export class RegisterComponent {
     private router: Router,
     private toastr: ToastrService
   ) {
-
-  }
-
-  ngOnInit() {
-    setTimeout(() => {
-      password_show_toggle();
-      password_show_toggle2();
-    }, 50);
+    afterNextRender(() => {
+      setTimeout(() => {
+        password_show_toggle();
+        password_show_toggle2();
+      }, 50);
+    })
   }
 
   register() {

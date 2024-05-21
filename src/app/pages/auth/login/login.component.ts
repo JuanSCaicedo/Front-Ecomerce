@@ -28,7 +28,7 @@ export class LoginComponent {
   ) {
     afterNextRender(() => {
       setTimeout(() => {
-        password_show_toggle();
+          password_show_toggle();
       }, 50);
     })
   }

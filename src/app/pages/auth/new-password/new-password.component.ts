@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, afterNextRender } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -25,13 +25,13 @@ export class NewPasswordComponent {
     public authService: AuthService,
     private toastr: ToastrService,
     private router: Router
-  ) { }
-
-  ngOnInit() {
-    setTimeout(() => {
-      password_show_toggle();
-      password_show_toggle2();
-    }, 50);
+  ) {
+    afterNextRender(() => {
+      setTimeout(() => {
+        password_show_toggle();
+        password_show_toggle2();
+      }, 50);
+    })
   }
 
   verifiedNewPassword() {
