@@ -28,7 +28,7 @@ export class LoginComponent {
   ) {
     afterNextRender(() => {
       setTimeout(() => {
-          password_show_toggle();
+        password_show_toggle();
       }, 50);
     })
   }
@@ -36,9 +36,7 @@ export class LoginComponent {
   ngOnInit(): void {
     // this.showSuccess();
     if (this.authService.token && this.authService.user) {
-      setTimeout(() => {
-        this.router.navigateByUrl("/")
-      }, 350);
+      window.location.href = "/";
       return;
     }
     this.activatedRoute.queryParams.subscribe((resp: any) => {
