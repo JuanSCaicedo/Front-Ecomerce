@@ -54,6 +54,11 @@ export class RegisterComponent {
       return;
     }
 
+    if (this.password.length < 8 || this.password2.length < 8) {
+      this.toastr.error("Validación", "Las contraseñas debe contener al menos 8 caracteres");
+      return;
+    }
+
     let data = {
       name: this.name,
       surname: this.surname,

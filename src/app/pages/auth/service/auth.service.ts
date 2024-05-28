@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { catchError, map } from 'rxjs';
 import { of } from 'rxjs';
 import { URL_SERVICIOS } from '../../../config/config';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,15 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
   ) {
-      this.initAuth();
+    this.initAuth();
   }
 
   initAuth() {
-    if (localStorage.getItem("token")) {
-      this.user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") ?? '') : null;
-      this.token = localStorage.getItem("token") + "";
+    if (typeof window !== 'undefined' && window.localStorage) {
+      if (localStorage.getItem("token")) {
+        this.user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") ?? '') : null;
+        this.token = localStorage.getItem("token") + "";
+      }
     }
   }
 
