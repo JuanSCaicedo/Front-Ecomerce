@@ -54,24 +54,26 @@ export class ForgotPasswordComponent {
   }
 
   ngOnInit() {
-    const storedData = localStorage.getItem('isLoadingMail');
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      const currentTime = new Date().getTime();
-      const expirationTime = 60 * 60 * 1000; // 60 minutos en milisegundos
-      // const expirationTime = 3 * 60 * 60 * 1000; // 3 horas en milisegundos
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedData = localStorage.getItem('isLoadingMail');
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        const currentTime = new Date().getTime();
+        const expirationTime = 60 * 60 * 1000; // 60 minutos en milisegundos
+        // const expirationTime = 3 * 60 * 60 * 1000; // 3 horas en milisegundos
 
-      if (currentTime - parsedData.timestamp < expirationTime) {
-        this.isLoadingMail = parseInt(parsedData.value);
+        if (currentTime - parsedData.timestamp < expirationTime) {
+          this.isLoadingMail = parseInt(parsedData.value);
+        } else {
+          localStorage.removeItem('isLoadingMail');
+          localStorage.removeItem('isLoadingCode');
+          this.isLoadingMail = null;
+          this.isLoadingCode = null;
+        }
       } else {
-        localStorage.removeItem('isLoadingMail');
-        localStorage.removeItem('isLoadingCode');
         this.isLoadingMail = null;
         this.isLoadingCode = null;
       }
-    } else {
-      this.isLoadingMail = null;
-      this.isLoadingCode = null;
     }
   }
 

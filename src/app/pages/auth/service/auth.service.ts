@@ -18,7 +18,9 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
   ) {
-    this.initAuth();
+    afterNextRender(() => {
+      this.initAuth();
+    })
   }
 
   initAuth() {
