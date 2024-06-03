@@ -2,11 +2,26 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
-  imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
 
+  ngOnInit(): void {
+    if (typeof window !== 'undefined' && window.localStorage) {
+
+      // 60000 ms = 1 minute
+      // 3600000 ms = 1 hour
+      const oneMinute = 3600000;
+
+      setTimeout(() => {
+        this.clearLocalStorage();
+      }, oneMinute);
+    }
+  }
+
+  clearLocalStorage(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  }
 }
