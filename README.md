@@ -1,5 +1,8 @@
 # Ecommerce
 
+# Acerca del proyecto
+Este proyecto es una tienda virtual de productos de tecnología, en la cual se pueden visualizar los productos, agregarlos al carrito de compras y realizar la compra de los mismos.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.7.
 
 ## Development server
