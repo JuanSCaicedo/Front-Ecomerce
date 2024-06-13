@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, afterNextRender } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, map } from 'rxjs';
-import { of } from 'rxjs';
 import { URL_SERVICIOS } from '../../../config/config';
 import { isPlatformBrowser } from '@angular/common';
+import { catchError, BehaviorSubject, Observable, finalize, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  isLoading$: Observable<boolean>;
+  isLoadingSubject: BehaviorSubject<boolean>;
 
   token!: string;
   user!: any;
@@ -18,7 +20,9 @@ export class AuthService {
     public http: HttpClient,
     public router: Router,
   ) {
-      this.initAuth();
+    this.initAuth();
+    this.isLoadingSubject = new BehaviorSubject<boolean>(false);
+    this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
   initAuth() {
@@ -31,6 +35,9 @@ export class AuthService {
   }
 
   login(email: string, password: string) {
+
+    this.isLoadingSubject.next(true);
+
     let URL = URL_SERVICIOS + "/auth/login_ecommerce";
 
     return this.http.post(URL, { email, password }).pipe(
@@ -42,7 +49,9 @@ export class AuthService {
       catchError((err: any) => {
         console.log(err);
         return of(err);
-      })
+      }),
+
+      finalize(() => this.isLoadingSubject.next(false))
     )
   }
 
@@ -57,6 +66,9 @@ export class AuthService {
   }
 
   register(data: any) {
+
+    this.isLoadingSubject.next(true);
+
     const URL = `${URL_SERVICIOS}/auth/register`;
     return this.http.post(URL, data).pipe(
       map((resp: any) => {
@@ -65,28 +77,50 @@ export class AuthService {
       catchError((err: any) => {
         // Handle error and return an observable with error message
         return of({ error: true, message: err.error.message || 'Error desconocido' });
-      })
+      }),
+
+      finalize(() => this.isLoadingSubject.next(false))
     );
   }
 
   verifiedAuth(data: any) {
+
+    this.isLoadingSubject.next(true);
+
     const URL = `${URL_SERVICIOS}/auth/verified_auth`;
-    return this.http.post(URL, data);
+    return this.http.post(URL, data).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
   }
 
   verifiedMail(data: any) {
+
+    this.isLoadingSubject.next(true);
+
     const URL = `${URL_SERVICIOS}/auth/verified_email`;
-    return this.http.post(URL, data);
+    return this.http.post(URL, data).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
   }
 
   verifiedCode(data: any) {
+
+    this.isLoadingSubject.next(true);
+
     const URL = `${URL_SERVICIOS}/auth/verified_code`;
-    return this.http.post(URL, data);
+    return this.http.post(URL, data).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
   }
 
   verifiedNewPassword(data: any) {
+
+    this.isLoadingSubject.next(true);
+
     const URL = `${URL_SERVICIOS}/auth/new_password`;
-    return this.http.post(URL, data);
+    return this.http.post(URL, data).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
   }
 
   logout() {

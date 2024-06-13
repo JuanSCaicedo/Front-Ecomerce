@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../service/auth.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 // import { HttpClientModule } from '@angular/common/http';
 
 declare function password_show_toggle(): any;
@@ -10,11 +11,13 @@ declare function password_show_toggle(): any;
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  isLoading$: any;
 
   email!: string;
   password!: string;
@@ -34,7 +37,9 @@ export class LoginComponent {
   }
 
   ngOnInit(): void {
-    // this.showSuccess();
+
+    this.isLoading$ = this.authService.isLoading$;
+
     if (this.authService.token && this.authService.user) {
       window.location.href = "/";
       return;

@@ -32,7 +32,8 @@
                     <div class="tp-login-wrapper">
                         <div class="tp-login-top text-center mb-30">
                             <h3 class="tp-login-title">Login to Shofy.</h3>
-                            <p>Don’t have an account? <span><a routerLink="/register">Create a free account</a></span></p>
+                            <p>Don’t have an account? <span><a routerLink="/register">Create a free account</a></span>
+                            </p>
                         </div>
                         <div class="tp-login-option">
                             <div
@@ -63,7 +64,8 @@
                                 </div>
                                 <div class="tp-login-input-box">
                                     <div class="tp-login-input">
-                                        <input id="tp_password" [(ngModel)]="password" type="password" placeholder="Min. 8 character">
+                                        <input id="tp_password" [(ngModel)]="password" type="password"
+                                            placeholder="Min. 8 character">
                                     </div>
                                     <div class="tp-login-input-eye" id="password-show-toggle">
                                         <span id="open-eye" class="open-eye">
@@ -117,8 +119,19 @@
                                     <a routerLink="/cambiar-credenciales">Forgot Password?</a>
                                 </div>
                             </div>
+
                             <div class="tp-login-bottom">
-                                <a href="#" onclick="return false;" (click)="login()" class="tp-login-btn w-100">Login</a>
+                                <a href="#" onclick="return false;" (click)="login()" class="tp-login-btn w-100">
+                                    <ng-container *ngIf="isLoading$ | async">
+                                        <span class="indicator-progress" [style.display]="'block'">
+                                          Please wait...
+                                          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                      </ng-container>
+                                      <ng-container *ngIf="(isLoading$ | async) === false">
+                                        <span class="indicator-label">Login</span>
+                                      </ng-container>
+                                </a>
                             </div>
                         </div>
                     </div>
