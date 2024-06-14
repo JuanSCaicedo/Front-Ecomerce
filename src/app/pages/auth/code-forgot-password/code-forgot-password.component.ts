@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class CodeForgotPasswordComponent {
 
+  isLoading$: any;
+
   code!: string;
   isLoadingCode!: any;
 
@@ -23,6 +25,14 @@ export class CodeForgotPasswordComponent {
     public authService: AuthService,
     public toastr: ToastrService
   ) { }
+
+  ngOnInit() {
+
+    this.isLoading$ = this.authService.isLoading$;
+
+    const storedIsLoadingCode = localStorage.getItem('isLoadingCode'); // Recuperar el valor de localStorage
+    this.isLoadingCode = storedIsLoadingCode ? parseInt(storedIsLoadingCode) : null;
+  }
 
   verifiedCode() {
     if (!this.code) {
@@ -40,7 +50,7 @@ export class CodeForgotPasswordComponent {
           this.isLoadingCode = 1;
           const timestamp = new Date().getTime();
           localStorage.setItem('isLoadingCode', JSON.stringify({ value: '1', timestamp: timestamp }));
-          
+
           this.LoadingCodeStatus.emit(this.isLoadingCode);
           this.CodeValue.emit(this.code);
           this.toastr.success("Éxito", "Código confirmado correctamente");
@@ -55,10 +65,5 @@ export class CodeForgotPasswordComponent {
         }
       })
     }
-  }
-
-  ngOnInit() {
-    const storedIsLoadingCode = localStorage.getItem('isLoadingCode'); // Recuperar el valor de localStorage
-    this.isLoadingCode = storedIsLoadingCode ? parseInt(storedIsLoadingCode) : null;
   }
 }

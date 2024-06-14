@@ -16,6 +16,9 @@ declare function password_show_toggle2(): any;
   styleUrl: './new-password.component.css'
 })
 export class NewPasswordComponent {
+
+  isLoading$: any;
+
   new_password!: string;
   new_password2!: string;
   isLoadingCode!: any;
@@ -32,6 +35,10 @@ export class NewPasswordComponent {
         password_show_toggle2();
       }, 50);
     })
+  }
+
+  ngOnInit() {
+    this.isLoading$ = this.authService.isLoading$;
   }
 
   verifiedNewPassword() {

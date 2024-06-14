@@ -3,6 +3,7 @@ import { AuthService } from '../service/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 declare function password_show_toggle(): any;
 declare function password_show_toggle2(): any;
@@ -10,11 +11,13 @@ declare function password_show_toggle2(): any;
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, RouterModule],
+  imports: [FormsModule, RouterModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+
+  isLoading$: any;
 
   name!: string;
   surname!: string;
@@ -34,6 +37,10 @@ export class RegisterComponent {
         password_show_toggle2();
       }, 50);
     })
+  }
+
+  ngOnInit(): void {
+    this.isLoading$ = this.authService.isLoading$;
   }
 
   register() {

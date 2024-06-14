@@ -15,6 +15,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './forgot-password.component.css'
 })
 export class ForgotPasswordComponent {
+
+  isLoading$: any;
+
   isLoadingMail: any = null;
   isLoadingCode: any = null;
 
@@ -54,6 +57,9 @@ export class ForgotPasswordComponent {
   }
 
   ngOnInit() {
+
+    this.isLoading$ = this.authService.isLoading$;
+
     if (typeof window !== 'undefined' && window.localStorage) {
       const storedData = localStorage.getItem('isLoadingMail');
       if (storedData) {
