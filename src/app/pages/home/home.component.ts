@@ -12,7 +12,7 @@ export class HomeComponent {
 
       // 60000 ms = 1 minute
       // 3600000 ms = 1 hour
-      const oneMinute = 3600000;
+      const oneMinute = (3600000)*3;
 
       setTimeout(() => {
         this.clearLocalStorage();
