@@ -59,7 +59,7 @@ export class AuthService {
 
     if (resp && resp.access_token) {
       localStorage.setItem("token", resp.access_token);
-      localStorage.setItem("user", JSON.stringify(resp.access_token));
+      localStorage.setItem("user", JSON.stringify(resp.user));
       return true;
     }
     return false;
