@@ -14,6 +14,11 @@ export class HomeComponent {
       // 3600000 ms = 1 hour
       // 10800000 ms = 3 hours
       const timeExp = 10800000;
+      const warningTime = 10500000; // 2 hours and 55 minutes
+
+      setTimeout(() => {
+        alert('Your session is about to expire in 5 minutes. Please save your work.');
+      }, warningTime);
 
       setTimeout(() => {
         this.clearLocalStorage();
