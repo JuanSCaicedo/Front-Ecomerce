@@ -1,6 +1,8 @@
 import { Component, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -16,10 +18,16 @@ declare function HOMEINIT([]): any;
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+
   title = 'ecommerce';
 
-  constructor(
+  routerSubscription: Subscription = new Subscription();
 
+  sessionTimeoutId: any = null;
+  warningTimeoutId: any = null;
+
+  constructor(
+    public router: Router,
   ) {
     afterNextRender(() => {
       setTimeout(() => {
@@ -30,5 +38,51 @@ export class AppComponent {
         $("#loading").fadeOut(500);
       });
     })
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.checkSession();
+    });
+  }
+
+  ngOnInit(): void {
+    this.checkSession();
+  }
+
+  ngOnDestroy(): void {
+    // Unsubscribe from router events to avoid memory leaks
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
+    // Clear timeouts to avoid code execution after component destruction
+    if (this.sessionTimeoutId) {
+      clearTimeout(this.sessionTimeoutId);
+    }
+    if (this.warningTimeoutId) {
+      clearTimeout(this.warningTimeoutId);
+    }
+  }
+
+  checkSession(): void {
+    if (typeof window !== 'undefined' && window.localStorage
+      && localStorage.getItem('user') && localStorage.getItem('token')) {
+
+      // 60000 ms = 1 minute
+      // 3600000 ms = 1 hour
+      // 10800000 ms = 3 hours
+      const timeExp = 60000;
+      const warningTime = 30000; // 2 hours and 55 minutes
+
+      this.sessionTimeoutId = setTimeout(() => {
+        this.clearLocalStorage();
+        this.router.navigateByUrl("/login");
+      }, timeExp);
+    }
+  }
+
+  clearLocalStorage(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
   }
 }
