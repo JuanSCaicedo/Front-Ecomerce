@@ -71,7 +71,7 @@ export class AppComponent {
       // 60000 ms = 1 minute
       // 3600000 ms = 1 hour
       // 10800000 ms = 3 hours
-      const timeExp = 60000;
+      const timeExp = 10800000;
       const warningTime = 30000; // 2 hours and 55 minutes
 
       this.sessionTimeoutId = setTimeout(() => {
