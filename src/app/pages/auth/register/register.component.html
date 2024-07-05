@@ -189,16 +189,17 @@
                                 </div>
                             </div>
                             <div class="tp-login-bottom">
-                                <a href="#" onclick="return false;" (click)="register()" class="tp-login-btn w-100">
+                                <a href="#" onclick="return false;" (click)="register()"
+                                    [class.disabled-btn]="isLoading$ | async" class="tp-login-btn w-100">
                                     <ng-container *ngIf="isLoading$ | async">
                                         <span class="indicator-progress" [style.display]="'block'">
-                                          Please wait...
-                                          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                            Please wait...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                         </span>
-                                      </ng-container>
-                                      <ng-container *ngIf="(isLoading$ | async) === false">
+                                    </ng-container>
+                                    <ng-container *ngIf="(isLoading$ | async) === false">
                                         <span class="indicator-label">Sign Up</span>
-                                      </ng-container>
+                                    </ng-container>
                                 </a>
                             </div>
                         </div>
