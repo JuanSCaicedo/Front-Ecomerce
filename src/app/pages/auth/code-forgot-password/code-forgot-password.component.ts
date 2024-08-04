@@ -63,6 +63,10 @@ export class CodeForgotPasswordComponent {
           localStorage.removeItem('isLoadingCode');
           this.toastr.error("Validación", "Código ha expirado");
         }
+      }, (error) => {
+        if (error.status == 429) {
+          this.toastr.error("Validación", "Has excedido el límite de solicitudes. Por favor, intenta de nuevo en un minuto");
+        }
       })
     }
   }

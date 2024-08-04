@@ -76,6 +76,11 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe((resp: any) => {
       console.log(resp);
 
+      if (resp.status == 429) {
+        this.toastr.error("Error", 'Has excedido el límite de solicitudes. Por favor, intenta de nuevo en un minuto');
+        return;
+      }
+
       if (resp.error && resp.error.error) {
         this.toastr.error("Error", 'Verifica tus credenciales');
         return;

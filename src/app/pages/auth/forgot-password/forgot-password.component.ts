@@ -33,11 +33,11 @@ export class ForgotPasswordComponent {
   verifiedMail() {
     if (!this.email) {
       this.toastr.error("Validación", "Ingrese su cuenta de correo");
+      return;
     }
 
     let data = {
       email: this.email,
-
     }
 
     this.authService.verifiedMail(data).subscribe((resp: any) => {
@@ -52,6 +52,11 @@ export class ForgotPasswordComponent {
         this.isLoadingMail = null;
         localStorage.removeItem('isLoadingMail');
         this.toastr.error("Validación", "Correo no existe");
+      }
+    }, (error) => {
+      if (error.status == 429) {
+        this.toastr.error("Validación", "Has excedido el límite de solicitudes. Por favor, intenta de nuevo en un minuto");
+        return;
       }
     })
   }
