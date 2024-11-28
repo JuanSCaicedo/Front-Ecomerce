@@ -94,6 +94,7 @@ export class LoginComponent {
       }
     }, (error) => {
       console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     })
   }
 
