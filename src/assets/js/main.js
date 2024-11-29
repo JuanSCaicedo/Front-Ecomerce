@@ -727,33 +727,33 @@ function HOMEINIT($) {
 
 
 	// home electronics
-	var mainSlider = new Swiper('.tp-slider-active', {
-		slidesPerView: 1,
-		spaceBetween: 30,
-		loop: true,
-		rtl: rtl_setting,
-		effect: 'fade',
-		// Navigation arrows
-		navigation: {
-			nextEl: ".tp-slider-button-next",
-			prevEl: ".tp-slider-button-prev",
-		},
-		pagination: {
-			el: ".tp-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
-	});
+	// var mainSlider = new Swiper('.tp-slider-active', {
+	// 	slidesPerView: 1,
+	// 	spaceBetween: 30,
+	// 	loop: true,
+	// 	rtl: rtl_setting,
+	// 	effect: 'fade',
+	// 	// Navigation arrows
+	// 	navigation: {
+	// 		nextEl: ".tp-slider-button-next",
+	// 		prevEl: ".tp-slider-button-prev",
+	// 	},
+	// 	pagination: {
+	// 		el: ".tp-slider-dot",
+	// 		clickable: true,
+	// 		renderBullet: function (index, className) {
+	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+	// 		},
+	// 	},
+	// });
 
-	mainSlider.on('slideChangeTransitionStart', function (realIndex) {
-		if ($('.swiper-slide.swiper-slide-active, .tp-slider-item .is-light').hasClass('is-light')) {
-			$('.tp-slider-variation').addClass('is-light');
-		} else {
-			$('.tp-slider-variation').removeClass('is-light');
-		}
-	});
+	// mainSlider.on('slideChangeTransitionStart', function (realIndex) {
+	// 	if ($('.swiper-slide.swiper-slide-active, .tp-slider-item .is-light').hasClass('is-light')) {
+	// 		$('.tp-slider-variation').addClass('is-light');
+	// 	} else {
+	// 		$('.tp-slider-variation').removeClass('is-light');
+	// 	}
+	// });
 
 	// home electronics
 	var slider = new Swiper('.shop-mega-menu-slider-active', {
