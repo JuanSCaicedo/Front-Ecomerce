@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
 
-declare var Swiper: any;
+declare function SLIDER_PRINCIPAL([]): any;
 declare var $: any;
 
 @Component({
@@ -16,7 +16,6 @@ declare var $: any;
 export class SliderComponent {
 
   SLIDERS: any = [];
-
   constructor(
     public homeService: HomeService,
     private toastr: ToastrService,
@@ -27,35 +26,7 @@ export class SliderComponent {
         this.SLIDERS = resp.sliders_principal;
 
         setTimeout(() => {
-          var tp_rtl = localStorage.getItem('tp_dir');
-          let rtl_setting = tp_rtl == 'rtl' ? true : false;
-          var mainSlider = new Swiper('.tp-slider-active', {
-            slidesPerView: 1,
-            spaceBetween: 30,
-            loop: true,
-            rtl: rtl_setting,
-            effect: 'fade',
-            // Navigation arrows
-            navigation: {
-              nextEl: ".tp-slider-button-next",
-              prevEl: ".tp-slider-button-prev",
-            },
-            pagination: {
-              el: ".tp-slider-dot",
-              clickable: true,
-              renderBullet: function (index:any, className:any) {
-                return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-              },
-            },
-          });
-
-          mainSlider.on('slideChangeTransitionStart', function (realIndex:any) {
-            if ($('.swiper-slide.swiper-slide-active, .tp-slider-item .is-light').hasClass('is-light')) {
-              $('.tp-slider-variation').addClass('is-light');
-            } else {
-              $('.tp-slider-variation').removeClass('is-light');
-            }
-          });
+          SLIDER_PRINCIPAL($);
         }, 50);
       }, (error) => {
         console.log(error);
