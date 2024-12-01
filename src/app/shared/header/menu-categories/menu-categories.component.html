@@ -19,42 +19,34 @@
                         </button>
                         <nav class="tp-category-menu-content">
                             <ul>
-                                @for(menu of categories_menus;track menu.id) {
-                                @if(menu.categories.length == 0) {
-                                <li>
-                                    <a href="#" onclick="return false;">
-                                        <span [id]="'icon-'+menu.id">
+                                @for(menu of categories_menus; track menu.id) {
+                                <li class="{{ menu.categories.length > 0 ? 'has-dropdown' : '' }}">
+                                    <a href="#" onclick="return false;" class="{{ menu.categories.length > 0 ? 'has-mega-menu' : '' }}">
+                                        <span [id]="'icon-' + menu.id">
                                             {{ getIconMenu(menu) }}
                                         </span>
-                                        {{ menu.name }}</a>
-                                </li>
-                                }
-
-                                @if(menu.categories.length > 0) {
-                                <li class="has-dropdown">
-                                    <a href="#" onclick="return false;" class="has-mega-menu">
-                                        <span [id]="'icon-'+menu.id">
-                                            {{ getIconMenu(menu) }}
-                                        </span>
-                                        {{ menu.name }}</a>
-
+                                        {{ menu.name }}
+                                    </a>
+                        
+                                    @if(menu.categories.length > 0) {
+                                    @if(menu.categories[0].imagen) {
                                     <ul class="mega-menu tp-submenu">
-                                        @for(categorie of menu.categories;track categorie.id) {
+                                        @for(categorie of menu.categories; track categorie.id) {
                                         <li>
-                                            <a href="#" onclick="return false;" class="mega-menu-title">{{
-                                                categorie.name }}</a>
+                                            <a href="#" onclick="return false;" class="mega-menu-title">{{ categorie.name }}</a>
                                             <ul>
                                                 <li *ngIf="categorie.imagen">
-                                                    <a href="#" onclick="return false;"><img [src]="categorie.imagen"
-                                                            style="width: 247px; height: 149px; object-fit: contain;"
-                                                            alt=""></a>
+                                                    <a href="#" onclick="return false;">
+                                                        <img [src]="categorie.imagen"
+                                                            style="width: 247px; height: 149px; object-fit: contain;" alt="">
+                                                    </a>
                                                 </li>
-
+                        
                                                 @if(categorie.subcategories.length > 0) {
-                                                <p style="font-weight: bold; margin: 5px;">--SUBCATEGORIAS--</p>
-                                                @for(subcategorie of categorie.subcategories;track subcategorie.id) {
+                                                <p style="font-weight: bold; margin: 5px;">SUBCATEGORIAS</p>
+                                                @for(subcategorie of categorie.subcategories; track subcategorie.id) {
                                                 <li>
-                                                    <a href="#" onclick="return false;"> - {{ subcategorie.name }}</a>
+                                                    <a href="#" onclick="return false;">- {{ subcategorie.name }}</a>
                                                 </li>
                                                 }
                                                 }
@@ -62,11 +54,32 @@
                                         </li>
                                         }
                                     </ul>
+                                    }
+                        
+                                    @if(!menu.categories[0].imagen) {
+                                    <ul class="tp-submenu">
+                                        @for(categorie of menu.categories; track categorie.id) {
+                                        <li class="{{ categorie.subcategories.length > 0 ? 'has-dropdown' : '' }}">
+                                            <a href="#" onclick="return false;">{{ categorie.name }}</a>
+                        
+                                            @if(categorie.subcategories.length > 0) {
+                                            <ul class="tp-submenu">
+                                                @for(subcategorie of categorie.subcategories; track subcategorie.id) {
+                                                <li>
+                                                    <a href="#" onclick="return false;">{{ subcategorie.name }}</a>
+                                                </li>
+                                                }
+                                            </ul>
+                                            }
+                                        </li>
+                                        }
+                                    </ul>
+                                    }
+                                    }
                                 </li>
                                 }
-                                }
                             </ul>
-                        </nav>
+                        </nav>                        
                     </div>
                 </div>
                 <!-- End Menu categories -->
