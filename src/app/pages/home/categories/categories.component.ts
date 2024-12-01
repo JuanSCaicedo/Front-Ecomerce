@@ -1,5 +1,4 @@
 import { afterNextRender, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
 

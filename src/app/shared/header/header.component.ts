@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { MenuCategoriesComponent } from './menu-categories/menu-categories.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [MenuCategoriesComponent, CommonModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
