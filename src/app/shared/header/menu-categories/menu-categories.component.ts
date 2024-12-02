@@ -1,4 +1,4 @@
-import { afterNextRender, Component } from '@angular/core';
+import { afterNextRender, Component, ElementRef, Renderer2, ViewChildren, QueryList } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HomeService } from '../../../pages/home/service/home.service';
 import { CommonModule } from '@angular/common';
@@ -12,27 +12,35 @@ import { CommonModule } from '@angular/common';
 })
 export class MenuCategoriesComponent {
 
-  categories_menus: any = [];
+  @ViewChildren('iconContainer') iconContainers!: QueryList<ElementRef>;
+  categories_menus: any[] = [];
 
   constructor(
-    public homeService: HomeService,
+    private homeService: HomeService,
     private toastr: ToastrService,
+    private renderer: Renderer2
   ) {
-    afterNextRender(() => {
-      this.homeService.home().subscribe((resp: any) => {
+    this.homeService.menu().subscribe(
+      (resp: any) => {
         console.log(resp);
         this.categories_menus = resp.categories_menus;
-      }, (error) => {
-        console.log(error);
-        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+      },
+      (error) => {
+        console.error(error);
+        this.toastr.error(
+          'API Response - Comuniquese con el desarrollador',
+          error.error.message || error.message
+        );
       }
-      );
-    });
+    );
   }
 
-  getIconMenu(menu:any) {
-    var miDiv: any = document.getElementById('icon-' + menu.id);
-    miDiv.innerHTML = menu.icon;
-    return '';
+  ngAfterViewInit() {
+    this.iconContainers.forEach((container, index) => {
+      const menu = this.categories_menus[index];
+      if (menu) {
+        this.renderer.setProperty(container.nativeElement, 'innerHTML', menu.icon);
+      }
+    });
   }
 }

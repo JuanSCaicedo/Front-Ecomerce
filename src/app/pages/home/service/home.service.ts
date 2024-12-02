@@ -17,4 +17,9 @@ export class HomeService {
     let URL = URL_SERVICIOS + "/ecommerce/home";
     return this.http.get(URL);
   }
+
+  menu() {
+    let URL = URL_SERVICIOS + "/ecommerce/menu";
+    return this.http.get(URL);
+  }
 }

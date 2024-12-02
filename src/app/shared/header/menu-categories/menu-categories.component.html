@@ -22,9 +22,9 @@
                                 @for(menu of categories_menus; track menu.id) {
                                 <li class="{{ menu.categories.length > 0 ? 'has-dropdown' : '' }}">
                                     <a href="#" onclick="return false;" class="{{ menu.categories.length > 0 ? 'has-mega-menu' : '' }}">
-                                        <span [id]="'icon-' + menu.id">
-                                            {{ getIconMenu(menu) }}
-                                        </span>
+                                        
+                                        <span #iconContainer [id]="'icon-' + menu.id"></span>
+
                                         {{ menu.name }}
                                     </a>
                         

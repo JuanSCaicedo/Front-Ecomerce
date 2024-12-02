@@ -923,9 +923,9 @@ div.demo img {
   transition: all 0.3s 0s ease-out;
 }
 
-.body-overlay:hover {
+/* .body-overlay:hover {
   cursor: url("../img/icon/cross-out.png"), pointer;
-}
+} */
 
 .body-overlay.opened {
   opacity: 0.7;
