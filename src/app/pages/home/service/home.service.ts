@@ -22,4 +22,19 @@ export class HomeService {
     let URL = URL_SERVICIOS + "/ecommerce/menu";
     return this.http.get(URL);
   }
+
+  header() {
+    let URL = URL_SERVICIOS + "/ecommerce/header";
+    return this.http.get(URL);
+  }
+
+  categories() {
+    let URL = URL_SERVICIOS + "/ecommerce/categories";
+    return this.http.get(URL);
+  }
+
+  products() {
+    let URL = URL_SERVICIOS + "/ecommerce/products";
+    return this.http.get(URL);
+  }
 }

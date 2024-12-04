@@ -18,7 +18,7 @@ export class CategoriesComponent {
     private toastr: ToastrService,
   ) {
     afterNextRender(() => {
-      this.homeService.home().subscribe((resp: any) => {
+      this.homeService.categories().subscribe((resp: any) => {
         console.log(resp);
         this.CATEGORIES_RANDOMS = resp.categories_randoms;
       }, (error) => {

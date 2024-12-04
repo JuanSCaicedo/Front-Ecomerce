@@ -21,7 +21,7 @@ export class SliderComponent {
     private toastr: ToastrService,
   ) {
     afterNextRender(() => {
-      this.homeService.home().subscribe((resp: any) => {
+      this.homeService.header().subscribe((resp: any) => {
         console.log(resp);
         this.SLIDERS = resp.sliders_principal;
 
