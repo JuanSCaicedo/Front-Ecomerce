@@ -1,0 +1,66 @@
+<section class="tp-banner-area pb-70">
+    <div class="container">
+        <div class="row">
+
+            @for(BANNER of SLIDERS_SECUNDARIOS;track BANNER.id; let idx = $index) {
+
+            @if(idx == 0) {
+            <div class="col-xl-8 col-lg-7">
+                <div class="tp-banner-item tp-banner-height p-relative mb-30 z-index-1 fix">
+                    <div class="tp-banner-thumb include-bg transition-3" [attr.data-background]="BANNER.imagen"></div>
+                    <div class="tp-banner-content">
+                        <span>{{ BANNER.subtitle }}</span>
+                        <h3 class="tp-banner-title">
+                            <a href="#" onclick="return false;" [id]="'title-banner-s-'+BANNER.id">{{
+                                getTitleBannerSecundario(BANNER, 'title-banner-s-'+BANNER.id) }}</a>
+                        </h3>
+
+                        @if(BANNER.link) {
+                        <div class="tp-banner-btn">
+                            <a [href]="BANNER.link" onclick="return false;" class="tp-link-btn">Shop Now
+                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            
+            @if(idx > 0) {
+            <div class="col-xl-4 col-lg-5">
+                <div class="tp-banner-item tp-banner-item-sm tp-banner-height p-relative mb-30 z-index-1 fix">
+                    <div class="tp-banner-thumb include-bg transition-3" [attr.data-background]="BANNER.imagen"></div>
+                    <div class="tp-banner-content">
+                        <h3 class="tp-banner-title">
+                            <a href="#" onclick="return false;" [id]="'title-banner-sa-'+BANNER.id">{{
+                                getTitleBannerSecundario(BANNER, 'title-banner-sa-'+BANNER.id) }}</a>
+                        </h3>
+                        <p>{{ BANNER.subtitle }}</p>
+                        @if(BANNER.link) {
+                        <div class="tp-banner-btn">
+                            <a [href]="BANNER.link" onclick="return false;" class="tp-link-btn">Shop Now
+                                <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M8.75674 0.975394L14 6.19613L8.75674 11.4177" stroke="currentColor"
+                                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </div>
+</section>

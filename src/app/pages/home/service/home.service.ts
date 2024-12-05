@@ -23,8 +23,13 @@ export class HomeService {
     return this.http.get(URL);
   }
 
-  header() {
-    let URL = URL_SERVICIOS + "/ecommerce/header";
+  slider() {
+    let URL = URL_SERVICIOS + "/ecommerce/slider";
+    return this.http.get(URL);
+  }
+
+  slider_secundario() {
+    let URL = URL_SERVICIOS + "/ecommerce/slider_secundario";
     return this.http.get(URL);
   }
 
