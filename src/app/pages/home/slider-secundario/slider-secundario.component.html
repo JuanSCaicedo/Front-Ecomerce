@@ -2,9 +2,9 @@
     <div class="container">
         <div class="row">
 
-            @for(BANNER of SLIDERS_SECUNDARIOS;track BANNER.id; let idx = $index) {
+            @for(BANNER of SLIDERS_SECUNDARIOS;track BANNER.id) {
 
-            @if(idx == 0) {
+            @if(BANNER.type_width == 2) {
             <div class="col-xl-8 col-lg-7">
                 <div class="tp-banner-item tp-banner-height p-relative mb-30 z-index-1 fix">
                     <div class="tp-banner-thumb include-bg transition-3" [attr.data-background]="BANNER.imagen"></div>
@@ -17,7 +17,7 @@
 
                         @if(BANNER.link) {
                         <div class="tp-banner-btn">
-                            <a [href]="BANNER.link" onclick="return false;" class="tp-link-btn">Shop Now
+                            <a [href]="BANNER.link" target="_blank" class="tp-link-btn">Shop Now
                                 <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5"
@@ -33,7 +33,7 @@
             </div>
             }
             
-            @if(idx > 0) {
+            @if(BANNER.type_width == 1) {
             <div class="col-xl-4 col-lg-5">
                 <div class="tp-banner-item tp-banner-item-sm tp-banner-height p-relative mb-30 z-index-1 fix">
                     <div class="tp-banner-thumb include-bg transition-3" [attr.data-background]="BANNER.imagen"></div>
@@ -45,7 +45,7 @@
                         <p>{{ BANNER.subtitle }}</p>
                         @if(BANNER.link) {
                         <div class="tp-banner-btn">
-                            <a [href]="BANNER.link" onclick="return false;" class="tp-link-btn">Shop Now
+                            <a [href]="BANNER.link" target="_blank" class="tp-link-btn">Shop Now
                                 <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
                                     xmlns="http://www.w3.org/2000/svg">
                                     <path d="M13.9998 6.19656L1 6.19656" stroke="currentColor" stroke-width="1.5"
