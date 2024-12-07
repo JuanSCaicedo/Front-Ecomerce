@@ -5,6 +5,7 @@ import { SliderComponent } from './slider/slider.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { TrendingProductsComponent } from './trending-products/trending-products.component';
 import { SliderSecundarioComponent } from './slider-secundario/slider-secundario.component';
+import { ElectronicProductsComponent } from './electronic-products/electronic-products.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ import { SliderSecundarioComponent } from './slider-secundario/slider-secundario
   imports: [SliderComponent,
     CategoriesComponent,
     TrendingProductsComponent,
-    SliderSecundarioComponent],
+    SliderSecundarioComponent,
+    ElectronicProductsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

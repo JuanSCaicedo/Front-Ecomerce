@@ -42,4 +42,9 @@ export class HomeService {
     let URL = URL_SERVICIOS + "/ecommerce/products";
     return this.http.get(URL);
   }
+
+  products_electronics() {
+    let URL = URL_SERVICIOS + "/ecommerce/products_electronics";
+    return this.http.get(URL);
+  }
 }
