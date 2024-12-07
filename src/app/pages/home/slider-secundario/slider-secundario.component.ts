@@ -1,10 +1,9 @@
-import { afterNextRender, Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component  } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
-declare function DATA_VALUES([]):any;
+declare function DATA_VALUES([]): any;
 
 @Component({
   selector: 'app-slider-secundario',
@@ -18,26 +17,36 @@ export class SliderSecundarioComponent {
   constructor(
     public homeService: HomeService,
     private toastr: ToastrService,
-  ) {
-    afterNextRender(() => {
-      this.homeService.slider_secundario().subscribe((resp: any) => {
-        console.log(resp);
-        this.SLIDERS_SECUNDARIOS = resp.sliders_secundario;
+  ) {}
 
-        setTimeout(() => {
-          DATA_VALUES($);
-        }, 50);
-      }, (error) => {
-        console.log(error);
-        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-      }
-      );
+  ngOnInit(): void {
+    // Aquí suscribes a tu servicio para obtener los datos
+    this.homeService.slider_secundario().subscribe((resp: any) => {
+      console.log(resp);
+      this.SLIDERS_SECUNDARIOS = resp.sliders_secundario;
+    }, (error) => {
+      console.error(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 
-  getTitleBannerSecundario(BANNER:any, ID_BANNER:string) {
-    var miDiv: any = document.getElementById(ID_BANNER);
-    miDiv.innerHTML = BANNER.title;
-    return '';
+  ngAfterViewInit(): void {
+    // Usar ngAfterViewInit para realizar acciones relacionadas con la vista
+    setTimeout(() => {
+      // Esperar un poco antes de ejecutar la función DATA_VALUES
+      if (typeof DATA_VALUES === 'function') {
+        DATA_VALUES($); // Asegurarse de que la función está definida
+      }
+    }, 50);
   }
+
+  getTitleBannerSecundario(BANNER: any, ID_BANNER: string) {
+    if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+      const miDiv: HTMLElement | null = document.getElementById(ID_BANNER);
+      if (miDiv) {
+        miDiv.innerHTML = BANNER.title;
+      }
+    }
+    return '';
+  }  
 }
