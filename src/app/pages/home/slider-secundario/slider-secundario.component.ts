@@ -1,4 +1,4 @@
-import { Component  } from '@angular/core';
+import { Component, afterRender } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -17,10 +17,7 @@ export class SliderSecundarioComponent {
   constructor(
     public homeService: HomeService,
     private toastr: ToastrService,
-  ) {}
-
-  ngOnInit(): void {
-    // Aquí suscribes a tu servicio para obtener los datos
+  ) {
     this.homeService.slider_secundario().subscribe((resp: any) => {
       console.log(resp);
       this.SLIDERS_SECUNDARIOS = resp.sliders_secundario;
@@ -28,16 +25,12 @@ export class SliderSecundarioComponent {
       console.error(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
-  }
 
-  ngAfterViewInit(): void {
-    // Usar ngAfterViewInit para realizar acciones relacionadas con la vista
-    setTimeout(() => {
-      // Esperar un poco antes de ejecutar la función DATA_VALUES
-      if (typeof DATA_VALUES === 'function') {
-        DATA_VALUES($); // Asegurarse de que la función está definida
-      }
-    }, 50);
+    afterRender(() => {
+      setTimeout(() => {
+        DATA_VALUES($);
+      }, 50);
+    })
   }
 
   getTitleBannerSecundario(BANNER: any, ID_BANNER: string) {
@@ -48,5 +41,5 @@ export class SliderSecundarioComponent {
       }
     }
     return '';
-  }  
+  }
 }
