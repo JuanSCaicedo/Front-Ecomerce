@@ -47,4 +47,9 @@ export class HomeService {
     let URL = URL_SERVICIOS + "/ecommerce/products_electronics";
     return this.http.get(URL);
   }
+
+  products_carusel() {
+    let URL = URL_SERVICIOS + "/ecommerce/products_carusel";
+    return this.http.get(URL);
+  }
 }

@@ -6,6 +6,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { TrendingProductsComponent } from './trending-products/trending-products.component';
 import { SliderSecundarioComponent } from './slider-secundario/slider-secundario.component';
 import { ElectronicProductsComponent } from './electronic-products/electronic-products.component';
+import { CaruselProductsComponent } from './carusel-products/carusel-products.component';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ import { ElectronicProductsComponent } from './electronic-products/electronic-pr
     CategoriesComponent,
     TrendingProductsComponent,
     SliderSecundarioComponent,
-    ElectronicProductsComponent],
+    ElectronicProductsComponent,
+    CaruselProductsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
