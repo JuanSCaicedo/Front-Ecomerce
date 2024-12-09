@@ -33,6 +33,11 @@ export class HomeService {
     return this.http.get(URL);
   }
 
+  slider_products() {
+    let URL = URL_SERVICIOS + "/ecommerce/slider_products";
+    return this.http.get(URL);
+  }
+
   categories() {
     let URL = URL_SERVICIOS + "/ecommerce/categories";
     return this.http.get(URL);

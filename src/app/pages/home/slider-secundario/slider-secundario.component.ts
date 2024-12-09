@@ -12,8 +12,11 @@ declare function DATA_VALUES([]): any;
   templateUrl: './slider-secundario.component.html',
   styleUrl: './slider-secundario.component.css'
 })
+
 export class SliderSecundarioComponent {
+
   SLIDERS_SECUNDARIOS: any = [];
+
   constructor(
     public homeService: HomeService,
     private toastr: ToastrService,
