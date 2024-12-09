@@ -8,6 +8,7 @@ import { SliderSecundarioComponent } from './slider-secundario/slider-secundario
 import { ElectronicProductsComponent } from './electronic-products/electronic-products.component';
 import { CaruselProductsComponent } from './carusel-products/carusel-products.component';
 import { SliderProductsComponent } from './slider-products/slider-products.component';
+import { LastProductsComponent } from './last-products/last-products.component';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,8 @@ import { SliderProductsComponent } from './slider-products/slider-products.compo
     SliderSecundarioComponent,
     ElectronicProductsComponent,
     CaruselProductsComponent,
-    SliderProductsComponent],
+    SliderProductsComponent,
+    LastProductsComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
