@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-last-products',
   standalone: true,
@@ -8,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './last-products.component.html',
   styleUrl: './last-products.component.css'
 })
+
 export class LastProductsComponent {
 
   LAST_PRODUCT_DISCOUNTS: any = [];

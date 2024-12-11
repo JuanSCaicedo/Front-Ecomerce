@@ -9,6 +9,7 @@ import { ElectronicProductsComponent } from './electronic-products/electronic-pr
 import { CaruselProductsComponent } from './carusel-products/carusel-products.component';
 import { SliderProductsComponent } from './slider-products/slider-products.component';
 import { LastProductsComponent } from './last-products/last-products.component';
+import { DiscountFlashComponent } from './discount-flash/discount-flash.component';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ import { LastProductsComponent } from './last-products/last-products.component';
     ElectronicProductsComponent,
     CaruselProductsComponent,
     SliderProductsComponent,
-    LastProductsComponent],
+    LastProductsComponent,
+    DiscountFlashComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

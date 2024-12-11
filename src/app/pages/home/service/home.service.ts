@@ -18,6 +18,11 @@ export class HomeService {
     return this.http.get(URL);
   }
 
+  discount_flash(){
+    let URL = URL_SERVICIOS + "/ecommerce/discount_flash";
+    return this.http.get(URL);
+  }
+
   menu() {
     let URL = URL_SERVICIOS + "/ecommerce/menu";
     return this.http.get(URL);
