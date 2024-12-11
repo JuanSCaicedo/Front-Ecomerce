@@ -23,6 +23,7 @@ import { DiscountFlashComponent } from './discount-flash/discount-flash.componen
     SliderProductsComponent,
     LastProductsComponent,
     DiscountFlashComponent],
+    
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
