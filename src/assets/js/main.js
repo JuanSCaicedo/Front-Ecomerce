@@ -2160,3 +2160,11 @@ function PRODUCTS_CARUSEL_HOME($) {
 
 	});
 }
+
+function CONTADOR($) {
+	setTimeout(() => {
+		if($("[data-countdown]").length > 0){
+			$("[data-countdown]").countdown();
+		}
+	},50)
+}

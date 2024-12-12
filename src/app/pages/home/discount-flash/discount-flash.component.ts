@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, afterNextRender } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
+
+declare var $: any;
+declare function CONTADOR([]): any;
 
 @Component({
   selector: 'app-discount-flash',
@@ -9,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './discount-flash.component.html',
   styleUrl: './discount-flash.component.css'
 })
+
 export class DiscountFlashComponent {
 
   DISCOUNT_FLASH: any;
@@ -27,5 +31,19 @@ export class DiscountFlashComponent {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
+
+        afterNextRender(() => {
+          setTimeout(() => {
+            CONTADOR($);
+          }, 50);
+        })
+  }
+
+  getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
+    if(DISCOUNT_FLASH_P.type_discount == 1) {
+      return PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01);
+    } else {
+      return PRODUCT.price_cop - DISCOUNT_FLASH_P.discount
+    }
   }
 }
