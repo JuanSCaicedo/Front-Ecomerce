@@ -958,56 +958,56 @@ function HOMEINIT($) {
 		},
 	});
 
-	// var slider = new Swiper('.tp-product-arrival-active', {
-	// 	slidesPerView: 4,
-	// 	spaceBetween: 30,
-	// 	loop: true,
-	// 	rtl: rtl_setting,
-	// 	pagination: {
-	// 		el: ".tp-arrival-slider-dot",
-	// 		clickable: true,
-	// 		renderBullet: function (index, className) {
-	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-	// 		},
-	// 	},
-	// 	// Navigation arrows
-	// 	navigation: {
-	// 		nextEl: ".tp-arrival-slider-button-next",
-	// 		prevEl: ".tp-arrival-slider-button-prev",
-	// 	},
-	// 	breakpoints: {
-	// 		'1200': {
-	// 			slidesPerView: 4,
-	// 		},
-	// 		'992': {
-	// 			slidesPerView: 3,
-	// 		},
-	// 		'768': {
-	// 			slidesPerView: 2,
-	// 		},
-	// 		'576': {
-	// 			slidesPerView: 2,
-	// 		},
-	// 		'0': {
-	// 			slidesPerView: 1,
-	// 		},
-	// 	},
-	// });
+	var slider = new Swiper('.tp-product-arrival-active', {
+		slidesPerView: 4,
+		spaceBetween: 30,
+		loop: true,
+		rtl: rtl_setting,
+		pagination: {
+			el: ".tp-arrival-slider-dot",
+			clickable: true,
+			renderBullet: function (index, className) {
+				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+			},
+		},
+		// Navigation arrows
+		navigation: {
+			nextEl: ".tp-arrival-slider-button-next",
+			prevEl: ".tp-arrival-slider-button-prev",
+		},
+		breakpoints: {
+			'1200': {
+				slidesPerView: 4,
+			},
+			'992': {
+				slidesPerView: 3,
+			},
+			'768': {
+				slidesPerView: 2,
+			},
+			'576': {
+				slidesPerView: 2,
+			},
+			'0': {
+				slidesPerView: 1,
+			},
+		},
+	});
 
-	// var slider = new Swiper('.tp-product-banner-slider-active', {
-	// 	slidesPerView: 1,
-	// 	spaceBetween: 0,
-	// 	loop: true,
-	// 	effect: 'fade',
-	// 	pagination: {
-	// 		el: ".tp-product-banner-slider-dot",
-	// 		clickable: true,
-	// 		renderBullet: function (index, className) {
-	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-	// 		},
-	// 	},
+	var slider = new Swiper('.tp-product-banner-slider-active', {
+		slidesPerView: 1,
+		spaceBetween: 0,
+		loop: true,
+		effect: 'fade',
+		pagination: {
+			el: ".tp-product-banner-slider-dot",
+			clickable: true,
+			renderBullet: function (index, className) {
+				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+			},
+		},
 
-	// });
+	});
 
 	var slider = new Swiper('.tp-product-gadget-banner-slider-active', {
 		slidesPerView: 1,
@@ -2097,66 +2097,5 @@ function SLIDER_PRINCIPAL($) {
 		} else {
 			$('.tp-slider-variation').removeClass('is-light');
 		}
-	});
-}
-
-function DATA_VALUES($) {
-	$("[data-background").each(function () {
-		$(this).css("background-image", "url( " + $(this).attr("data-background") + "  )");
-	});
-}
-
-function PRODUCTS_CARUSEL_HOME($) {
-	var tp_rtl = localStorage.getItem('tp_dir');
-	let rtl_setting = tp_rtl == 'rtl' ? true : false;
-	var slider = new Swiper('.tp-product-arrival-active', {
-		slidesPerView: 4,
-		spaceBetween: 30,
-		loop: true,
-		rtl: rtl_setting,
-		pagination: {
-			el: ".tp-arrival-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
-		// Navigation arrows
-		navigation: {
-			nextEl: ".tp-arrival-slider-button-next",
-			prevEl: ".tp-arrival-slider-button-prev",
-		},
-		breakpoints: {
-			'1200': {
-				slidesPerView: 4,
-			},
-			'992': {
-				slidesPerView: 3,
-			},
-			'768': {
-				slidesPerView: 2,
-			},
-			'576': {
-				slidesPerView: 2,
-			},
-			'0': {
-				slidesPerView: 1,
-			},
-		},
-	});
-
-	var slider = new Swiper('.tp-product-banner-slider-active', {
-		slidesPerView: 1,
-		spaceBetween: 0,
-		loop: true,
-		effect: 'fade',
-		pagination: {
-			el: ".tp-product-banner-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
-
 	});
 }

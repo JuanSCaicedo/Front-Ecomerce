@@ -1,4 +1,4 @@
-import { afterNextRender, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
 

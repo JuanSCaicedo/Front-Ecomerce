@@ -28,10 +28,4 @@ import { DiscountFlashComponent } from './discount-flash/discount-flash.componen
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(
-    private toastr: ToastrService,
-    public homeService: HomeService,
-  ) {
-
-  }
 }

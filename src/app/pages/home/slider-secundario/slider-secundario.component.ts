@@ -1,9 +1,6 @@
-import { Component, afterRender } from '@angular/core';
+import { Component } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
-
-declare var $: any;
-declare function DATA_VALUES([]): any;
 
 @Component({
   selector: 'app-slider-secundario',
@@ -28,12 +25,6 @@ export class SliderSecundarioComponent {
       console.error(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
-
-    afterRender(() => {
-      setTimeout(() => {
-        DATA_VALUES($);
-      }, 50);
-    })
   }
 
   getTitleBannerSecundario(BANNER: any, ID_BANNER: string) {

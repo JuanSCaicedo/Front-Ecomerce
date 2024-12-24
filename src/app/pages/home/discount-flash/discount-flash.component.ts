@@ -1,9 +1,6 @@
-import { Component, afterNextRender } from '@angular/core';
+import { Component } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
-
-declare var $: any;
-declare function CONTADOR([]): any;
 
 @Component({
   selector: 'app-discount-flash',
