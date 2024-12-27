@@ -20,7 +20,8 @@
                         <div class="tp-product-sm-item d-flex align-items-center">
                             <div class="tp-product-thumb mr-25 fix">
                                 <a href="#" onclick="return false;">
-                                    <img [src]="PRODUCT.imagen" style="width: 140px; height: 140px; object-fit: contain;" alt="">
+                                    <img [src]="PRODUCT.imagen"
+                                        style="width: 140px; height: 140px; object-fit: contain;" alt="">
                                 </a>
                             </div>
                             <div class="tp-product-sm-content">
@@ -44,9 +45,16 @@
                                         <span>(4 Review)</span>
                                     </div>
                                 </div>
+                                <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
-                                    <span class="tp-product-price">${{ PRODUCT.price_cop }}</span>
+                                    @if(PRODUCT.discount_g) {
+                                    <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
+                                        }}</span>
+                                    }
+                                    <span class="tp-product-price new-price">${{
+                                        getTotalPrice(PRODUCT)}}</span>
                                 </div>
+                                <!-- End Precio -->
                             </div>
                         </div>
                         }
@@ -74,7 +82,8 @@
                         <div class="tp-product-sm-item d-flex align-items-center">
                             <div class="tp-product-thumb mr-25 fix">
                                 <a href="#" onclick="return false;">
-                                    <img [src]="PRODUCT.imagen" style="width: 140px; height: 140px; object-fit: contain;" alt="">
+                                    <img [src]="PRODUCT.imagen"
+                                        style="width: 140px; height: 140px; object-fit: contain;" alt="">
                                 </a>
                             </div>
                             <div class="tp-product-sm-content">
@@ -96,9 +105,16 @@
                                         <span>(4 Review)</span>
                                     </div>
                                 </div>
+                                <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
-                                    <span class="tp-product-price">${{ PRODUCT.price_cop }}</span>
+                                    @if(PRODUCT.discount_g) {
+                                    <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
+                                        }}</span>
+                                    }
+                                    <span class="tp-product-price new-price">${{
+                                        getTotalPrice(PRODUCT)}}</span>
                                 </div>
+                                <!-- End Precio -->
                             </div>
                         </div>
                         }
@@ -126,7 +142,8 @@
                         <div class="tp-product-sm-item d-flex align-items-center">
                             <div class="tp-product-thumb mr-25 fix">
                                 <a href="#" onclick="return false;">
-                                    <img [src]="PRODUCT.imagen" style="width: 140px; height: 140px; object-fit: contain;" alt="">
+                                    <img [src]="PRODUCT.imagen"
+                                        style="width: 140px; height: 140px; object-fit: contain;" alt="">
                                 </a>
                             </div>
                             <div class="tp-product-sm-content">
@@ -148,9 +165,16 @@
                                         <span>(4 Review)</span>
                                     </div>
                                 </div>
+                                <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
-                                    <span class="tp-product-price">${{ PRODUCT.price_cop }}</span>
+                                    @if(PRODUCT.discount_g) {
+                                    <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
+                                        }}</span>
+                                    }
+                                    <span class="tp-product-price new-price">${{
+                                        getTotalPrice(PRODUCT)}}</span>
                                 </div>
+                                <!-- End Precio -->
                             </div>
                         </div>
                         }

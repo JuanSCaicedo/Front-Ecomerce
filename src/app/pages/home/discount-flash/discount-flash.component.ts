@@ -32,9 +32,9 @@ export class DiscountFlashComponent {
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {
-      return PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01);
+      return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
     } else {
-      return PRODUCT.price_cop - DISCOUNT_FLASH_P.discount
+      return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
     }
   }
 }

@@ -30,4 +30,19 @@ export class TrendingProductsComponent {
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
+
+  getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
+    if (DISCOUNT_FLASH_P.type_discount == 1) {
+      return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+    } else {
+      return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
+    }
+  }
+
+  getTotalPrice(product: any) {
+    if (product.discount_g) {
+      return this.getNewTotal(product, product.discount_g);
+    }
+    return product.price_cop;
+  }
 }

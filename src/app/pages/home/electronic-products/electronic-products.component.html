@@ -73,13 +73,23 @@
                             <div class="tp-product-item p-relative transition-3 mb-25">
                                 <div class="tp-product-thumb p-relative fix m-img">
                                     <a href="#" onclick="return false;">
-                                        <img [src]="PRODUCT.imagen" style="width: 247px; height: 240px; object-fit: contain;" alt="product-electronic">
+                                        <img [src]="PRODUCT.imagen"
+                                            style="width: 247px; height: 240px; object-fit: contain;"
+                                            alt="product-electronic">
                                     </a>
 
                                     <!-- product badge -->
-                                    <!-- <div class="tp-product-badge">
-                                        <span class="product-offer">-25%</span>
-                                    </div> -->
+                                    @if(PRODUCT.discount_g) {
+                                    <div class="tp-product-badge">
+
+                                        @if(PRODUCT.discount_g.type_discount == 1) {
+                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} %</span>
+                                        }
+                                        @if(PRODUCT.discount_g.type_discount == 2) {
+                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} COP</span>
+                                        }
+                                    </div>
+                                    }
 
                                     <!-- product action -->
                                     <div class="tp-product-action">
@@ -167,19 +177,24 @@
                                             <span>(6 Review)</span>
                                         </div>
                                     </div>
+                                    <!-- Precio -->
                                     <div class="tp-product-price-wrapper">
-                                        <span class="tp-product-price">${{ PRODUCT.price_cop }}</span>
+                                        @if(PRODUCT.discount_g) {
+                                        <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
+                                            }}</span>
+                                        }
+                                        <span class="tp-product-price new-price">${{
+                                            getTotalPrice(PRODUCT)}}</span>
                                     </div>
+                                    <!-- End Precio -->
                                 </div>
                             </div>
                         </div>
                         }
-
                     </div>
                 </div>
             </div>
             <!-- End Product electronics -->
-
         </div>
     </div>
 </section>

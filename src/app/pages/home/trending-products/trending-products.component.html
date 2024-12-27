@@ -83,13 +83,22 @@
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
                                             <a href="#" onclick="return false;">
-                                                <img [src]="product.imagen" alt="product-electronic" style="width: 304px; height: 261px; object-fit: contain;">
+                                                <img [src]="product.imagen" alt="product-electronic"
+                                                    style="width: 304px; height: 261px; object-fit: contain;">
                                             </a>
 
                                             <!-- product badge -->
-                                            <!-- <div class="tp-product-badge">
-                                                <span class="product-hot">Hot</span>
-                                            </div> -->
+                                            @if(product.discount_g) {
+                                            <div class="tp-product-badge">
+
+                                                @if(product.discount_g.type_discount == 1) {
+                                                <span class="product-hot">- {{ product.discount_g.discount }} %</span>
+                                                }
+                                                @if(product.discount_g.type_discount == 2) {
+                                                <span class="product-hot">- {{ product.discount_g.discount }} COP</span>
+                                                }
+                                            </div>
+                                            }
 
                                             <!-- product action -->
                                             <div class="tp-product-action">
@@ -157,7 +166,8 @@
                                             </div>
                                         </div>
                                         <!-- product content -->
-                                        <div class="tp-product-content" style="width: 214px; height: 226px; object-fit: contain;">
+                                        <div class="tp-product-content"
+                                            style="width: 214px; height: 226px; object-fit: contain;">
                                             <div class="tp-product-category">
                                                 <a href="#" onclick="return false;">{{ product.brand.name }}</a>
                                             </div>
@@ -178,10 +188,17 @@
                                                     <span>(7 Review)</span>
                                                 </div>
                                             </div>
+
+                                            <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
-                                                <!-- <span class="tp-product-price old-price">$320.00</span> -->
-                                                <span class="tp-product-price new-price">${{ product.price_cop }}</span>
+                                                @if(product.discount_g) {
+                                                <span class="tp-product-price old-price mx-1">${{ product.price_cop
+                                                    }}</span>
+                                                }
+                                                <span class="tp-product-price new-price">${{
+                                                    getTotalPrice(product)}}</span>
                                             </div>
+                                            <!-- End Precio -->
                                         </div>
                                     </div>
                                 </div>
@@ -198,13 +215,22 @@
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
                                             <a href="#" onclick="return false;">
-                                                <img [src]="product.imagen" alt="product-electronic" style="width: 304px; height: 261px; object-fit: contain;">
+                                                <img [src]="product.imagen" alt="product-electronic"
+                                                    style="width: 304px; height: 261px; object-fit: contain;">
                                             </a>
 
                                             <!-- product badge -->
-                                            <!-- <div class="tp-product-badge">
-                                                <span class="product-hot">Hot</span>
-                                            </div> -->
+                                            @if(product.discount_g) {
+                                            <div class="tp-product-badge">
+
+                                                @if(product.discount_g.type_discount == 1) {
+                                                <span class="product-hot">- {{ product.discount_g.discount }} %</span>
+                                                }
+                                                @if(product.discount_g.type_discount == 2) {
+                                                <span class="product-hot">- {{ product.discount_g.discount }} COP</span>
+                                                }
+                                            </div>
+                                            }
 
                                             <!-- product action -->
                                             <div class="tp-product-action">
@@ -272,7 +298,8 @@
                                             </div>
                                         </div>
                                         <!-- product content -->
-                                        <div class="tp-product-content" style="width: 214px; height: 216px; object-fit: contain;">
+                                        <div class="tp-product-content"
+                                            style="width: 214px; height: 216px; object-fit: contain;">
                                             <div class="tp-product-category">
                                                 <a href="#" onclick="return false;">{{ product.brand.name }}</a>
                                             </div>
@@ -293,10 +320,16 @@
                                                     <span>(7 Review)</span>
                                                 </div>
                                             </div>
+                                            <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
-                                                <!-- <span class="tp-product-price old-price">$320.00</span> -->
-                                                <span class="tp-product-price new-price">${{ product.price_cop }}</span>
+                                                @if(product.discount_g) {
+                                                <span class="tp-product-price old-price mx-1">${{ product.price_cop
+                                                    }}</span>
+                                                }
+                                                <span class="tp-product-price new-price">${{
+                                                    getTotalPrice(product)}}</span>
                                             </div>
+                                            <!-- End Precio -->
                                         </div>
                                     </div>
                                 </div>
@@ -313,13 +346,22 @@
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
                                             <a href="#" onclick="return false;">
-                                                <img [src]="product.imagen" alt="product-electronic" style="width: 304px; height: 261px; object-fit: contain;">
+                                                <img [src]="product.imagen" alt="product-electronic"
+                                                    style="width: 304px; height: 261px; object-fit: contain;">
                                             </a>
 
                                             <!-- product badge -->
-                                            <!-- <div class="tp-product-badge">
-                                                <span class="product-hot">Hot</span>
-                                            </div> -->
+                                            @if(product.discount_g) {
+                                            <div class="tp-product-badge">
+
+                                                @if(product.discount_g.type_discount == 1) {
+                                                <span class="product-hot">- {{ product.discount_g.discount }} %</span>
+                                                }
+                                                @if(product.discount_g.type_discount == 2) {
+                                                <span class="product-hot">- {{ product.discount_g.discount }} COP</span>
+                                                }
+                                            </div>
+                                            }
 
                                             <!-- product action -->
                                             <div class="tp-product-action">
@@ -387,7 +429,8 @@
                                             </div>
                                         </div>
                                         <!-- product content -->
-                                        <div class="tp-product-content" style="width: 214px; height: 226px; object-fit: contain;">
+                                        <div class="tp-product-content"
+                                            style="width: 214px; height: 226px; object-fit: contain;">
                                             <div class="tp-product-category">
                                                 <a href="#" onclick="return false;">{{ product.brand.name }}</a>
                                             </div>
@@ -408,21 +451,25 @@
                                                     <span>(7 Review)</span>
                                                 </div>
                                             </div>
+                                            <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
-                                                <!-- <span class="tp-product-price old-price">$320.00</span> -->
-                                                <span class="tp-product-price new-price">${{ product.price_cop }}</span>
+                                                @if(product.discount_g) {
+                                                <span class="tp-product-price old-price mx-1">${{ product.price_cop
+                                                    }}</span>
+                                                }
+                                                <span class="tp-product-price new-price">${{
+                                                    getTotalPrice(product)}}</span>
                                             </div>
+                                            <!-- End Precio -->
                                         </div>
                                     </div>
                                 </div>
                                 }
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </section>

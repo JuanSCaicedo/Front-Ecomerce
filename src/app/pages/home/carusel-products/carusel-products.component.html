@@ -49,9 +49,17 @@
                                     </a>
 
                                     <!-- product badge -->
-                                    <!-- <div class="tp-product-badge">
-                                        <span class="product-trending">Trending</span>
-                                    </div> -->
+                                    @if(PRODUCT.discount_g) {
+                                        <div class="tp-product-badge">
+    
+                                            @if(PRODUCT.discount_g.type_discount == 1) {
+                                            <span class="product-hot">- {{ PRODUCT.discount_g.discount }} %</span>
+                                            }
+                                            @if(PRODUCT.discount_g.type_discount == 2) {
+                                            <span class="product-hot">- {{ PRODUCT.discount_g.discount }} COP</span>
+                                            }
+                                        </div>
+                                        }
 
                                     <!-- product action -->
                                     <div class="tp-product-action">
@@ -139,10 +147,16 @@
                                             <span>(7 Review)</span>
                                         </div>
                                     </div>
+                                    <!-- Precio -->
                                     <div class="tp-product-price-wrapper">
-                                        <!-- <span class="tp-product-price old-price">$475.00</span> -->
-                                        <span class="tp-product-price new-price">${{ PRODUCT.price_cop }}</span>
+                                        @if(PRODUCT.discount_g) {
+                                        <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
+                                            }}</span>
+                                        }
+                                        <span class="tp-product-price new-price">${{
+                                            getTotalPrice(PRODUCT)}}</span>
                                     </div>
+                                    <!-- End Precio -->
                                 </div>
                             </div>
                             }
