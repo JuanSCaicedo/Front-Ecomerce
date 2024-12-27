@@ -10,6 +10,7 @@ import { CaruselProductsComponent } from './carusel-products/carusel-products.co
 import { SliderProductsComponent } from './slider-products/slider-products.component';
 import { LastProductsComponent } from './last-products/last-products.component';
 import { DiscountFlashComponent } from './discount-flash/discount-flash.component';
+import { ModalProductoComponent } from './modal-producto/modal-producto.component';
 
 @Component({
   selector: 'app-home',
@@ -22,10 +23,16 @@ import { DiscountFlashComponent } from './discount-flash/discount-flash.componen
     CaruselProductsComponent,
     SliderProductsComponent,
     LastProductsComponent,
-    DiscountFlashComponent],
+    DiscountFlashComponent,
+    ModalProductoComponent],
     
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+  product_selected: any = null;
+
+  handleProductSelect(product: any) {
+    this.product_selected = product;
+  }
 }

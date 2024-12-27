@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -11,9 +11,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class TrendingProductsComponent {
 
+  @Output() productSelected = new EventEmitter<any>();
+
   TRENDING_PRODUCT_NEW: any = [];
   TRENDING_PRODUCT_FEATURED: any = [];
   TRENDING_PRODUCT_TOP_SELLER: any = [];
+  product_selected: any = null;
 
   constructor(
     public homeService: HomeService,
@@ -44,5 +47,9 @@ export class TrendingProductsComponent {
       return this.getNewTotal(product, product.discount_g);
     }
     return product.price_cop;
+  }
+
+  OpenDetailProduct(product: any) {
+    this.productSelected.emit(product);
   }
 }
