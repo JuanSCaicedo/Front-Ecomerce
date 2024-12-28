@@ -8,8 +8,23 @@ import { Component, Input } from '@angular/core';
   styleUrl: './modal-producto.component.css'
 })
 export class ModalProductoComponent {
-  
+
   @Input() product_selected: any = null;
+
+  filtered_images: any[] = []; // Lista de imágenes aleatorias
+
+  ngOnInit() {
+    if (this.product_selected?.images) {
+      this.filtered_images = this.getRandomImages(this.product_selected.images, 3);
+    }
+  }
+
+  // Método para obtener N elementos aleatorios
+  getRandomImages(images: any[], count: number): any[] {
+    return [...images]
+      .sort(() => Math.random() - 0.5) // Baraja las imágenes
+      .slice(0, count); // Obtiene los primeros 'count' elementos
+  }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {

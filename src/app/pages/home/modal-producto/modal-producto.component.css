@@ -1,0 +1,12 @@
+.producto-imagen {
+    width: 416px;
+    height: 480px;
+    max-width: none;
+    object-fit: contain;
+}
+
+@media (max-width: 767px) {
+    .producto-imagen {
+      max-width: 100%;
+    }
+  }

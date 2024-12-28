@@ -2,8 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { ToastrService } from 'ngx-toastr';
 
-declare function MODAL_PRODUCT_DETAIL([]):any;
-declare var $:any;
+declare function MODAL_PRODUCT_DETAIL([]): any;
+declare var $: any;
 
 @Component({
   selector: 'app-trending-products',
@@ -53,9 +53,14 @@ export class TrendingProductsComponent {
   }
 
   OpenDetailProduct(product: any) {
-    this.productSelected.emit(product);
+    // Primero establecemos el producto a null
+    this.productSelected.emit(null);
 
+    // Usando setTimeout para dar un pequeño delay
     setTimeout(() => {
+      // Emitimos el producto seleccionado
+      this.productSelected.emit(product);
+      // Abrimos el modal
       MODAL_PRODUCT_DETAIL($);
     }, 50);
   }
