@@ -136,7 +136,7 @@
     <!-- product deal area end -->
 
     <!-- Banner & Product Electronics -->
-    <app-electronic-products></app-electronic-products>
+    <app-electronic-products (productSelected)="handleProductSelect($event)"></app-electronic-products>
     <!-- End Banner & Product Electronics -->
 
     <!-- product banner area start -->
@@ -144,7 +144,7 @@
     <!-- product banner area end -->
 
     <!-- product arrival area start -->
-    <app-carusel-products></app-carusel-products>
+    <app-carusel-products (productSelected)="handleProductSelect($event)"></app-carusel-products>
     <!-- product arrival area end -->
 
     <!-- product sm area start -->

@@ -70,9 +70,9 @@ function HOMEINIT($) {
 		$(this).css("width", $(this).attr("data-width"));
 	});
 
-	$("[data-bg-color]").each(function () {
-		$(this).css("background-color", $(this).attr("data-bg-color"));
-	});
+	// $("[data-bg-color]").each(function () {
+	// 	$(this).css("background-color", $(this).attr("data-bg-color"));
+	// });
 
 	$("[data-text-color]").each(function () {
 		$(this).css("color", $(this).attr("data-text-color"));
@@ -1750,14 +1750,14 @@ function HOMEINIT($) {
 		});
 
 
-		$('.tp-color-variation-btn').on('click', function () {
-			$(this).addClass('active').siblings().removeClass('active');
-		});
+		// $('.tp-color-variation-btn').on('click', function () {
+		// 	$(this).addClass('active').siblings().removeClass('active');
+		// });
 
 
-		$('.tp-size-variation-btn').on('click', function () {
-			$(this).addClass('active').siblings().removeClass('active');
-		});
+		// $('.tp-size-variation-btn').on('click', function () {
+		// 	$(this).addClass('active').siblings().removeClass('active');
+		// });
 
 		////////////////////////////////////////////////////
 		// 17. Show Login Toggle Js
@@ -2104,6 +2104,7 @@ function MODAL_PRODUCT_DETAIL($){
 	setTimeout(() => {
 
 		// $("[data-countdown]").countdown();
+		console.log('modal product detail')
 
 		$("[data-bg-color]").each(function () {
 			$(this).css("background-color", $(this).attr("data-bg-color"));
