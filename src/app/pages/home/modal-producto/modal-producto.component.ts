@@ -14,6 +14,7 @@ export class ModalProductoComponent {
   filtered_images: any[] = []; // Lista de imágenes aleatorias
 
   ngOnInit() {
+    console.log(this.product_selected);
     if (this.product_selected?.images) {
       this.filtered_images = this.getRandomImages(this.product_selected.images, 3);
     }
