@@ -1,20 +1,21 @@
 <div class="tp-product-modal-content d-lg-flex align-items-start">
     <button type="button" class="tp-product-modal-close-btn" data-bs-toggle="modal"
         data-bs-target="#producQuickViewModal"><i class="fa-regular fa-xmark"></i></button>
+
+    <!-- Imagenes -->
     <div class="tp-product-details-thumb-wrapper tp-tab d-sm-flex">
         <nav>
             <div class="nav nav-tabs flex-sm-column " id="productDetailsNavThumb" role="tablist">
 
                 <button class="nav-link active" id="nav-1-tab" data-bs-toggle="tab" data-bs-target="#nav-1"
                     type="button" role="tab" aria-controls="nav-1" aria-selected="true">
-                    <img [src]="product_selected.imagen" alt="Imagen producto">
+                    <img [src]="product_selected.imagen" alt="">
                 </button>
-
-                @for(imagen of product_selected.images;track imagen.id) {
+                @for(imagen of product_selected.images;track imagen.id){
                 <button class="nav-link" [id]="'nav-'+imagen.id+'-tab'" data-bs-toggle="tab"
                     [attr.data-bs-target]="'#nav-'+imagen.id" type="button" role="tab" aria-controls="nav-2"
                     aria-selected="false">
-                    <img [src]="imagen.imagen" alt="Imagen producto">
+                    <img [src]="imagen.imagen" alt="">
                 </button>
                 }
 
@@ -24,20 +25,25 @@
 
             <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab" tabindex="0">
                 <div class="tp-product-details-nav-main-thumb">
-                    <img [src]="product_selected.imagen" alt="Imagen producto">
+                    <img [src]="product_selected.imagen" alt="Imagen producto"
+                        style="width: 416px;height: 480px;max-width: none;object-fit: contain;">
                 </div>
             </div>
 
             @for(imagen of product_selected.images;track imagen.id) {
-            <div class="tab-pane fade" id="'nav-'+imagen.id" role="tabpanel"
+            <div class="tab-pane fade" [id]="'nav-'+imagen.id" role="tabpanel"
                 [attr.aria-labelledby]="'nav-'+imagen.id+'-tab'" tabindex="0">
                 <div class="tp-product-details-nav-main-thumb">
-                    <img [src]="imagen.imagen" alt="Imagen producto">
+                    <img [src]="imagen.imagen" alt="Imagen producto"
+                        style="width: 416px;height: 480px;max-width: none;object-fit: contain;">
                 </div>
             </div>
             }
+
         </div>
     </div>
+    <!-- End Imagenes -->
+
     <div class="tp-product-details-wrapper">
         <div class="tp-product-details-category">
             <span>{{ product_selected.categorie_first.name }}</span>

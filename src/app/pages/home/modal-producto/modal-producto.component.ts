@@ -8,13 +8,8 @@ import { Component, Input } from '@angular/core';
   styleUrl: './modal-producto.component.css'
 })
 export class ModalProductoComponent {
+  
   @Input() product_selected: any = null;
-
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    console.log(this.product_selected);
-  }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {
