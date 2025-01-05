@@ -87,8 +87,11 @@
         <div class="tp-product-details-variation">
             <!-- single item -->
             <div class="tp-product-details-variation-item">
-                <h4 class="tp-product-details-variation-title">Color :</h4>
-                <div class="tp-product-details-variation-list">
+                @for(variation of product_selected.variations;track variation.id) {
+                <h4 class="tp-product-details-variation-title">{{ variation.attribute.name }} {{ variation.value_add ? variation.value_add : variation.propertie.name }} :</h4>
+
+                }
+                <!-- <div class="tp-product-details-variation-list">
                     <button type="button" class="color tp-color-variation-btn">
                         <span data-bg-color="#F8B655"></span>
                         <span class="tp-color-variation-tootltip">Yellow</span>
@@ -105,7 +108,7 @@
                         <span data-bg-color="#B4505A"></span>
                         <span class="tp-color-variation-tootltip">Brown</span>
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
 
