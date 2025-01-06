@@ -1,9 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+
+declare function MODAL_PRODUCT_DETAIL([]): any;
+declare var $: any;
 
 @Component({
   selector: 'app-modal-producto',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './modal-producto.component.html',
   styleUrl: './modal-producto.component.css'
 })
@@ -12,6 +16,7 @@ export class ModalProductoComponent {
   @Input() product_selected: any = null;
 
   filtered_images: any[] = []; // Lista de imágenes aleatorias
+  variation_selected: any = null; // Lista de subvariaciones
 
   ngOnInit() {
     console.log(this.product_selected);
@@ -40,5 +45,14 @@ export class ModalProductoComponent {
       return this.getNewTotal(product, product.discount_g);
     }
     return product.price_cop;
+  }
+
+  selectedVariation(variation: any) {
+    this.variation_selected = null;
+
+    setTimeout(() => {
+      this.variation_selected = variation;
+      MODAL_PRODUCT_DETAIL($);
+    }, 50);
   }
 }

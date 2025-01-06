@@ -87,37 +87,67 @@
         <div class="tp-product-details-variation">
             <!-- single item -->
             <div class="tp-product-details-variation-item">
-                @for(variation of product_selected.variations;track variation.id) {
-                <h4 class="tp-product-details-variation-title">{{ variation.attribute.name }} {{ variation.value_add ?
-                    variation.value_add : variation.propertie.name }} :</h4>
+                @for(variation_p of product_selected.variations;track variation_p.attribute_id) {
+                <h4 class="tp-product-details-variation-title mb-3">{{ variation_p.attribute.name }} :</h4>
 
-                @if(variation.propertie && variation.propertie.code) {
                 <div class="tp-product-details-variation-list">
-                    <button type="button" class="color tp-color-variation-btn">
+                    @for(variation of variation_p.variations;track variation.id) {
+
+                    @if(variation.propertie && variation.propertie.code) {
+                    <button type="button" class="color tp-color-variation-btn me-1" (click)="selectedVariation(variation)">
                         <span [attr.data-bg-color]="variation.propertie.code"></span>
                         <span class="tp-color-variation-tootltip">{{ variation.propertie.name }}</span>
                     </button>
+                    }
+
+                    @if(variation.propertie && !variation.propertie.code) {
+                    <button type="button" class="tp-size-variation-btn me-1"
+                        style="width: auto; padding-left: 10px; padding-right: 10px;" (click)="selectedVariation(variation)">
+                        {{ variation.propertie.name }}
+                    </button>
+                    }
+
+                    @if(!variation.propertie) {
+                    <button type="button" class="tp-size-variation-btn me-1"
+                        style="width: auto; padding-left: 10px; padding-right: 10px;" (click)="selectedVariation(variation)">
+                        {{ variation.value_add }}
+                    </button>
+                    }
+                    }
                 </div>
                 }
-                }
-                <!-- <div class="tp-product-details-variation-list">
-                    <button type="button" class="color tp-color-variation-btn">
-                        <span data-bg-color="#F8B655"></span>
-                        <span class="tp-color-variation-tootltip">Yellow</span>
+            </div>
+
+            <div class="tp-product-details-variation-item" *ngIf="variation_selected">
+                <h4 class="tp-product-details-variation-title mb-3">{{ variation_selected.subvariation.attribute.name }} :</h4>
+
+                <div class="tp-product-details-variation-list">
+                    @for(subvariation of variation_selected.subvariations;track subvariation.id) {
+
+                    @if(subvariation.propertie && subvariation.propertie.code) {
+                    <button type="button" class="color tp-color-variation-btn me-1">
+                        <span [attr.data-bg-color]="subvariation.propertie.code"></span>
+                        <span class="tp-color-variation-tootltip">{{ subvariation.propertie.name }}</span>
                     </button>
-                    <button type="button" class="color tp-color-variation-btn active">
-                        <span data-bg-color="#CBCBCB"></span>
-                        <span class="tp-color-variation-tootltip">Gray</span>
+                    }
+
+                    @if(subvariation.propertie && !subvariation.propertie.code) {
+                    <button type="button" class="tp-size-variation-btn me-1"
+                        style="width: auto; padding-left: 10px; padding-right: 10px;">
+                        {{ subvariation.propertie.name }}
                     </button>
-                    <button type="button" class="color tp-color-variation-btn">
-                        <span data-bg-color="#494E52"></span>
-                        <span class="tp-color-variation-tootltip">Black</span>
+                    }
+
+                    @if(!subvariation.propertie) {
+                    <button type="button" class="tp-size-variation-btn me-1"
+                        style="width: auto; padding-left: 10px; padding-right: 10px;">
+                        {{ subvariation.value_add }}
                     </button>
-                    <button type="button" class="color tp-color-variation-btn">
-                        <span data-bg-color="#B4505A"></span>
-                        <span class="tp-color-variation-tootltip">Brown</span>
-                    </button>
-                </div> -->
+                    }
+
+                    }
+                </div>
+
             </div>
         </div>
 
