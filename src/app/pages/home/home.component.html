@@ -1,11 +1,11 @@
 <main>
 
     <!-- slider area start -->
-    <app-slider></app-slider>
+    <app-slider [SLIDERS]="SLIDERS"></app-slider>
     <!-- slider area end -->
 
     <!-- product category area start -->
-    <app-categories></app-categories>
+    <app-categories [CATEGORIES_RANDOMS]="CATEGORIES_RANDOMS"></app-categories>
     <!-- product category area end -->
 
     <!-- feature area start (ESTATIC) -->
@@ -124,31 +124,40 @@
     <!-- feature area end -->
 
     <!-- product area start -->
-    <app-trending-products (productSelected)="handleProductSelect($event)"></app-trending-products>
+    <app-trending-products (productSelected)="handleProductSelect($event)" [TRENDING_PRODUCT_NEW]="TRENDING_PRODUCT_NEW"
+        [TRENDING_PRODUCT_FEATURED]="TRENDING_PRODUCT_FEATURED"
+        [TRENDING_PRODUCT_TOP_SELLER]="TRENDING_PRODUCT_TOP_SELLER">
+    </app-trending-products>
     <!-- product area end -->
 
     <!-- banner area start -->
-    <app-slider-secundario></app-slider-secundario>
+    <app-slider-secundario [SLIDERS_SECUNDARIOS]="SLIDERS_SECUNDARIOS"></app-slider-secundario>
     <!-- banner area end -->
 
     <!-- product offer area start -->
-    <app-discount-flash (productSelected)="handleProductSelect($event)"></app-discount-flash>
+    <app-discount-flash (productSelected)="handleProductSelect($event)" [DISCOUNT_FLASH]="DISCOUNT_FLASH"
+        [DISCOUNT_FLASH_PRODUCTS]="DISCOUNT_FLASH_PRODUCTS">
+    </app-discount-flash>
     <!-- product deal area end -->
 
     <!-- Banner & Product Electronics -->
-    <app-electronic-products (productSelected)="handleProductSelect($event)"></app-electronic-products>
+    <app-electronic-products (productSelected)="handleProductSelect($event)"
+        [ELECTRONIC_PRODUCTS]="ELECTRONIC_PRODUCTS"></app-electronic-products>
     <!-- End Banner & Product Electronics -->
 
     <!-- product banner area start -->
-    <app-slider-products></app-slider-products>
+    <app-slider-products [SLIDERS_PRODUCTS]="SLIDERS_PRODUCTS"></app-slider-products>
     <!-- product banner area end -->
 
     <!-- product arrival area start -->
-    <app-carusel-products (productSelected)="handleProductSelect($event)"></app-carusel-products>
+    <app-carusel-products (productSelected)="handleProductSelect($event)"
+        [PRODUCTS_CARUSEL]="PRODUCTS_CARUSEL"></app-carusel-products>
     <!-- product arrival area end -->
 
     <!-- product sm area start -->
-    <app-last-products></app-last-products>
+    <app-last-products [LAST_PRODUCT_DISCOUNTS]="LAST_PRODUCT_DISCOUNTS" [LAST_PRODUCT_FEATURED]="LAST_PRODUCT_FEATURED"
+        [LAST_PRODUCT_SELLING]="LAST_PRODUCT_SELLING">
+    </app-last-products>
     <!-- product sm area end -->
 
     <!-- blog area start -->

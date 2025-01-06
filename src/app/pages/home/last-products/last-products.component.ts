@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-last-products',
@@ -12,25 +11,13 @@ import { ToastrService } from 'ngx-toastr';
 
 export class LastProductsComponent {
 
-  LAST_PRODUCT_DISCOUNTS: any = [];
-  LAST_PRODUCT_FEATURED: any = [];
-  LAST_PRODUCT_SELLING: any = [];
+  @Input() LAST_PRODUCT_DISCOUNTS: any[] = [];  // Usamos @Input() para recibir los datos
+  @Input() LAST_PRODUCT_FEATURED: any[] = [];  // Usamos @Input() para recibir los datos
+  @Input() LAST_PRODUCT_SELLING: any[] = [];  // Usamos @Input() para recibir los datos
 
   constructor(
     public homeService: HomeService,
-    private toastr: ToastrService,
-  ) {
-    this.homeService.last_products().subscribe((resp: any) => {
-      console.log(resp);
-      this.LAST_PRODUCT_DISCOUNTS = resp.product_last_discounts.data;
-      this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
-      this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
-
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-  }
+  ) { }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {

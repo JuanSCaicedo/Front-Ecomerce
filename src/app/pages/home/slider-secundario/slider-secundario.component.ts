@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-slider-secundario',
@@ -12,20 +11,11 @@ import { ToastrService } from 'ngx-toastr';
 
 export class SliderSecundarioComponent {
 
-  SLIDERS_SECUNDARIOS: any = [];
+  @Input() SLIDERS_SECUNDARIOS: any[] = [];  // Usamos @Input() para recibir los datos
 
   constructor(
     public homeService: HomeService,
-    private toastr: ToastrService,
-  ) {
-    this.homeService.slider_secundario().subscribe((resp: any) => {
-      console.log(resp);
-      this.SLIDERS_SECUNDARIOS = resp.sliders_secundario;
-    }, (error) => {
-      console.error(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-  }
+  ) { }
 
   getTitleBannerSecundario(BANNER: any, ID_BANNER: string) {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {

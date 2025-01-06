@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
-import { ToastrService } from 'ngx-toastr';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -15,27 +14,14 @@ declare var $: any;
 export class TrendingProductsComponent {
 
   @Output() productSelected = new EventEmitter<any>();
-
-  TRENDING_PRODUCT_NEW: any = [];
-  TRENDING_PRODUCT_FEATURED: any = [];
-  TRENDING_PRODUCT_TOP_SELLER: any = [];
+  @Input() TRENDING_PRODUCT_NEW: any[] = [];
+  @Input() TRENDING_PRODUCT_FEATURED: any[] = [];
+  @Input() TRENDING_PRODUCT_TOP_SELLER: any[] = [];
   product_selected: any = null;
 
   constructor(
     public homeService: HomeService,
-    private toastr: ToastrService,
-  ) {
-    this.homeService.products().subscribe((resp: any) => {
-      console.log(resp);
-      this.TRENDING_PRODUCT_NEW = resp.product_trending_new.data;
-      this.TRENDING_PRODUCT_FEATURED = resp.product_trending_featured.data;
-      this.TRENDING_PRODUCT_TOP_SELLER = resp.product_trending_top_sellers.data;
-
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-  }
+  ) { }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {

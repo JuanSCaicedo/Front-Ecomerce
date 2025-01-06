@@ -1,7 +1,6 @@
-import { Component, afterNextRender } from '@angular/core';
+import { Component, afterNextRender, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeService } from '../service/home.service';
-import { ToastrService } from 'ngx-toastr';
 
 declare function SLIDER_PRINCIPAL([]): any;
 declare var $: any;
@@ -16,23 +15,15 @@ declare var $: any;
 
 export class SliderComponent {
 
-  SLIDERS: any = [];
+  @Input() SLIDERS: any[] = [];  // Usamos @Input() para recibir los datos
+
   constructor(
     public homeService: HomeService,
-    private toastr: ToastrService,
   ) {
-    this.homeService.slider().subscribe((resp: any) => {
-      console.log(resp);
-      this.SLIDERS = resp.sliders_principal;
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-
     afterNextRender(() => {
       setTimeout(() => {
         SLIDER_PRINCIPAL($);
-      }, 100);
+      }, 50);
     })
   }
 

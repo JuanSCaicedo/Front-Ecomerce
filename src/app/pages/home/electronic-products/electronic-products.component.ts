@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
-import { ToastrService } from 'ngx-toastr';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -16,21 +15,11 @@ declare var $: any;
 export class ElectronicProductsComponent {
 
   @Output() productSelected = new EventEmitter<any>();
-
-  ELECTRONIC_PRODUCTS: any = [];
+  @Input() ELECTRONIC_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
 
   constructor(
     public homeService: HomeService,
-    private toastr: ToastrService,
-  ) {
-    this.homeService.products_electronics().subscribe((resp: any) => {
-      console.log(resp);
-      this.ELECTRONIC_PRODUCTS = resp.product_electronics.data;
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-  }
+  ) { }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {

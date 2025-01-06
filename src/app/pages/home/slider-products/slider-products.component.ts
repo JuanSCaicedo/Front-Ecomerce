@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-slider-products',
@@ -11,18 +10,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class SliderProductsComponent {
 
-  SLIDERS_PRODUCTS: any = [];
+  @Input() SLIDERS_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
 
   constructor(
     public homeService: HomeService,
-    private toastr: ToastrService,
-  ) {
-    this.homeService.slider_products().subscribe((resp: any) => {
-      console.log(resp);
-      this.SLIDERS_PRODUCTS = resp.sliders_products;
-    }, (error) => {
-      console.error(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-  }
+  ) { }
 }

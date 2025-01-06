@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-categories',
@@ -11,18 +10,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CategoriesComponent {
 
-  CATEGORIES_RANDOMS: any = [];
+  @Input() CATEGORIES_RANDOMS: any[] = [];  // Usamos @Input() para recibir los datos
 
   constructor(
     public homeService: HomeService,
-    private toastr: ToastrService,
-  ) {
-    this.homeService.categories().subscribe((resp: any) => {
-      console.log(resp);
-      this.CATEGORIES_RANDOMS = resp.categories_randoms;
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-  }
+  ) { }
 }
