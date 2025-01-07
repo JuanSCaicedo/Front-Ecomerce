@@ -2,17 +2,19 @@ import { Component } from '@angular/core';
 import { HomeService } from '../../home/service/home.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-landing-product',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './landing-product.component.html',
   styleUrl: './landing-product.component.css'
 })
 export class LandingProductComponent {
   PRODUCT_SLUG: any;
   PRODUCT_SELECTED: any;
+  filtered_images: any[] = []; // Lista de imágenes aleatorias
 
   constructor(
     public homeService: HomeService,
@@ -41,4 +43,18 @@ export class LandingProductComponent {
       this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
     });
   }
+
+  ngOnInit() {
+    console.log(this.PRODUCT_SELECTED);
+    if (this.PRODUCT_SELECTED?.images) {
+      this.filtered_images = this.getRandomImages(this.PRODUCT_SELECTED.images, 4);
+    }
+  }
+
+    // Método para obtener N elementos aleatorios
+    getRandomImages(images: any[], count: number): any[] {
+      return [...images]
+        .sort(() => Math.random() - 0.5) // Baraja las imágenes
+        .slice(0, count); // Obtiene los primeros 'count' elementos
+    }
 }
