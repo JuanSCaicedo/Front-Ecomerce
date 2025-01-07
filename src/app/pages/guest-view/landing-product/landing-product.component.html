@@ -34,6 +34,8 @@
       <div class="tp-product-details-top pb-115">
          <div class="container">
             <div class="row">
+
+               <!-- Imagenes -->
                <div class="col-xl-7 col-lg-6">
                   <div class="tp-product-details-thumb-wrapper tp-tab d-sm-flex">
                      <nav>
@@ -54,12 +56,15 @@
 
                         </div>
                      </nav>
+
                      <div class="tab-content m-img" id="productDetailsNavContent">
 
                         <div class="tab-pane fade show active" id="nav-1" role="tabpanel" aria-labelledby="nav-1-tab"
                            tabindex="0">
                            <div class="tp-product-details-nav-main-thumb">
-                              <img [src]="PRODUCT_SELECTED.imagen" alt="Imagen producto" class="producto-imagen">
+                              <img [src]="PRODUCT_SELECTED.imagen"
+                                 style="width: 580px;height: 550px;object-fit: scale-down;"
+                                 alt="Imagen producto" class="producto-imagen">
                            </div>
                         </div>
 
@@ -67,7 +72,9 @@
                         <div class="tab-pane fade" [id]="'nav-'+imagen.id" role="tabpanel"
                            [attr.aria-labelledby]="'nav-'+imagen.id+'-tab'" tabindex="0">
                            <div class="tp-product-details-nav-main-thumb">
-                              <img [src]="imagen.imagen" alt="Imagen producto" class="producto-imagen">
+                              <img [src]="imagen.imagen"
+                                 style="width: 580px;height: 550px;object-fit: scale-down;"
+                                 alt="Imagen producto" class="producto-imagen">
                            </div>
                         </div>
                         }
@@ -75,7 +82,8 @@
                      </div>
                   </div>
                </div>
-               <!-- col end -->
+               <!--End Imagenes -->
+
                <div class="col-xl-5 col-lg-6">
                   <div class="tp-product-details-wrapper">
                      <div class="tp-product-details-category">
