@@ -63,8 +63,8 @@
                            tabindex="0">
                            <div class="tp-product-details-nav-main-thumb">
                               <img [src]="PRODUCT_SELECTED.imagen"
-                                 style="width: 580px;height: 550px;object-fit: scale-down;"
-                                 alt="Imagen producto" class="producto-imagen">
+                                 style="width: 580px;height: 550px;object-fit: scale-down;" alt="Imagen producto"
+                                 class="producto-imagen">
                            </div>
                         </div>
 
@@ -72,8 +72,7 @@
                         <div class="tab-pane fade" [id]="'nav-'+imagen.id" role="tabpanel"
                            [attr.aria-labelledby]="'nav-'+imagen.id+'-tab'" tabindex="0">
                            <div class="tp-product-details-nav-main-thumb">
-                              <img [src]="imagen.imagen"
-                                 style="width: 580px;height: 550px;object-fit: scale-down;"
+                              <img [src]="imagen.imagen" style="width: 580px;height: 550px;object-fit: scale-down;"
                                  alt="Imagen producto" class="producto-imagen">
                            </div>
                         </div>
@@ -86,10 +85,10 @@
 
                <div class="col-xl-5 col-lg-6">
                   <div class="tp-product-details-wrapper">
-                     <div class="tp-product-details-category">
-                        <span>Computers & Tablets</span>
+                     <div class="tp-product-details-category mb-2">
+                        <span>{{ PRODUCT_SELECTED.brand.name }}</span>
                      </div>
-                     <h3 class="tp-product-details-title">Samsung galaxy A8 tablet</h3>
+                     <h3 class="tp-product-details-title">{{ PRODUCT_SELECTED.title }}</h3>
 
                      <!-- inventory details -->
                      <div class="tp-product-details-inventory d-flex align-items-center mb-10">
@@ -109,58 +108,90 @@
                            </div>
                         </div>
                      </div>
-                     <p>A Screen Everyone Will Love: Whether your family is streaming or video chatting with friends
-                        tablet A8... <span>See more</span></p>
+                     <p>
+                        {{ PRODUCT_SELECTED.resumen }}
+                     </p>
 
                      <!-- price -->
                      <div class="tp-product-details-price-wrapper mb-20">
-                        <span class="tp-product-details-price old-price">$320.00</span>
-                        <span class="tp-product-details-price new-price">$236.00</span>
+                        <span class="tp-product-details-price old-price" *ngIf="PRODUCT_SELECTED.discount_g">${{
+                           PRODUCT_SELECTED.price_cop }}</span>
+                        <span class="tp-product-details-price new-price">${{ getTotalPrice(PRODUCT_SELECTED) }}</span>
                      </div>
 
-                     <!-- variations -->
+                     <!-- variations & subvariations -->
                      <div class="tp-product-details-variation">
-                        <!-- single item -->
+                        <!-- variations -->
                         <div class="tp-product-details-variation-item">
-                           <h4 class="tp-product-details-variation-title">Color :</h4>
-                           <div class="tp-product-details-variation-list">
-                              <button type="button" class="color tp-color-variation-btn">
-                                 <span data-bg-color="#F8B655"></span>
-                                 <span class="tp-color-variation-tootltip">Yellow</span>
-                              </button>
-                              <button type="button" class="color tp-color-variation-btn active">
-                                 <span data-bg-color="#CBCBCB"></span>
-                                 <span class="tp-color-variation-tootltip">Gray</span>
-                              </button>
-                              <button type="button" class="color tp-color-variation-btn">
-                                 <span data-bg-color="#494E52"></span>
-                                 <span class="tp-color-variation-tootltip">Black</span>
-                              </button>
-                              <button type="button" class="color tp-color-variation-btn">
-                                 <span data-bg-color="#B4505A"></span>
-                                 <span class="tp-color-variation-tootltip">Brown</span>
-                              </button>
-                           </div>
-                        </div>
+                           @for(variation_p of PRODUCT_SELECTED.variations;track variation_p.attribute_id) {
+                           <h4 class="tp-product-details-variation-title mb-3">{{ variation_p.attribute.name }} :</h4>
 
-                        <!-- single item -->
-                        <div class="tp-product-details-variation-item">
-                           <h4 class="tp-product-details-variation-title">Size : S</h4>
                            <div class="tp-product-details-variation-list">
-                              <button type="button" class=" tp-size-variation-btn">
-                                 <span>S</span>
+                              @for(variation of variation_p.variations;track variation.id) {
+
+                              @if(variation.propertie && variation.propertie.code) {
+                              <button type="button" class="color tp-color-variation-btn me-1"
+                                 (click)="selectedVariation(variation)">
+                                 <span [attr.data-bg-color]="variation.propertie.code"></span>
+                                 <span class="tp-color-variation-tootltip">{{ variation.propertie.name }}</span>
                               </button>
-                              <button type="button" class=" tp-size-variation-btn active">
-                                 <span>M</span>
+                              }
+
+                              @if(variation.propertie && !variation.propertie.code) {
+                              <button type="button" class="tp-size-variation-btn me-1"
+                                 style="width: auto; padding-left: 10px; padding-right: 10px;"
+                                 (click)="selectedVariation(variation)">
+                                 {{ variation.propertie.name }}
                               </button>
-                              <button type="button" class=" tp-size-variation-btn">
-                                 <span>XL</span>
+                              }
+
+                              @if(!variation.propertie) {
+                              <button type="button" class="tp-size-variation-btn me-1"
+                                 style="width: auto; padding-left: 10px; padding-right: 10px;"
+                                 (click)="selectedVariation(variation)">
+                                 {{ variation.value_add }}
                               </button>
-                              <button type="button" class="tp-size-variation-btn">
-                                 <span>XXL</span>
-                              </button>
+                              }
+                              }
                            </div>
+                           }
                         </div>
+                        <!-- end variations -->
+
+                        <!-- subvariations -->
+                        <div class="tp-product-details-variation-item" *ngIf="variation_selected">
+                           <h4 class="tp-product-details-variation-title mb-3">{{
+                              variation_selected.subvariation.attribute.name }} :</h4>
+
+                           <div class="tp-product-details-variation-list">
+                              @for(subvariation of variation_selected.subvariations;track subvariation.id) {
+
+                              @if(subvariation.propertie && subvariation.propertie.code) {
+                              <button type="button" class="color tp-color-variation-btn me-1">
+                                 <span [attr.data-bg-color]="subvariation.propertie.code"></span>
+                                 <span class="tp-color-variation-tootltip">{{ subvariation.propertie.name }}</span>
+                              </button>
+                              }
+
+                              @if(subvariation.propertie && !subvariation.propertie.code) {
+                              <button type="button" class="tp-size-variation-btn me-1"
+                                 style="width: auto; padding-left: 10px; padding-right: 10px;">
+                                 {{ subvariation.propertie.name }}
+                              </button>
+                              }
+
+                              @if(!subvariation.propertie) {
+                              <button type="button" class="tp-size-variation-btn me-1"
+                                 style="width: auto; padding-left: 10px; padding-right: 10px;">
+                                 {{ subvariation.value_add }}
+                              </button>
+                              }
+
+                              }
+                           </div>
+
+                        </div>
+                        <!-- end subvariations -->
                      </div>
 
                      <!-- actions -->
@@ -244,15 +275,15 @@
                      <div class="tp-product-details-query">
                         <div class="tp-product-details-query-item d-flex align-items-center">
                            <span>SKU: </span>
-                           <p>NTB7SDVX44</p>
+                           <p>{{ PRODUCT_SELECTED.sku }}</p>
                         </div>
                         <div class="tp-product-details-query-item d-flex align-items-center">
                            <span>Category: </span>
-                           <p>Computers & Tablets</p>
+                           <p>{{ PRODUCT_SELECTED.categorie_first.name }}</p>
                         </div>
                         <div class="tp-product-details-query-item d-flex align-items-center">
                            <span>Tag: </span>
-                           <p>Android</p>
+                           <p>{{ PRODUCT_SELECTED.tags_parse.join(' - ') }}</p>
                         </div>
                      </div>
                      <div class="tp-product-details-social">

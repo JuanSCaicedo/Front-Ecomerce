@@ -1,8 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, afterRender } from '@angular/core';
 import { HomeService } from '../../home/service/home.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+
+declare function MODAL_PRODUCT_DETAIL([]): any;
+declare var $: any;
 
 @Component({
   selector: 'app-landing-product',
@@ -15,6 +18,7 @@ export class LandingProductComponent {
   PRODUCT_SLUG: any;
   PRODUCT_SELECTED: any;
   filtered_images: any[] = []; // Lista de imágenes aleatorias
+  variation_selected: any;
 
   constructor(
     public homeService: HomeService,
@@ -35,13 +39,20 @@ export class LandingProductComponent {
       if (resp.message == 403) {
         this.router.navigateByUrl("/error/404");
         this.toastr.error("Validación", resp.message_text);
+      } else {
+        this.PRODUCT_SELECTED = resp.product;
       }
 
-      this.PRODUCT_SELECTED = resp.product;
     }, (err: any) => {
       console.log(err);
       this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
     });
+
+    afterRender(() => {
+      setTimeout(() => {
+        MODAL_PRODUCT_DETAIL($);
+      }, 50);
+    })
   }
 
   ngOnInit() {
@@ -51,10 +62,34 @@ export class LandingProductComponent {
     }
   }
 
-    // Método para obtener N elementos aleatorios
-    getRandomImages(images: any[], count: number): any[] {
-      return [...images]
-        .sort(() => Math.random() - 0.5) // Baraja las imágenes
-        .slice(0, count); // Obtiene los primeros 'count' elementos
+  // Método para obtener N elementos aleatorios
+  getRandomImages(images: any[], count: number): any[] {
+    return [...images]
+      .sort(() => Math.random() - 0.5) // Baraja las imágenes
+      .slice(0, count); // Obtiene los primeros 'count' elementos
+  }
+
+  getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
+    if (DISCOUNT_FLASH_P.type_discount == 1) {
+      return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+    } else {
+      return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
     }
+  }
+
+  getTotalPrice(product: any) {
+    if (product.discount_g) {
+      return this.getNewTotal(product, product.discount_g);
+    }
+    return product.price_cop;
+  }
+
+  selectedVariation(variation: any) {
+    this.variation_selected = null;
+
+    setTimeout(() => {
+      this.variation_selected = variation;
+      MODAL_PRODUCT_DETAIL($);
+    }, 50);
+  }
 }

@@ -2100,11 +2100,10 @@ function SLIDER_PRINCIPAL($) {
 	});
 }
 
-function MODAL_PRODUCT_DETAIL($){
+function MODAL_PRODUCT_DETAIL($) {
 	setTimeout(() => {
 
 		// $("[data-countdown]").countdown();
-		console.log('modal product detail')
 
 		$("[data-bg-color]").each(function () {
 			$(this).css("background-color", $(this).attr("data-bg-color"));
@@ -2113,10 +2112,10 @@ function MODAL_PRODUCT_DETAIL($){
 		$('.tp-color-variation-btn')?.on('click', function () {
 			$(this).addClass('active').siblings().removeClass('active');
 		});
-		
+
 		$('.tp-size-variation-btn')?.on('click', function () {
 			$(this).addClass('active').siblings().removeClass('active');
 		});
-		
-	},50)
+
+	}, 50)
 }
