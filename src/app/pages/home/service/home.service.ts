@@ -13,13 +13,8 @@ export class HomeService {
     public authService: AuthService,
   ) { }
 
-  home(){
+  home() {
     let URL = URL_SERVICIOS + "/ecommerce/home";
-    return this.http.get(URL);
-  }
-
-  discount_flash(){
-    let URL = URL_SERVICIOS + "/ecommerce/discount_flash";
     return this.http.get(URL);
   }
 
@@ -28,43 +23,8 @@ export class HomeService {
     return this.http.get(URL);
   }
 
-  slider() {
-    let URL = URL_SERVICIOS + "/ecommerce/slider";
-    return this.http.get(URL);
-  }
-
-  slider_secundario() {
-    let URL = URL_SERVICIOS + "/ecommerce/slider_secundario";
-    return this.http.get(URL);
-  }
-
-  slider_products() {
-    let URL = URL_SERVICIOS + "/ecommerce/slider_products";
-    return this.http.get(URL);
-  }
-
-  categories() {
-    let URL = URL_SERVICIOS + "/ecommerce/categories";
-    return this.http.get(URL);
-  }
-
-  products() {
-    let URL = URL_SERVICIOS + "/ecommerce/products";
-    return this.http.get(URL);
-  }
-
-  last_products() {
-    let URL = URL_SERVICIOS + "/ecommerce/last_products";
-    return this.http.get(URL);
-  }
-
-  products_electronics() {
-    let URL = URL_SERVICIOS + "/ecommerce/products_electronics";
-    return this.http.get(URL);
-  }
-
-  products_carusel() {
-    let URL = URL_SERVICIOS + "/ecommerce/products_carusel";
+  showProduct(slug: string) {
+    let URL = URL_SERVICIOS + "/ecommerce/product/" + slug;
     return this.http.get(URL);
   }
 }
