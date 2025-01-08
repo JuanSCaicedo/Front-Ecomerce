@@ -231,3 +231,19 @@ button.toast-close-button {
         width: 25em;
     }
 }
+
+@media (max-width: 768px) {
+    .tp-product-item .tp-product-action {
+        opacity: 1;
+        right: 20px;
+        visibility: visible;
+    }
+}
+
+@media (max-width: 768px) {
+    .tp-product-item .tp-product-add-cart-btn-large-wrapper {
+        bottom: 0;
+        opacity: 1;
+        visibility: visible;
+    }
+}
