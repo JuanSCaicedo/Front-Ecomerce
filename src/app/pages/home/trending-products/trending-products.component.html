@@ -84,7 +84,7 @@
                                 <div class="col-xl-3 col-lg-3 col-sm-6">
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
-                                            <a href="#" onclick="return false;">
+                                            <a [routerLink]="'/producto/'+product.slug">
                                                 <img [src]="product.imagen" alt="product-electronic"
                                                     style="width: 304px; height: 261px; object-fit: contain;">
                                             </a>
@@ -171,10 +171,10 @@
                                         <div class="tp-product-content"
                                             style="width: 214px; height: 226px; object-fit: contain;">
                                             <div class="tp-product-category">
-                                                <a href="#" onclick="return false;">{{ product.brand.name }}</a>
+                                                <a [routerLink]="'/producto/'+product.slug">{{ product.brand.name }}</a>
                                             </div>
                                             <h3 class="tp-product-title">
-                                                <a href="#" onclick="return false;">
+                                                <a [routerLink]="'/producto/'+product.slug">
                                                     {{ product.title }}
                                                 </a>
                                             </h3>
@@ -219,7 +219,7 @@
                                 <div class="col-xl-3 col-lg-3 col-sm-6">
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
-                                            <a href="#" onclick="return false;">
+                                            <a [routerLink]="'/producto/'+product.slug">
                                                 <img [src]="product.imagen" alt="product-electronic"
                                                     style="width: 304px; height: 261px; object-fit: contain;">
                                             </a>
@@ -306,10 +306,10 @@
                                         <div class="tp-product-content"
                                             style="width: 214px; height: 216px; object-fit: contain;">
                                             <div class="tp-product-category">
-                                                <a href="#" onclick="return false;">{{ product.brand.name }}</a>
+                                                <a [routerLink]="'/producto/'+product.slug">{{ product.brand.name }}</a>
                                             </div>
                                             <h3 class="tp-product-title">
-                                                <a href="#" onclick="return false;">
+                                                <a [routerLink]="'/producto/'+product.slug">
                                                     {{ product.title }}
                                                 </a>
                                             </h3>
@@ -353,7 +353,7 @@
                                 <div class="col-xl-3 col-lg-3 col-sm-6">
                                     <div class="tp-product-item p-relative transition-3 mb-25">
                                         <div class="tp-product-thumb p-relative fix m-img">
-                                            <a href="#" onclick="return false;">
+                                            <a [routerLink]="'/producto/'+product.slug">
                                                 <img [src]="product.imagen" alt="product-electronic"
                                                     style="width: 304px; height: 261px; object-fit: contain;">
                                             </a>
@@ -440,10 +440,10 @@
                                         <div class="tp-product-content"
                                             style="width: 214px; height: 226px; object-fit: contain;">
                                             <div class="tp-product-category">
-                                                <a href="#" onclick="return false;">{{ product.brand.name }}</a>
+                                                <a [routerLink]="'/producto/'+product.slug">{{ product.brand.name }}</a>
                                             </div>
                                             <h3 class="tp-product-title">
-                                                <a href="#" onclick="return false;">
+                                                <a [routerLink]="'/producto/'+product.slug">
                                                     {{ product.title }}
                                                 </a>
                                             </h3>

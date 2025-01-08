@@ -19,17 +19,17 @@
                         @for(PRODUCT of LAST_PRODUCT_DISCOUNTS;track PRODUCT.id) {
                         <div class="tp-product-sm-item d-flex align-items-center">
                             <div class="tp-product-thumb mr-25 fix">
-                                <a href="#" onclick="return false;">
+                                <a [routerLink]="'/producto/'+PRODUCT.slug">
                                     <img [src]="PRODUCT.imagen"
                                         style="width: 140px; height: 140px; object-fit: contain;" alt="">
                                 </a>
                             </div>
                             <div class="tp-product-sm-content">
                                 <div class="tp-product-category">
-                                    <a href="#" onclick="return false;">{{ PRODUCT.brand.name }}</a>
+                                    <a [routerLink]="'/producto/'+PRODUCT.slug">{{ PRODUCT.brand.name }}</a>
                                 </div>
                                 <h3 class="tp-product-title">
-                                    <a href="#" onclick="return false;">
+                                    <a [routerLink]="'/producto/'+PRODUCT.slug">
                                         {{ PRODUCT.title }}
                                     </a>
                                 </h3>
@@ -81,17 +81,17 @@
                         @for(PRODUCT of LAST_PRODUCT_FEATURED;track PRODUCT.id) {
                         <div class="tp-product-sm-item d-flex align-items-center">
                             <div class="tp-product-thumb mr-25 fix">
-                                <a href="#" onclick="return false;">
+                                <a [routerLink]="'/producto/'+PRODUCT.slug">
                                     <img [src]="PRODUCT.imagen"
                                         style="width: 140px; height: 140px; object-fit: contain;" alt="">
                                 </a>
                             </div>
                             <div class="tp-product-sm-content">
                                 <div class="tp-product-category">
-                                    <a href="#" onclick="return false;">{{ PRODUCT.brand.name }}</a>
+                                    <a [routerLink]="'/producto/'+PRODUCT.slug">{{ PRODUCT.brand.name }}</a>
                                 </div>
                                 <h3 class="tp-product-title">
-                                    <a href="#" onclick="return false;">{{ PRODUCT.title }}</a>
+                                    <a [routerLink]="'/producto/'+PRODUCT.slug">{{ PRODUCT.title }}</a>
                                 </h3>
                                 <div class="tp-product-rating d-sm-flex align-items-center">
                                     <div class="tp-product-rating-icon">
@@ -141,17 +141,17 @@
                         @for(PRODUCT of LAST_PRODUCT_SELLING;track PRODUCT.id) {
                         <div class="tp-product-sm-item d-flex align-items-center">
                             <div class="tp-product-thumb mr-25 fix">
-                                <a href="#" onclick="return false;">
+                                <a [routerLink]="'/producto/'+PRODUCT.slug">
                                     <img [src]="PRODUCT.imagen"
                                         style="width: 140px; height: 140px; object-fit: contain;" alt="">
                                 </a>
                             </div>
                             <div class="tp-product-sm-content">
                                 <div class="tp-product-category">
-                                    <a href="#" onclick="return false;">{{ PRODUCT.brand.name }}</a>
+                                    <a [routerLink]="'/producto/'+PRODUCT.slug">{{ PRODUCT.brand.name }}</a>
                                 </div>
                                 <h3 class="tp-product-title">
-                                    <a href="#" onclick="return false;">{{ PRODUCT.title }}</a>
+                                    <a [routerLink]="'/producto/'+PRODUCT.slug">{{ PRODUCT.title }}</a>
                                 </h3>
                                 <div class="tp-product-rating d-sm-flex align-items-center">
                                     <div class="tp-product-rating-icon">

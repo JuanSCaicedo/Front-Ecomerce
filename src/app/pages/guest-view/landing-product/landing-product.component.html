@@ -348,14 +348,21 @@
                                  <div class="col-xl-10">
                                     <table>
                                        <tbody>
-                                          @for(specification of PRODUCT_SELECTED.specifications;track specification.id)
-                                          {
-                                          <tr>
-                                             <td>{{ specification.attribute.name }}</td>
-                                             <td *ngIf="specification.propertie">{{ specification.propertie.name }}</td>
-                                             <td *ngIf="!specification.propertie">{{ specification.value_add }}</td>
-                                          </tr>
-                                          }
+                                          <ng-container
+                                             *ngIf="PRODUCT_SELECTED?.specifications?.length > 0; else noRecords">
+                                             <tr *ngFor="let specification of PRODUCT_SELECTED.specifications">
+                                                <td>{{ specification.attribute.name }}</td>
+                                                <td *ngIf="specification.propertie">{{ specification.propertie.name }}
+                                                </td>
+                                                <td *ngIf="!specification.propertie">{{ specification.value_add }}</td>
+                                             </tr>
+                                          </ng-container>
+
+                                          <ng-template #noRecords>
+                                             <tr>
+                                                <td colspan="3">No hay registros disponibles</td>
+                                             </tr>
+                                          </ng-template>
                                        </tbody>
                                     </table>
                                  </div>

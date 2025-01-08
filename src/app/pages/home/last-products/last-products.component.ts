@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-last-products',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './last-products.component.html',
   styleUrl: './last-products.component.css'
 })

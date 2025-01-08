@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
+import { RouterModule } from '@angular/router';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -7,7 +8,7 @@ declare var $: any;
 @Component({
   selector: 'app-carusel-products',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './carusel-products.component.html',
   styleUrl: './carusel-products.component.css'
 })

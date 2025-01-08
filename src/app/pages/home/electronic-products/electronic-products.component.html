@@ -72,7 +72,7 @@
                         <div class="col-xl-4 col-sm-6">
                             <div class="tp-product-item p-relative transition-3 mb-25">
                                 <div class="tp-product-thumb p-relative fix m-img">
-                                    <a href="#" onclick="return false;">
+                                    <a [routerLink]="'/producto/'+PRODUCT.slug">
                                         <img [src]="PRODUCT.imagen"
                                             style="width: 247px; height: 240px; object-fit: contain;"
                                             alt="product-electronic">
@@ -158,10 +158,10 @@
                                 <!-- product content -->
                                 <div class="tp-product-content" style="height: 176px;">
                                     <div class="tp-product-category">
-                                        <a href="#" onclick="return false;">{{ PRODUCT.brand.name }}</a>
+                                        <a [routerLink]="'/producto/'+PRODUCT.slug">{{ PRODUCT.brand.name }}</a>
                                     </div>
                                     <h3 class="tp-product-title">
-                                        <a href="#" onclick="return false;">
+                                        <a [routerLink]="'/producto/'+PRODUCT.slug">
                                             {{ PRODUCT.title }}
                                         </a>
                                     </h3>
