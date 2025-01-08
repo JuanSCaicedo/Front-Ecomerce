@@ -23,7 +23,10 @@
                                 <li class="{{ menu.categories.length > 0 ? 'has-dropdown' : '' }}">
                                     <a href="#" onclick="return false;" class="{{ menu.categories.length > 0 ? 'has-mega-menu' : '' }}">
                                         
-                                        <span #iconContainer [id]="'icon-' + menu.id"></span>
+                                        <!-- <span #iconContainer [id]="'icon-' + menu.id"></span> -->
+                                        <span [id]="'icon-' + menu.id">
+                                            {{ getIconMenu(menu) }}
+                                        </span>
 
                                         {{ menu.name }}
                                     </a>

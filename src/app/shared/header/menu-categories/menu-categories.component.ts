@@ -1,4 +1,4 @@
-import { afterNextRender, Component, ElementRef, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HomeService } from '../../../pages/home/service/home.service';
 import { CommonModule } from '@angular/common';
@@ -12,14 +12,13 @@ import { CommonModule } from '@angular/common';
 })
 export class MenuCategoriesComponent {
 
-  @ViewChildren('iconContainer') iconContainers!: QueryList<ElementRef>;
   categories_menus: any[] = [];
 
   constructor(
     private homeService: HomeService,
     private toastr: ToastrService,
-    private renderer: Renderer2
   ) {
+    //Para solucionar bug de no ver menu en mobile se elimino afterNextRender
     this.homeService.menu().subscribe(
       (resp: any) => {
         console.log(resp);
@@ -35,12 +34,9 @@ export class MenuCategoriesComponent {
     );
   }
 
-  ngAfterViewInit() {
-    this.iconContainers.forEach((container, index) => {
-      const menu = this.categories_menus[index];
-      if (menu) {
-        this.renderer.setProperty(container.nativeElement, 'innerHTML', menu.icon);
-      }
-    });
+  getIconMenu(menu: any) {
+    var miDiv: any = document.getElementById('icon-' + menu.id);
+    miDiv.innerHTML = menu.icon;
+    return '';
   }
 }
