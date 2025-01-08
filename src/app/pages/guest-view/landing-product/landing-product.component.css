@@ -1,0 +1,15 @@
+@media (max-width: 768px) {
+    .tp-product-add-cart-btn-large-wrapper {
+        bottom: 0;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+@media (max-width: 768px) {
+    .tp-product-action-4 {
+        opacity: 1;
+        right: 20px;
+        visibility: visible;
+    }
+}
