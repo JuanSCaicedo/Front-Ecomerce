@@ -33,10 +33,4 @@ export class MenuCategoriesComponent {
       }
     );
   }
-
-  getIconMenu(menu: any) {
-    var miDiv: any = document.getElementById('icon-' + menu.id);
-    miDiv.innerHTML = menu.icon;
-    return '';
-  }
 }
