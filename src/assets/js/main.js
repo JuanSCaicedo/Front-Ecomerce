@@ -927,10 +927,11 @@ function HOMEINIT($) {
 		},
 	});
 
+	// Discount flash
 	var slider = new Swiper('.tp-product-offer-slider-active', {
 		slidesPerView: 4,
 		spaceBetween: 30,
-		loop: true,
+		loop: false,
 		rtl: rtl_setting,
 		pagination: {
 			el: ".tp-deals-slider-dot",
@@ -957,11 +958,13 @@ function HOMEINIT($) {
 			},
 		},
 	});
+	//End Discount flash
 
+	//Carusel products
 	var slider = new Swiper('.tp-product-arrival-active', {
 		slidesPerView: 4,
 		spaceBetween: 30,
-		loop: true,
+		loop: false,
 		rtl: rtl_setting,
 		pagination: {
 			el: ".tp-arrival-slider-dot",
@@ -993,6 +996,7 @@ function HOMEINIT($) {
 			},
 		},
 	});
+	//End Carusel products
 
 	var slider = new Swiper('.tp-product-banner-slider-active', {
 		slidesPerView: 1,
@@ -1105,10 +1109,11 @@ function HOMEINIT($) {
 		},
 	});
 
+	//Landing prodcut
 	var slider = new Swiper('.tp-product-related-slider-active', {
 		slidesPerView: 4,
 		spaceBetween: 24,
-		loop: true,
+		loop: false,
 		rtl: rtl_setting,
 		enteredSlides: false,
 		pagination: {
@@ -1149,6 +1154,7 @@ function HOMEINIT($) {
 			},
 		},
 	});
+	//End Landing prodcut
 
 	var slider = new Swiper('.tp-testimoinal-slider-active-3', {
 		slidesPerView: 2,

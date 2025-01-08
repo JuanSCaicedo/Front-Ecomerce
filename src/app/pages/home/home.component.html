@@ -437,14 +437,13 @@
         aria-labelledby="producQuickViewModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <!-- @defer (on viewport; when product_selected){ -->
+                @defer (on viewport; when product_selected){
                 @if(product_selected){
                 <app-modal-producto [product_selected]="product_selected"></app-modal-producto>
                 }
-                <!-- } @placeholder (minimum 1000ms) {
+                } @placeholder (minimum 1000ms) {
                 <div>Loading..</div>
-              } -->
-
+                }
             </div>
         </div>
     </div>

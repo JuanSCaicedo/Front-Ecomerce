@@ -3,6 +3,7 @@ import { HomeService } from '../../home/service/home.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -10,16 +11,18 @@ declare var $: any;
 @Component({
   selector: 'app-landing-product',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ModalProductoComponent],
   templateUrl: './landing-product.component.html',
   styleUrl: './landing-product.component.css'
 })
+
 export class LandingProductComponent {
   PRODUCT_SLUG: any;
   PRODUCT_SELECTED: any;
   filtered_images: any = []; // Lista de imágenes aleatorias
   variation_selected: any;
   PRODUCT_RELATEDS: any = [];
+  product_selected_modal: any;
 
   constructor(
     public homeService: HomeService,
@@ -91,6 +94,17 @@ export class LandingProductComponent {
     setTimeout(() => {
       this.variation_selected = variation;
       MODAL_PRODUCT_DETAIL($);
+    }, 50);
+  }
+
+  OpenDetailProduct(PRODUCT: any) {
+    // Primero establecemos el producto a null
+    this.product_selected_modal = null;
+
+    // Usando setTimeout para dar un pequeño delay
+    setTimeout(() => {
+      // Emitimos el producto seleccionado
+      this.product_selected_modal = PRODUCT;
     }, 50);
   }
 }
