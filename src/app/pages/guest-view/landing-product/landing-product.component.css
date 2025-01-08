@@ -7,9 +7,13 @@
 }
 
 @media (max-width: 768px) {
-    .tp-product-action-4 {
+    .tp-product-action-3 {
         opacity: 1;
         right: 20px;
         visibility: visible;
     }
+}
+
+.tp-product-action-3 {
+    top: 80px;
 }
