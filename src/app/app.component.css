@@ -3,7 +3,7 @@
     position: fixed;
     bottom: 20px;
     right: 10px;
-    z-index: 999;
+    z-index: 9999;
 
     @media screen and (max-width: 990px) {
         bottom: 75px;
