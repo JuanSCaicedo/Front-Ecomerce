@@ -45,21 +45,24 @@
                             <div class="tp-product-item transition-3 mb-25 swiper-slide">
                                 <div class="tp-product-thumb p-relative fix m-img">
                                     <a [routerLink]="'/producto/'+PRODUCT.slug">
-                                        <img [src]="PRODUCT.imagen" style="width: 282px; height: 242px; object-fit: contain;" alt="product-electronic">
+                                        <img [src]="PRODUCT.imagen"
+                                            style="width: 282px; height: 242px; object-fit: contain;"
+                                            alt="product-electronic">
                                     </a>
 
                                     <!-- product badge -->
                                     @if(PRODUCT.discount_g) {
-                                        <div class="tp-product-badge">
-    
-                                            @if(PRODUCT.discount_g.type_discount == 1) {
-                                            <span class="product-hot">- {{ PRODUCT.discount_g.discount }} %</span>
-                                            }
-                                            @if(PRODUCT.discount_g.type_discount == 2) {
-                                            <span class="product-hot">- {{ PRODUCT.discount_g.discount }} COP</span>
-                                            }
-                                        </div>
+                                    <div class="tp-product-badge">
+
+                                        @if(PRODUCT.discount_g.type_discount == 1) {
+                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} %</span>
                                         }
+                                        @if(PRODUCT.discount_g.type_discount == 2) {
+                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} COP</span>
+                                        }
+                                    </div>
+                                    }
+                                    <!-- End product badge -->
 
                                     <!-- product action -->
                                     <div class="tp-product-action">

@@ -1,6 +1,6 @@
 import { Component, afterRender } from '@angular/core';
 import { HomeService } from '../../home/service/home.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
@@ -10,15 +10,16 @@ declare var $: any;
 @Component({
   selector: 'app-landing-product',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './landing-product.component.html',
   styleUrl: './landing-product.component.css'
 })
 export class LandingProductComponent {
   PRODUCT_SLUG: any;
   PRODUCT_SELECTED: any;
-  filtered_images: any[] = []; // Lista de imágenes aleatorias
+  filtered_images: any = []; // Lista de imágenes aleatorias
   variation_selected: any;
+  PRODUCT_RELATEDS: any = [];
 
   constructor(
     public homeService: HomeService,
@@ -41,6 +42,7 @@ export class LandingProductComponent {
         this.toastr.error("Validación", resp.message_text);
       } else {
         this.PRODUCT_SELECTED = resp.product;
+        this.PRODUCT_RELATEDS = resp.product_relateds.data;
       }
 
     }, (err: any) => {
@@ -56,7 +58,6 @@ export class LandingProductComponent {
   }
 
   ngOnInit() {
-    console.log(this.PRODUCT_SELECTED);
     if (this.PRODUCT_SELECTED?.images) {
       this.filtered_images = this.getRandomImages(this.PRODUCT_SELECTED.images, 4);
     }
