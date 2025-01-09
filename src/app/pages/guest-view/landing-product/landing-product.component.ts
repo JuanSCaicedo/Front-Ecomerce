@@ -1,4 +1,4 @@
-import { Component, afterRender } from '@angular/core';
+import { Component } from '@angular/core';
 import { HomeService } from '../../home/service/home.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
-declare function LADING_PRODUCT([]): any;
+declare function LANDING_PRODUCT([]): any;
 declare var $: any;
 
 @Component({
@@ -52,7 +52,7 @@ export class LandingProductComponent {
       if (typeof $ !== 'undefined') {
         setTimeout(() => {
           MODAL_PRODUCT_DETAIL($);
-          LADING_PRODUCT($);
+          LANDING_PRODUCT($);
         }, 50);
       }
 

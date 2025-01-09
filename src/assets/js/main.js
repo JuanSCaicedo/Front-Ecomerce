@@ -2126,7 +2126,7 @@ function MODAL_PRODUCT_DETAIL($) {
 	}, 50)
 }
 
-function LADING_PRODUCT($) {
+function LANDING_PRODUCT($) {
 	var tp_rtl = localStorage.getItem('tp_dir');
 	let rtl_setting = tp_rtl == 'rtl' ? true : false;
 
