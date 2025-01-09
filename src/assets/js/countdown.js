@@ -263,8 +263,8 @@
     $.fn.countdown.constructor = Countdown;
     $.fn.countdown.setDefaults = Countdown.setDefaults;
 
-    $(function () {
-        $("[data-countdown]").countdown();
-    });
+    // $(function () {
+    //     $("[data-countdown]").countdown();
+    // });
 
 });

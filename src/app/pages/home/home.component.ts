@@ -85,23 +85,23 @@ export class HomeComponent {
       this.LAST_PRODUCT_DISCOUNTS = resp.product_last_discounts.data;
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
+
+      if (typeof $ !== 'undefined') {
+        setTimeout(() => {
+          CARUSEL_PRODUCTS($);
+          SLIDER_PRINCIPAL($);
+          CAMPAING_FLASH($);
+          DATA_VALUES($);
+          SLIDER_PRODUCT($);
+          SLIDER_PRODUCT_ELECTRONIC($);
+          BLOG($);
+          IGIMAGEN($);
+        }, 50);
+      }
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
-
-    if (typeof $ !== 'undefined') {
-      setTimeout(() => {
-        CARUSEL_PRODUCTS($);
-        SLIDER_PRINCIPAL($);
-        CAMPAING_FLASH($);
-        DATA_VALUES($);
-        SLIDER_PRODUCT($);
-        SLIDER_PRODUCT_ELECTRONIC($);
-        BLOG($);
-        IGIMAGEN($);
-      }, 50);
-    }
   }
 
   handleProductSelect(product: any) {
