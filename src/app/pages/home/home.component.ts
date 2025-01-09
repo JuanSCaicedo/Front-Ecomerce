@@ -12,6 +12,11 @@ import { LastProductsComponent } from './last-products/last-products.component';
 import { DiscountFlashComponent } from './discount-flash/discount-flash.component';
 import { ModalProductoComponent } from './modal-producto/modal-producto.component';
 
+declare function CARUSEL_PRODUCTS([]): any;
+declare function SLIDER_PRINCIPAL([]): any;
+declare function CAMPAING_FLASH([]): any;
+declare var $: any;
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -67,6 +72,15 @@ export class HomeComponent {
       this.LAST_PRODUCT_DISCOUNTS = resp.product_last_discounts.data;
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
+
+      setTimeout(() => {
+        if (typeof CARUSEL_PRODUCTS === 'function') {
+          CARUSEL_PRODUCTS($);
+          SLIDER_PRINCIPAL($);
+          CAMPAING_FLASH($);
+        }
+      }, 50);
+
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);

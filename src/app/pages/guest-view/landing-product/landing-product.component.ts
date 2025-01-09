@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
+declare function LADING_PRODUCT([]): any;
 declare var $: any;
 
 @Component({
@@ -48,16 +49,15 @@ export class LandingProductComponent {
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
       }
 
+      setTimeout(() => {
+        MODAL_PRODUCT_DETAIL($);
+        LADING_PRODUCT($);
+      }, 50);
+
     }, (err: any) => {
       console.log(err);
       this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
     });
-
-    afterRender(() => {
-      setTimeout(() => {
-        MODAL_PRODUCT_DETAIL($);
-      }, 50);
-    })
   }
 
   ngOnInit() {
