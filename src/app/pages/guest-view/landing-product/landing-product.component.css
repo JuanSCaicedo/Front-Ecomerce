@@ -17,3 +17,8 @@
 .tp-product-action-3 {
     top: 80px;
 }
+
+.swiper-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+}
