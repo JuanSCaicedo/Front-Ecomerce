@@ -1112,10 +1112,11 @@ div.demo img {
   position: fixed;
   bottom: 90px;
   right: 18px;
+
   @media screen and (max-width: 990px) {
     bottom: 140px;
     right: 18px;
-}
+  }
 }
 
 .back-to-top-btn svg {
@@ -20795,7 +20796,7 @@ only screen and (min-width: 576px) and (max-width: 767px),
 
 .tp-product-details-msg ul li::after {
   position: absolute;
-  content: url("../img/product/icons/check-3.svg");
+  content: url("https://shofy.botble.com/themes/shofy/images/icons/check-3.svg");
   top: 4px;
   left: 0;
   width: 18px;

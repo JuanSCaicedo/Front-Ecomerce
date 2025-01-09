@@ -23,6 +23,7 @@ export class LandingProductComponent {
   filtered_images: any = []; // Lista de imágenes aleatorias
   variation_selected: any;
   PRODUCT_RELATEDS: any = [];
+  product_relateds_count: boolean = false;
   product_selected_modal: any;
 
   constructor(
@@ -47,6 +48,10 @@ export class LandingProductComponent {
       } else {
         this.PRODUCT_SELECTED = resp.product;
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
+        if(this.PRODUCT_RELATEDS.length > 0) {
+          this.product_relateds_count = true;
+          console.log(this.product_relateds_count);
+        }
       }
 
       if (typeof $ !== 'undefined') {
