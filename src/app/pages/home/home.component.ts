@@ -11,6 +11,10 @@ import { SliderProductsComponent } from './slider-products/slider-products.compo
 import { LastProductsComponent } from './last-products/last-products.component';
 import { DiscountFlashComponent } from './discount-flash/discount-flash.component';
 import { ModalProductoComponent } from './modal-producto/modal-producto.component';
+import { BlogComponent } from './blog/blog.component';
+import { IgImagesComponent } from './ig-images/ig-images.component';
+import { SubscribeComponent } from './subscribe/subscribe.component';
+import { FeatureComponent } from './feature/feature.component';
 
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
@@ -18,6 +22,8 @@ declare function CAMPAING_FLASH([]): any;
 declare function DATA_VALUES([]): any;
 declare function SLIDER_PRODUCT([]): any;
 declare function SLIDER_PRODUCT_ELECTRONIC([]): any;
+declare function BLOG([]): any;
+declare function IGIMAGEN([]): any;
 declare var $: any;
 
 @Component({
@@ -32,7 +38,11 @@ declare var $: any;
     SliderProductsComponent,
     LastProductsComponent,
     DiscountFlashComponent,
-    ModalProductoComponent],
+    ModalProductoComponent,
+    BlogComponent,
+    IgImagesComponent,
+    SubscribeComponent,
+    FeatureComponent],
 
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -88,6 +98,8 @@ export class HomeComponent {
         DATA_VALUES($);
         SLIDER_PRODUCT($);
         SLIDER_PRODUCT_ELECTRONIC($);
+        BLOG($);
+        IGIMAGEN($);
       }, 50);
     }
   }
