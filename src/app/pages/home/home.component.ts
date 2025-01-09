@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { afterNextRender, Component } from '@angular/core';
 import { HomeService } from './service/home.service';
 import { ToastrService } from 'ngx-toastr';
 import { SliderComponent } from './slider/slider.component';
@@ -73,13 +73,13 @@ export class HomeComponent {
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
 
-      setTimeout(() => {
-        if (typeof CARUSEL_PRODUCTS === 'function') {
+      if (typeof $ !== 'undefined') {
+        setTimeout(() => {
           CARUSEL_PRODUCTS($);
           SLIDER_PRINCIPAL($);
           CAMPAING_FLASH($);
-        }
-      }, 50);
+        }, 50);
+      }
 
     }, (error) => {
       console.log(error);

@@ -1,9 +1,6 @@
-import { Component, afterNextRender, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeService } from '../service/home.service';
-
-declare function SLIDER_PRINCIPAL([]): any;
-declare var $: any;
 
 @Component({
   selector: 'app-slider',
@@ -19,13 +16,7 @@ export class SliderComponent {
 
   constructor(
     public homeService: HomeService,
-  ) {
-    afterNextRender(() => {
-      setTimeout(() => {
-        SLIDER_PRINCIPAL($);
-      }, 50);
-    })
-  }
+  ) { }
 
   getLabelSlider(SLIDER: any) {
     if (typeof document !== 'undefined') {

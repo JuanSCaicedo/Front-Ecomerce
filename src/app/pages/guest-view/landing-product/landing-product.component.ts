@@ -49,10 +49,12 @@ export class LandingProductComponent {
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
       }
 
-      setTimeout(() => {
-        MODAL_PRODUCT_DETAIL($);
-        LADING_PRODUCT($);
-      }, 50);
+      if (typeof $ !== 'undefined') {
+        setTimeout(() => {
+          MODAL_PRODUCT_DETAIL($);
+          LADING_PRODUCT($);
+        }, 50);
+      }
 
     }, (err: any) => {
       console.log(err);
