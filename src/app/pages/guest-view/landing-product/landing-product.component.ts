@@ -56,16 +56,14 @@ export class LandingProductComponent {
         }, 50);
       }
 
+      if (this.PRODUCT_SELECTED?.images) {
+        this.filtered_images = this.getRandomImages(this.PRODUCT_SELECTED.images, 4);
+      }
+
     }, (err: any) => {
       console.log(err);
       this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
     });
-  }
-
-  ngOnInit() {
-    if (this.PRODUCT_SELECTED?.images) {
-      this.filtered_images = this.getRandomImages(this.PRODUCT_SELECTED.images, 4);
-    }
   }
 
   // Método para obtener N elementos aleatorios
