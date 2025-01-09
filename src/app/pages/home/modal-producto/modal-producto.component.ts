@@ -23,6 +23,10 @@ export class ModalProductoComponent {
     if (this.product_selected?.images) {
       this.filtered_images = this.getRandomImages(this.product_selected.images, 3);
     }
+
+    setTimeout(() => {
+      MODAL_PRODUCT_DETAIL($);
+    }, 50);
   }
 
   // Método para obtener N elementos aleatorios
