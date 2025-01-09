@@ -15,6 +15,9 @@ import { ModalProductoComponent } from './modal-producto/modal-producto.componen
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
 declare function CAMPAING_FLASH([]): any;
+declare function DATA_VALUES([]): any;
+declare function SLIDER_PRODUCT([]): any;
+declare function SLIDER_PRODUCT_ELECTRONIC([]): any;
 declare var $: any;
 
 @Component({
@@ -72,19 +75,21 @@ export class HomeComponent {
       this.LAST_PRODUCT_DISCOUNTS = resp.product_last_discounts.data;
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
-
-      if (typeof $ !== 'undefined') {
-        setTimeout(() => {
-          CARUSEL_PRODUCTS($);
-          SLIDER_PRINCIPAL($);
-          CAMPAING_FLASH($);
-        }, 50);
-      }
-
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
+
+    if (typeof $ !== 'undefined') {
+      setTimeout(() => {
+        CARUSEL_PRODUCTS($);
+        SLIDER_PRINCIPAL($);
+        CAMPAING_FLASH($);
+        DATA_VALUES($);
+        SLIDER_PRODUCT($);
+        SLIDER_PRODUCT_ELECTRONIC($);
+      }, 50);
+    }
   }
 
   handleProductSelect(product: any) {

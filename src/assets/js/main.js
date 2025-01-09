@@ -928,105 +928,107 @@ function HOMEINIT($) {
 	});
 
 	// Discount flash
-	var slider = new Swiper('.tp-product-offer-slider-active', {
-		slidesPerView: 4,
-		spaceBetween: 30,
-		loop: false,
-		rtl: rtl_setting,
-		pagination: {
-			el: ".tp-deals-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
-		breakpoints: {
-			'1200': {
-				slidesPerView: 3,
-			},
-			'992': {
-				slidesPerView: 2,
-			},
-			'768': {
-				slidesPerView: 2,
-			},
-			'576': {
-				slidesPerView: 1,
-			},
-			'0': {
-				slidesPerView: 1,
-			},
-		},
-	});
+	// var slider = new Swiper('.tp-product-offer-slider-active', {
+	// 	slidesPerView: 4,
+	// 	spaceBetween: 30,
+	// 	loop: false,
+	// 	rtl: rtl_setting,
+	// 	pagination: {
+	// 		el: ".tp-deals-slider-dot",
+	// 		clickable: true,
+	// 		renderBullet: function (index, className) {
+	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+	// 		},
+	// 	},
+	// 	breakpoints: {
+	// 		'1200': {
+	// 			slidesPerView: 3,
+	// 		},
+	// 		'992': {
+	// 			slidesPerView: 2,
+	// 		},
+	// 		'768': {
+	// 			slidesPerView: 2,
+	// 		},
+	// 		'576': {
+	// 			slidesPerView: 1,
+	// 		},
+	// 		'0': {
+	// 			slidesPerView: 1,
+	// 		},
+	// 	},
+	// });
 	//End Discount flash
 
 	//Carusel products
-	var slider = new Swiper('.tp-product-arrival-active', {
-		slidesPerView: 4,
-		spaceBetween: 30,
-		loop: false,
-		rtl: rtl_setting,
-		pagination: {
-			el: ".tp-arrival-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
-		// Navigation arrows
-		navigation: {
-			nextEl: ".tp-arrival-slider-button-next",
-			prevEl: ".tp-arrival-slider-button-prev",
-		},
-		breakpoints: {
-			'1200': {
-				slidesPerView: 4,
-			},
-			'992': {
-				slidesPerView: 3,
-			},
-			'768': {
-				slidesPerView: 2,
-			},
-			'576': {
-				slidesPerView: 2,
-			},
-			'0': {
-				slidesPerView: 1,
-			},
-		},
-	});
+	// var slider = new Swiper('.tp-product-arrival-active', {
+	// 	slidesPerView: 4,
+	// 	spaceBetween: 30,
+	// 	loop: false,
+	// 	rtl: rtl_setting,
+	// 	pagination: {
+	// 		el: ".tp-arrival-slider-dot",
+	// 		clickable: true,
+	// 		renderBullet: function (index, className) {
+	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+	// 		},
+	// 	},
+	// 	// Navigation arrows
+	// 	navigation: {
+	// 		nextEl: ".tp-arrival-slider-button-next",
+	// 		prevEl: ".tp-arrival-slider-button-prev",
+	// 	},
+	// 	breakpoints: {
+	// 		'1200': {
+	// 			slidesPerView: 4,
+	// 		},
+	// 		'992': {
+	// 			slidesPerView: 3,
+	// 		},
+	// 		'768': {
+	// 			slidesPerView: 2,
+	// 		},
+	// 		'576': {
+	// 			slidesPerView: 2,
+	// 		},
+	// 		'0': {
+	// 			slidesPerView: 1,
+	// 		},
+	// 	},
+	// });
 	//End Carusel products
 
-	var slider = new Swiper('.tp-product-banner-slider-active', {
-		slidesPerView: 1,
-		spaceBetween: 0,
-		loop: true,
-		effect: 'fade',
-		pagination: {
-			el: ".tp-product-banner-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
+	//Slider product
+	// var slider = new Swiper('.tp-product-banner-slider-active', {
+	// 	slidesPerView: 1,
+	// 	spaceBetween: 0,
+	// 	loop: true,
+	// 	effect: 'fade',
+	// 	pagination: {
+	// 		el: ".tp-product-banner-slider-dot",
+	// 		clickable: true,
+	// 		renderBullet: function (index, className) {
+	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+	// 		},
+	// 	},
 
-	});
+	// });
+	//End Slider product
 
-	var slider = new Swiper('.tp-product-gadget-banner-slider-active', {
-		slidesPerView: 1,
-		spaceBetween: 0,
-		loop: true,
-		effect: 'fade',
-		pagination: {
-			el: ".tp-product-gadget-banner-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
+	// var slider = new Swiper('.tp-product-gadget-banner-slider-active', {
+	// 	slidesPerView: 1,
+	// 	spaceBetween: 0,
+	// 	loop: true,
+	// 	effect: 'fade',
+	// 	pagination: {
+	// 		el: ".tp-product-gadget-banner-slider-dot",
+	// 		clickable: true,
+	// 		renderBullet: function (index, className) {
+	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+	// 		},
+	// 	},
 
-	});
+	// });
 
 	var slider = new Swiper('.tp-category-slider-active-2', {
 		slidesPerView: 5,
@@ -1110,50 +1112,50 @@ function HOMEINIT($) {
 	});
 
 	//Landing prodcut
-	var slider = new Swiper('.tp-product-related-slider-active', {
-		slidesPerView: 4,
-		spaceBetween: 24,
-		loop: false,
-		rtl: rtl_setting,
-		enteredSlides: false,
-		pagination: {
-			el: ".tp-related-slider-dot",
-			clickable: true,
-			renderBullet: function (index, className) {
-				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
-			},
-		},
-		// Navigation arrows
-		navigation: {
-			nextEl: ".tp-related-slider-button-next",
-			prevEl: ".tp-related-slider-button-prev",
-		},
+	// var slider = new Swiper('.tp-product-related-slider-active', {
+	// 	slidesPerView: 4,
+	// 	spaceBetween: 24,
+	// 	loop: false,
+	// 	rtl: rtl_setting,
+	// 	enteredSlides: false,
+	// 	pagination: {
+	// 		el: ".tp-related-slider-dot",
+	// 		clickable: true,
+	// 		renderBullet: function (index, className) {
+	// 			return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+	// 		},
+	// 	},
+	// 	// Navigation arrows
+	// 	navigation: {
+	// 		nextEl: ".tp-related-slider-button-next",
+	// 		prevEl: ".tp-related-slider-button-prev",
+	// 	},
 
-		scrollbar: {
-			el: '.tp-related-swiper-scrollbar',
-			draggable: true,
-			dragClass: 'tp-swiper-scrollbar-drag',
-			snapOnRelease: true,
-		},
+	// 	scrollbar: {
+	// 		el: '.tp-related-swiper-scrollbar',
+	// 		draggable: true,
+	// 		dragClass: 'tp-swiper-scrollbar-drag',
+	// 		snapOnRelease: true,
+	// 	},
 
-		breakpoints: {
-			'1200': {
-				slidesPerView: 4,
-			},
-			'992': {
-				slidesPerView: 3,
-			},
-			'768': {
-				slidesPerView: 2,
-			},
-			'576': {
-				slidesPerView: 2,
-			},
-			'0': {
-				slidesPerView: 1,
-			},
-		},
-	});
+	// 	breakpoints: {
+	// 		'1200': {
+	// 			slidesPerView: 4,
+	// 		},
+	// 		'992': {
+	// 			slidesPerView: 3,
+	// 		},
+	// 		'768': {
+	// 			slidesPerView: 2,
+	// 		},
+	// 		'576': {
+	// 			slidesPerView: 2,
+	// 		},
+	// 		'0': {
+	// 			slidesPerView: 1,
+	// 		},
+	// 	},
+	// });
 	//End Landing prodcut
 
 	var slider = new Swiper('.tp-testimoinal-slider-active-3', {
@@ -2257,4 +2259,50 @@ function CAMPAING_FLASH($) {
 			$("[data-countdown]").countdown();
 		}
 	}, 50)
+}
+
+function DATA_VALUES($) {
+	$("[data-background").each(function () {
+		$(this).css("background-image", "url( " + $(this).attr("data-background") + "  )");
+	});
+}
+
+function SLIDER_PRODUCT($) {
+	var tp_rtl = localStorage.getItem('tp_dir');
+	let rtl_setting = tp_rtl == 'rtl' ? true : false;
+
+	var slider = new Swiper('.tp-product-banner-slider-active', {
+		slidesPerView: 1,
+		spaceBetween: 0,
+		loop: true,
+		effect: 'fade',
+		pagination: {
+			el: ".tp-product-banner-slider-dot",
+			clickable: true,
+			renderBullet: function (index, className) {
+				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+			},
+		},
+
+	});
+}
+
+function SLIDER_PRODUCT_ELECTRONIC($) {
+	var tp_rtl = localStorage.getItem('tp_dir');
+	let rtl_setting = tp_rtl == 'rtl' ? true : false;
+
+	var slider = new Swiper('.tp-product-gadget-banner-slider-active', {
+		slidesPerView: 1,
+		spaceBetween: 0,
+		loop: true,
+		effect: 'fade',
+		pagination: {
+			el: ".tp-product-gadget-banner-slider-dot",
+			clickable: true,
+			renderBullet: function (index, className) {
+				return '<span class="' + className + '">' + '<button>' + (index + 1) + '</button>' + "</span>";
+			},
+		},
+
+	});
 }
