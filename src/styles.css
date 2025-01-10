@@ -247,3 +247,16 @@ button.toast-close-button {
         visibility: visible;
     }
 }
+
+/* Estilo del contenedor principal */
+.tp-preloader-container {
+    display: flex;
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
+    height: 30vh;
+    /* Asegura que ocupe toda la altura de la pantalla */
+    margin: 0;
+    /* Elimina márgenes extra */
+}

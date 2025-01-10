@@ -1,3 +1,4 @@
+@defer (on viewport){
 <section class="tp-product-category pt-60 pb-15">
     <div class="container">
         <div class="row row-cols-xl-5 row-cols-lg-5 row-cols-md-4">
@@ -6,7 +7,8 @@
                 <div class="tp-product-category-item text-center mb-40">
                     <div class="tp-product-category-thumb fix">
                         <a href="#" onclick="return false;">
-                            <img [src]="CATEGORIES_RANDOM.imagen" style="width: 80px; height: 100px; object-fit: contain;" alt="product-category">
+                            <img [src]="CATEGORIES_RANDOM.imagen"
+                                style="width: 80px; height: 100px; object-fit: contain;" alt="product-category">
                         </a>
                     </div>
                     <div class="tp-product-category-content">
@@ -21,3 +23,17 @@
         </div>
     </div>
 </section>
+} @placeholder (minimum 1000ms) {
+<!-- pre loader area start -->
+<div class="tp-preloader-container">
+    <div class="tp-preloader-logo">
+        <div class="tp-preloader-circle">
+            <svg width="190" height="190" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle stroke="#D9D9D9" cx="190" cy="190" r="180" stroke-width="6" stroke-linecap="round"></circle>
+                <circle stroke="red" cx="190" cy="190" r="180" stroke-width="6" stroke-linecap="round"></circle>
+            </svg>
+        </div>
+    </div>
+</div>
+<!-- pre loader area end -->
+}
