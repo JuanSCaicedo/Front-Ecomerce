@@ -32,13 +32,15 @@ export class LandingProductComponent {
     private toastr: ToastrService,
     private router: Router,
   ) {
-    this.activatedRoute.params.subscribe((resp: any) => {
-      this.PRODUCT_SLUG = resp.slug;
-    }, (err: any) => {
-      console.log(err);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
+    // Escuchar cambios en los parámetros de la ruta
+    this.activatedRoute.params.subscribe((params: any) => {
+      this.PRODUCT_SLUG = params.slug; // Actualiza el slug
+      this.loadProductDetails(); // Llama a la función para cargar los datos del producto
     });
+  }
 
+  // Función para cargar los detalles del producto
+  loadProductDetails() {
     this.homeService.showProduct(this.PRODUCT_SLUG).subscribe((resp: any) => {
       console.log(resp);
 
@@ -48,9 +50,7 @@ export class LandingProductComponent {
       } else {
         this.PRODUCT_SELECTED = resp.product;
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
-        if(this.PRODUCT_RELATEDS.length > 0) {
-          this.product_relateds_count = true;
-        }
+        this.product_relateds_count = this.PRODUCT_RELATEDS.length > 0;
       }
 
       if (typeof $ !== 'undefined') {
