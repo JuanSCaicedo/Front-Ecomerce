@@ -62,7 +62,7 @@ export class LandingProductComponent {
       }
 
       if (this.PRODUCT_SELECTED?.images) {
-        this.filtered_images = this.getRandomImages(this.PRODUCT_SELECTED.images, 4);
+        this.filtered_images = this.getRandomImages(this.PRODUCT_SELECTED.images, 5);
       }
 
     }, (err: any) => {
