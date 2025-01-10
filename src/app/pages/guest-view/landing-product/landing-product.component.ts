@@ -50,7 +50,6 @@ export class LandingProductComponent {
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
         if(this.PRODUCT_RELATEDS.length > 0) {
           this.product_relateds_count = true;
-          console.log(this.product_relateds_count);
         }
       }
 
