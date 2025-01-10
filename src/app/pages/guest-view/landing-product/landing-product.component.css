@@ -24,3 +24,12 @@
         justify-content: space-evenly;
     }
 }
+
+.tp-product-details-desc-wrapper {
+    word-wrap: break-word;
+    /* Rompe las palabras largas */
+    word-break: break-word;
+    /* Compatible con navegadores más antiguos */
+    overflow-x: hidden;
+    /* Evita el desbordamiento horizontal */
+}
