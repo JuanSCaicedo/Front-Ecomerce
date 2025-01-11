@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function LANDING_PRODUCT([]): any;
@@ -27,11 +28,14 @@ export class LandingProductComponent {
   product_relateds_count: boolean = false;
   product_selected_modal: any;
 
+  sanitizedDescription!: SafeHtml;
+
   constructor(
     public homeService: HomeService,
     public activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
+    private sanitizer: DomSanitizer
   ) {
     // Escuchar cambios en los parámetros de la ruta
     this.activatedRoute.params.subscribe((params: any) => {
@@ -50,6 +54,12 @@ export class LandingProductComponent {
         this.toastr.error("Validación", resp.message_text);
       } else {
         this.PRODUCT_SELECTED = resp.product;
+
+        // Sanitizar la descripción después de cargar los datos
+        this.sanitizedDescription = this.sanitizer.bypassSecurityTrustHtml(
+          this.PRODUCT_SELECTED.description
+        );
+
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
         this.product_relateds_count = this.PRODUCT_RELATEDS.length > 0;
       }
