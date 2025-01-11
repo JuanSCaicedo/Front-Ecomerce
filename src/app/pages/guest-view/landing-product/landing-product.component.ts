@@ -66,6 +66,11 @@ export class LandingProductComponent {
 
       // Restablece las clases activas al cargar un nuevo producto
       this.resetActiveClasses();
+
+      // Realiza scroll hacia la parte superior de la página
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }, 0);
     }, (err: any) => {
       console.log(err);
       this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
