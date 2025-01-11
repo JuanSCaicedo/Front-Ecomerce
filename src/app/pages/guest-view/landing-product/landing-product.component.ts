@@ -69,7 +69,9 @@ export class LandingProductComponent {
 
       // Realiza scroll hacia la parte superior de la página
       setTimeout(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+        if (typeof window !== 'undefined') {
+          window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+        }
       }, 0);
     }, (err: any) => {
       console.log(err);
@@ -121,29 +123,31 @@ export class LandingProductComponent {
 
   // Nueva función para resetear las clases activas
   resetActiveClasses() {
-    setTimeout(() => {
-      // Busca los elementos con las clases activas y las remueve
-      const activeNavLinks = document.querySelectorAll('.nav-link.active');
-      activeNavLinks.forEach((element) => {
-        element.classList.remove('active');
-        element.setAttribute('aria-selected', 'false');
-      });
+    if (typeof document !== 'undefined') { // Verifica si 'document' está disponible
+      setTimeout(() => {
+        // Busca los elementos con las clases activas y las remueve
+        const activeNavLinks = document.querySelectorAll('.nav-link.active');
+        activeNavLinks.forEach((element) => {
+          element.classList.remove('active');
+          element.setAttribute('aria-selected', 'false');
+        });
 
-      const activeTabPanes = document.querySelectorAll('.tab-pane.show.active');
-      activeTabPanes.forEach((element) => {
-        element.classList.remove('show', 'active');
-      });
+        const activeTabPanes = document.querySelectorAll('.tab-pane.show.active');
+        activeTabPanes.forEach((element) => {
+          element.classList.remove('show', 'active');
+        });
 
-      // Activa los elementos por defecto (el primer botón y el primer panel)
-      const firstNavLink = document.querySelector('.nav-link');
-      const firstTabPane = document.querySelector('.tab-pane');
-      if (firstNavLink) {
-        firstNavLink.classList.add('active');
-        firstNavLink.setAttribute('aria-selected', 'true');
-      }
-      if (firstTabPane) {
-        firstTabPane.classList.add('show', 'active');
-      }
-    }, 50); // Da un pequeño tiempo para asegurarse de que el DOM esté cargado
+        // Activa los elementos por defecto (el primer botón y el primer panel)
+        const firstNavLink = document.querySelector('.nav-link');
+        const firstTabPane = document.querySelector('.tab-pane');
+        if (firstNavLink) {
+          firstNavLink.classList.add('active');
+          firstNavLink.setAttribute('aria-selected', 'true');
+        }
+        if (firstTabPane) {
+          firstTabPane.classList.add('show', 'active');
+        }
+      }, 50); // Da un pequeño tiempo para asegurarse de que el DOM esté cargado
+    }
   }
 }
