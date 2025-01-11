@@ -7,6 +7,7 @@ import { ModalProductoComponent } from '../../home/modal-producto/modal-producto
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function LANDING_PRODUCT([]): any;
+declare function LINEA([]): any;
 declare var $: any;
 
 @Component({
@@ -123,7 +124,7 @@ export class LandingProductComponent {
 
   // Nueva función para resetear las clases activas
   resetActiveClasses() {
-    if (typeof document !== 'undefined') { // Verifica si 'document' está disponible
+    if (typeof document !== 'undefined') {
       setTimeout(() => {
         // Busca los elementos con las clases activas y las remueve
         const activeNavLinks = document.querySelectorAll('.nav-link.active');
@@ -140,13 +141,30 @@ export class LandingProductComponent {
         // Activa los elementos por defecto (el primer botón y el primer panel)
         const firstNavLink = document.querySelector('.nav-link');
         const firstTabPane = document.querySelector('.tab-pane');
+        const opcSelect = document.querySelector('.opc-select');
+        const InfSelect = document.querySelector('.inf-select');
+
         if (firstNavLink) {
           firstNavLink.classList.add('active');
           firstNavLink.setAttribute('aria-selected', 'true');
         }
+
         if (firstTabPane) {
           firstTabPane.classList.add('show', 'active');
         }
+
+        if (opcSelect) {
+          opcSelect.classList.add('show', 'active');
+        }
+
+        if (InfSelect) {
+          InfSelect.classList.add('show', 'active');
+        }
+
+        // Llamada a tp_tab_line_2 para actualizar la posición del marcador
+        setTimeout(() => {
+          LINEA($);
+        }, 50);
       }, 50); // Da un pequeño tiempo para asegurarse de que el DOM esté cargado
     }
   }

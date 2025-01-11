@@ -1896,71 +1896,71 @@ function HOMEINIT($) {
 	}
 
 
-	if ($('#productTabMarker').length > 0) {
-		function tp_tab_line_2() {
-			var marker = document.querySelector('#productTabMarker');
-			var item = document.querySelectorAll('.tp-product-tab button');
-			var itemActive = document.querySelector('.tp-product-tab .nav-link.active');
+	// if ($('#productTabMarker').length > 0) {
+	// 	function tp_tab_line_2() {
+	// 		var marker = document.querySelector('#productTabMarker');
+	// 		var item = document.querySelectorAll('.tp-product-tab button');
+	// 		var itemActive = document.querySelector('.tp-product-tab .nav-link.active');
 
-			// rtl settings
-			var tp_rtl = localStorage.getItem('tp_dir');
-			let rtl_setting = tp_rtl == 'rtl' ? 'right' : 'left';
+	// 		// rtl settings
+	// 		var tp_rtl = localStorage.getItem('tp_dir');
+	// 		let rtl_setting = tp_rtl == 'rtl' ? 'right' : 'left';
 
-			function indicator(e) {
-				marker.style.left = e.offsetLeft + "px";
-				marker.style.width = e.offsetWidth + "px";
-			}
-
-
-			item.forEach(link => {
-				link.addEventListener('click', (e) => {
-					indicator(e.target);
-				});
-			});
-
-			var activeNav = $('.nav-link.active');
-			var activewidth = $(activeNav).width();
-			var activePadLeft = parseFloat($(activeNav).css('padding-left'));
-			var activePadRight = parseFloat($(activeNav).css('padding-right'));
-			var totalWidth = activewidth + activePadLeft + activePadRight;
-
-			var precedingAnchorWidth = anchorWidthCounter();
+	// 		function indicator(e) {
+	// 			marker.style.left = e.offsetLeft + "px";
+	// 			marker.style.width = e.offsetWidth + "px";
+	// 		}
 
 
-			$(marker).css('display', 'block');
+	// 		item.forEach(link => {
+	// 			link.addEventListener('click', (e) => {
+	// 				indicator(e.target);
+	// 			});
+	// 		});
 
-			$(marker).css('width', totalWidth);
+	// 		var activeNav = $('.nav-link.active');
+	// 		var activewidth = $(activeNav).width();
+	// 		var activePadLeft = parseFloat($(activeNav).css('padding-left'));
+	// 		var activePadRight = parseFloat($(activeNav).css('padding-right'));
+	// 		var totalWidth = activewidth + activePadLeft + activePadRight;
 
-			function anchorWidthCounter() {
-				var anchorWidths = 0;
-				var a;
-				var aWidth;
-				var aPadLeft;
-				var aPadRight;
-				var aTotalWidth;
-				$('.tp-product-tab button').each(function (index, elem) {
-					var activeTest = $(elem).hasClass('active');
-					marker.style.left = elem.offsetLeft + "px";
-					if (activeTest) {
-						// Break out of the each function.
-						return false;
-					}
+	// 		var precedingAnchorWidth = anchorWidthCounter();
 
-					a = $(elem).find('button');
-					aWidth = a.width();
-					aPadLeft = parseFloat(a.css('padding-left'));
-					aPadRight = parseFloat(a.css('padding-right'));
-					aTotalWidth = aWidth + aPadLeft + aPadRight;
 
-					anchorWidths = anchorWidths + aTotalWidth;
+	// 		$(marker).css('display', 'block');
 
-				});
+	// 		$(marker).css('width', totalWidth);
 
-				return anchorWidths;
-			}
-		}
-		tp_tab_line_2();
-	}
+	// 		function anchorWidthCounter() {
+	// 			var anchorWidths = 0;
+	// 			var a;
+	// 			var aWidth;
+	// 			var aPadLeft;
+	// 			var aPadRight;
+	// 			var aTotalWidth;
+	// 			$('.tp-product-tab button').each(function (index, elem) {
+	// 				var activeTest = $(elem).hasClass('active');
+	// 				marker.style.left = elem.offsetLeft + "px";
+	// 				if (activeTest) {
+	// 					// Break out of the each function.
+	// 					return false;
+	// 				}
+
+	// 				a = $(elem).find('button');
+	// 				aWidth = a.width();
+	// 				aPadLeft = parseFloat(a.css('padding-left'));
+	// 				aPadRight = parseFloat(a.css('padding-right'));
+	// 				aTotalWidth = aWidth + aPadLeft + aPadRight;
+
+	// 				anchorWidths = anchorWidths + aTotalWidth;
+
+	// 			});
+
+	// 			return anchorWidths;
+	// 		}
+	// 	}
+	// 	tp_tab_line_2();
+	// }
 
 	////////////////////////////////////////////////////
 	// 20. Video Play Js
@@ -2361,4 +2361,75 @@ function IGIMAGEN($) {
 			enabled: true
 		}
 	});
+}
+
+function LINEA($){
+	var tp_rtl = localStorage.getItem('tp_dir');
+	let rtl_setting = tp_rtl == 'rtl' ? true : false;
+
+	if ($('#productTabMarker').length > 0) {
+		function tp_tab_line_2() {
+			var marker = document.querySelector('#productTabMarker');
+			var item = document.querySelectorAll('.tp-product-tab button');
+			var itemActive = document.querySelector('.tp-product-tab .nav-link.active');
+
+			// rtl settings
+			var tp_rtl = localStorage.getItem('tp_dir');
+			let rtl_setting = tp_rtl == 'rtl' ? 'right' : 'left';
+
+			function indicator(e) {
+				marker.style.left = e.offsetLeft + "px";
+				marker.style.width = e.offsetWidth + "px";
+			}
+
+
+			item.forEach(link => {
+				link.addEventListener('click', (e) => {
+					indicator(e.target);
+				});
+			});
+
+			var activeNav = $('.nav-link.active');
+			var activewidth = $(activeNav).width();
+			var activePadLeft = parseFloat($(activeNav).css('padding-left'));
+			var activePadRight = parseFloat($(activeNav).css('padding-right'));
+			var totalWidth = activewidth + activePadLeft + activePadRight;
+
+			var precedingAnchorWidth = anchorWidthCounter();
+
+
+			$(marker).css('display', 'block');
+
+			$(marker).css('width', totalWidth);
+
+			function anchorWidthCounter() {
+				var anchorWidths = 0;
+				var a;
+				var aWidth;
+				var aPadLeft;
+				var aPadRight;
+				var aTotalWidth;
+				$('.tp-product-tab button').each(function (index, elem) {
+					var activeTest = $(elem).hasClass('active');
+					marker.style.left = elem.offsetLeft + "px";
+					if (activeTest) {
+						// Break out of the each function.
+						return false;
+					}
+
+					a = $(elem).find('button');
+					aWidth = a.width();
+					aPadLeft = parseFloat(a.css('padding-left'));
+					aPadRight = parseFloat(a.css('padding-right'));
+					aTotalWidth = aWidth + aPadLeft + aPadRight;
+
+					anchorWidths = anchorWidths + aTotalWidth;
+
+				});
+
+				return anchorWidths;
+			}
+		}
+		tp_tab_line_2();
+	}
 }
