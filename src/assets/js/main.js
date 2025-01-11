@@ -334,6 +334,17 @@ function HOMEINIT($) {
 	// 11. Theme Settings Js
 
 	// settings append in body
+
+	// Harrry theme settings
+	// <!--  RTL SETTINGS -->
+	// <div class="tp-theme-dir mb-20">
+	//    <label class="tp-theme-dir-main" for="tp-dir-toggler">
+	// 	  <span class="tp-theme-dir-rtl"> RTL</span>
+	// 		 <input type="checkbox" id="tp-dir-toggler">
+	// 		 <i class="tp-theme-dir-slide"></i>
+	// 	  <span class="tp-theme-dir-ltr active"> LTR</span>
+	//    </label>
+	// </div>
 	function tp_settings_append($x) {
 		var settings = $('body');
 		let dark;
@@ -351,16 +362,6 @@ function HOMEINIT($) {
 					<input type="checkbox" id="tp-theme-toggler">
 					<i class="tp-theme-toggle-slide"></i>
 				 <span class="tp-theme-toggle-light active"><i class="fa-light fa-sun-bright"></i> Light</span>
-			  </label>
-		   </div>
-
-		   <!--  RTL SETTINGS -->
-		   <div class="tp-theme-dir mb-20">
-			  <label class="tp-theme-dir-main" for="tp-dir-toggler">
-				 <span class="tp-theme-dir-rtl"> RTL</span>
-					<input type="checkbox" id="tp-dir-toggler">
-					<i class="tp-theme-dir-slide"></i>
-				 <span class="tp-theme-dir-ltr active"> LTR</span>
 			  </label>
 		   </div>
 
@@ -430,6 +431,48 @@ function HOMEINIT($) {
 		</div>
 	 </div>`;
 		settings.append(settings_html);
+
+		// Funcionalidad de arrastre
+		let isDragging = false;
+		let startX, startY, initialLeft, initialTop;
+
+		$(".draggable").on("mousedown", function (e) {
+			isDragging = true;
+			startX = e.clientX;
+			startY = e.clientY;
+
+			// Obtén las posiciones iniciales
+			initialLeft = parseInt($(this).css("left"), 10) || 0;
+			initialTop = parseInt($(this).css("top"), 10) || 0;
+
+			// Cambiar el cursor a modo de arrastre
+			$(this).css("cursor", "grabbing");
+
+			// Prevenir el texto o contenido seleccionable
+			e.preventDefault();
+		});
+
+		$(document).on("mousemove", function (e) {
+			if (isDragging) {
+				let currentX = e.clientX;
+				let currentY = e.clientY;
+
+				let deltaX = currentX - startX;
+				let deltaY = currentY - startY;
+
+				$(".draggable").css({
+					left: initialLeft + deltaX + "px",
+					top: initialTop + deltaY + "px",
+				});
+			}
+		});
+
+		$(document).on("mouseup", function () {
+			if (isDragging) {
+				isDragging = false;
+				$(".draggable").css("cursor", "grab");
+			}
+		});
 	}
 	tp_settings_append(false); // if want to enable dark light mode then send "true";
 
@@ -437,6 +480,8 @@ function HOMEINIT($) {
 	$(".tp-theme-settings-open-btn").on("click", function () {
 		$(".tp-theme-settings-area").toggleClass("settings-opened");
 	});
+
+	//End Theme Settings Js
 
 	// rtl settings
 	function tp_rtl_settings() {
@@ -2363,7 +2408,7 @@ function IGIMAGEN($) {
 	});
 }
 
-function LINEA($){
+function LINEA($) {
 	var tp_rtl = localStorage.getItem('tp_dir');
 	let rtl_setting = tp_rtl == 'rtl' ? true : false;
 
