@@ -64,6 +64,8 @@ export class LandingProductComponent {
         this.filtered_images = this.getRandomImages(this.PRODUCT_SELECTED.images, 5);
       }
 
+      // Restablece las clases activas al cargar un nuevo producto
+      this.resetActiveClasses();
     }, (err: any) => {
       console.log(err);
       this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
@@ -110,5 +112,33 @@ export class LandingProductComponent {
       // Emitimos el producto seleccionado
       this.product_selected_modal = PRODUCT;
     }, 50);
+  }
+
+  // Nueva función para resetear las clases activas
+  resetActiveClasses() {
+    setTimeout(() => {
+      // Busca los elementos con las clases activas y las remueve
+      const activeNavLinks = document.querySelectorAll('.nav-link.active');
+      activeNavLinks.forEach((element) => {
+        element.classList.remove('active');
+        element.setAttribute('aria-selected', 'false');
+      });
+
+      const activeTabPanes = document.querySelectorAll('.tab-pane.show.active');
+      activeTabPanes.forEach((element) => {
+        element.classList.remove('show', 'active');
+      });
+
+      // Activa los elementos por defecto (el primer botón y el primer panel)
+      const firstNavLink = document.querySelector('.nav-link');
+      const firstTabPane = document.querySelector('.tab-pane');
+      if (firstNavLink) {
+        firstNavLink.classList.add('active');
+        firstNavLink.setAttribute('aria-selected', 'true');
+      }
+      if (firstTabPane) {
+        firstTabPane.classList.add('show', 'active');
+      }
+    }, 50); // Da un pequeño tiempo para asegurarse de que el DOM esté cargado
   }
 }
