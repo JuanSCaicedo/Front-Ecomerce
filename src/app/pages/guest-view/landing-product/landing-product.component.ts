@@ -27,6 +27,9 @@ export class LandingProductComponent {
   PRODUCT_RELATEDS: any = [];
   product_relateds_count: boolean = false;
   product_selected_modal: any;
+  CAMPAING_CODE: any;
+  DISCOUNT_CAMPAING: any;
+  param: boolean = false;
 
   sanitizedDescription!: SafeHtml;
 
@@ -37,17 +40,33 @@ export class LandingProductComponent {
     private router: Router,
     private sanitizer: DomSanitizer
   ) {
+    this.params(); // Llama a la función para obtener los parámetros de la URL
+
+    this.queryParams(); // Llama a la función para obtener los parámetros de la URL
+
+    if (this.CAMPAING_CODE) {
+      this.loadProductDetails(); // Llama a la función para cargar los datos del producto
+    }
+  }
+
+  queryParams() {
+    this.activatedRoute.queryParams.subscribe((resp: any) => {
+      this.CAMPAING_CODE = resp.campaing_discount; // Actualiza CAMPAING_CODE
+    });
+  }
+
+  params() {
     // Escuchar cambios en los parámetros de la ruta
-    this.activatedRoute.params.subscribe((params: any) => {
-      this.PRODUCT_SLUG = params.slug; // Actualiza el slug
+    this.activatedRoute.params.subscribe((resp: any) => {
+      this.PRODUCT_SLUG = resp.slug; // Actualiza el slug
       this.loadProductDetails(); // Llama a la función para cargar los datos del producto
     });
   }
 
   // Función para cargar los detalles del producto
   loadProductDetails() {
-    this.homeService.showProduct(this.PRODUCT_SLUG).subscribe((resp: any) => {
-      console.log(resp);
+    this.homeService.showProduct(this.PRODUCT_SLUG, this.CAMPAING_CODE).subscribe((resp: any) => {
+      // console.log(resp);
 
       if (resp.message == 403) {
         this.router.navigateByUrl("/error/404");
@@ -62,6 +81,11 @@ export class LandingProductComponent {
 
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
         this.product_relateds_count = this.PRODUCT_RELATEDS.length > 0;
+        this.DISCOUNT_CAMPAING = resp.discount_campaing;
+
+        if (this.DISCOUNT_CAMPAING) {
+          this.PRODUCT_SELECTED.discount_g = this.DISCOUNT_CAMPAING;
+        }
       }
 
       if (typeof $ !== 'undefined') {
