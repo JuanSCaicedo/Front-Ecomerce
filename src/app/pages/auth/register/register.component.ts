@@ -41,6 +41,13 @@ export class RegisterComponent {
 
   ngOnInit(): void {
     this.isLoading$ = this.authService.isLoading$;
+
+    // Realiza scroll hacia la parte superior de la página
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }
+    }, 0);
   }
 
   register() {

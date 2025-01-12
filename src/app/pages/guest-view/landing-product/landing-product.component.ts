@@ -30,6 +30,7 @@ export class LandingProductComponent {
   CAMPAING_CODE: any;
   DISCOUNT_CAMPAING: any;
   param: boolean = false;
+  EXIST_CAMPAING: boolean = false;
 
   sanitizedDescription!: SafeHtml;
 
@@ -40,13 +41,8 @@ export class LandingProductComponent {
     private router: Router,
     private sanitizer: DomSanitizer
   ) {
-    this.params(); // Llama a la función para obtener los parámetros de la URL
-
     this.queryParams(); // Llama a la función para obtener los parámetros de la URL
-
-    if (this.CAMPAING_CODE) {
-      this.loadProductDetails(); // Llama a la función para cargar los datos del producto
-    }
+    this.params(); // Llama a la función para obtener los parámetros de la URL
   }
 
   queryParams() {
@@ -66,11 +62,17 @@ export class LandingProductComponent {
   // Función para cargar los detalles del producto
   loadProductDetails() {
     this.homeService.showProduct(this.PRODUCT_SLUG, this.CAMPAING_CODE).subscribe((resp: any) => {
-      // console.log(resp);
+      console.log(resp);
 
       if (resp.message == 403) {
         this.router.navigateByUrl("/error/404");
-        this.toastr.error("Validación", resp.message_text);
+        this.toastr.error("Validación", resp.message_text, {
+          closeButton: true,    // Muestra un botón para cerrar
+          progressBar: true,    // Muestra una barra de progreso
+          tapToDismiss: true    // Permite cerrar al hacer clic
+        });
+
+        this.cerrarAlerta();
       } else {
         this.PRODUCT_SELECTED = resp.product;
 
@@ -83,6 +85,18 @@ export class LandingProductComponent {
         this.product_relateds_count = this.PRODUCT_RELATEDS.length > 0;
         this.DISCOUNT_CAMPAING = resp.discount_campaing;
 
+        // Agregar validación para DISCOUNT_CAMPAING
+        if (this.CAMPAING_CODE && !this.DISCOUNT_CAMPAING) {
+          this.toastr.warning('La campaña no es válida para este producto', 'Aviso', {
+            closeButton: true,    // Muestra un botón para cerrar
+            progressBar: true,    // Muestra una barra de progreso
+            tapToDismiss: true    // Permite cerrar al hacer clic
+          });
+
+          this.cerrarAlerta();
+        }
+
+        // Agregar validación para DISCOUNT_CAMPAING
         if (this.DISCOUNT_CAMPAING) {
           this.PRODUCT_SELECTED.discount_g = this.DISCOUNT_CAMPAING;
         }
@@ -200,6 +214,24 @@ export class LandingProductComponent {
           LINEA($);
         }, 50);
       }, 50); // Da un pequeño tiempo para asegurarse de que el DOM esté cargado
+    }
+  }
+
+  cerrarAlerta() {
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+      const toastElement = document.querySelector('.toast-container') as HTMLElement;
+      if (toastElement) {
+        toastElement.style.display = 'none';
+      }
+    }, 3000);
+
+    // Agregar evento click para ocultar
+    const toastElement = document.querySelector('.toast-container') as HTMLElement;
+    if (toastElement) {
+      toastElement.addEventListener('click', () => {
+        toastElement.style.display = 'none';
+      });
     }
   }
 }

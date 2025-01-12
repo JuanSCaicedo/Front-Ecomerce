@@ -30,6 +30,40 @@ export class ForgotPasswordComponent {
     public toastr: ToastrService
   ) { }
 
+  ngOnInit() {
+
+    this.isLoading$ = this.authService.isLoading$;
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const storedData = localStorage.getItem('isLoadingMail');
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        const currentTime = new Date().getTime();
+        const expirationTime = 60 * 60 * 1000; // 60 minutos en milisegundos
+        // const expirationTime = 3 * 60 * 60 * 1000; // 3 horas en milisegundos
+
+        if (currentTime - parsedData.timestamp < expirationTime) {
+          this.isLoadingMail = parseInt(parsedData.value);
+        } else {
+          localStorage.removeItem('isLoadingMail');
+          localStorage.removeItem('isLoadingCode');
+          this.isLoadingMail = null;
+          this.isLoadingCode = null;
+        }
+      } else {
+        this.isLoadingMail = null;
+        this.isLoadingCode = null;
+      }
+    }
+
+    // Realiza scroll hacia la parte superior de la página
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }
+    }, 0);
+  }
+
   verifiedMail() {
     if (!this.email) {
       this.toastr.error("Validación", "Ingrese su cuenta de correo");
@@ -61,32 +95,6 @@ export class ForgotPasswordComponent {
     })
   }
 
-  ngOnInit() {
-
-    this.isLoading$ = this.authService.isLoading$;
-
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const storedData = localStorage.getItem('isLoadingMail');
-      if (storedData) {
-        const parsedData = JSON.parse(storedData);
-        const currentTime = new Date().getTime();
-        const expirationTime = 60 * 60 * 1000; // 60 minutos en milisegundos
-        // const expirationTime = 3 * 60 * 60 * 1000; // 3 horas en milisegundos
-
-        if (currentTime - parsedData.timestamp < expirationTime) {
-          this.isLoadingMail = parseInt(parsedData.value);
-        } else {
-          localStorage.removeItem('isLoadingMail');
-          localStorage.removeItem('isLoadingCode');
-          this.isLoadingMail = null;
-          this.isLoadingCode = null;
-        }
-      } else {
-        this.isLoadingMail = null;
-        this.isLoadingCode = null;
-      }
-    }
-  }
 
   LoadingCode($event: any) {
     this.isLoadingCode = $event;

@@ -1,12 +1,20 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-not-found',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './not-found.component.html',
   styleUrl: './not-found.component.css'
 })
 export class NotFoundComponent {
-
+  ngOnInit() {
+    // Realiza scroll hacia la parte superior de la página
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }
+    }, 0);
+  }
 }
