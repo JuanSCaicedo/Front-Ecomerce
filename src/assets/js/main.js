@@ -2077,15 +2077,13 @@ function HOMEINIT($) {
 // (jQuery)
 
 function password_show_toggle() {
-
 	if ($('#password-show-toggle').length > 0) {
 		var btn = document.getElementById('password-show-toggle');
 
 		btn.addEventListener('click', function (e) {
-
 			var inputType = document.getElementById('tp_password');
-			var openEye = document.getElementById('open-eye');
-			var closeEye = document.getElementById('close-eye');
+			var openEye = document.getElementById('open-eye1');
+			var closeEye = document.getElementById('close-eye1');
 
 			if (inputType.type === "password") {
 				inputType.type = "text";
@@ -2101,15 +2099,13 @@ function password_show_toggle() {
 }
 
 function password_show_toggle2() {
-
 	if ($('#password-show-toggle2').length > 0) {
 		var btn = document.getElementById('password-show-toggle2');
 
 		btn.addEventListener('click', function (e) {
-
 			var inputType = document.getElementById('tp_password2');
-			var openEye = document.getElementById('open-eye');
-			var closeEye = document.getElementById('close-eye');
+			var openEye = document.getElementById('open-eye2');
+			var closeEye = document.getElementById('close-eye2');
 
 			if (inputType.type === "password") {
 				inputType.type = "text";
