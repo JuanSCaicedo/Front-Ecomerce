@@ -6,12 +6,13 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 
 import { provideToastr } from 'ngx-toastr';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { provideClientHydration } from '@angular/platform-browser';
+import { provideClientHydration, withNoHttpTransferCache } from '@angular/platform-browser';
+
+import { CookieService } from 'ngx-cookie-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
-    provideAnimations(), // required animations providers
-    provideToastr(), // Toastr providers
-    provideHttpClient(withFetch()), provideClientHydration()
-  ]
+  provideAnimations(), // required animations providers
+  provideToastr(), // Toastr providers
+  provideHttpClient(withFetch())] //Se quito el provideClientHydration(withNoHttpTransferCache()), CookieService, Esto para eliminar SSR.
 };
