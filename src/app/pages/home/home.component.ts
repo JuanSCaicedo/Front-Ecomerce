@@ -68,7 +68,20 @@ export class HomeComponent {
   constructor(
     public homeService: HomeService,
     private toastr: ToastrService,
-  ) {
+  ) { 
+    this.dataHome();
+  }
+
+  ngOnInit() {
+    // Realiza scroll hacia la parte superior de la página
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }
+    }, 0);
+  }
+
+  dataHome() {
     this.homeService.home().subscribe((resp: any) => {
       console.log(resp);
       this.SLIDERS = resp.sliders_principal;
@@ -86,34 +99,29 @@ export class HomeComponent {
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
 
-      if (typeof $ !== 'undefined') {
-        setTimeout(() => {
-          CARUSEL_PRODUCTS($);
-          SLIDER_PRINCIPAL($);
-          CAMPAING_FLASH($);
-          DATA_VALUES($);
-          SLIDER_PRODUCT($);
-          SLIDER_PRODUCT_ELECTRONIC($);
-          BLOG($);
-          IGIMAGEN($);
-        }, 50);
-      }
+      this.callPlugin();
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 
-  ngOnInit() {
-    // Realiza scroll hacia la parte superior de la página
-    setTimeout(() => {
-      if (typeof window !== 'undefined') {
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
-      }
-    }, 0);
-  }
-
   handleProductSelect(product: any) {
     this.product_selected = product;
+  }
+
+  callPlugin() {
+    if (typeof $ !== 'undefined') {
+      setTimeout(() => {
+        CARUSEL_PRODUCTS($);
+        SLIDER_PRINCIPAL($);
+        CAMPAING_FLASH($);
+        DATA_VALUES($);
+        SLIDER_PRODUCT($);
+        SLIDER_PRODUCT_ELECTRONIC($);
+        BLOG($);
+        IGIMAGEN($);
+      }, 50);
+    }
   }
 }

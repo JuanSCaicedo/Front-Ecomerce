@@ -12,6 +12,7 @@ export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
     provideAnimations(), // required animations providers
     provideToastr(), // Toastr providers
-    provideHttpClient(withFetch()), provideClientHydration()
+    provideHttpClient(withFetch()), 
+    // provideClientHydration() //SSR
   ]
 };
