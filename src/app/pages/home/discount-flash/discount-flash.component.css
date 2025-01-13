@@ -1,0 +1,7 @@
+/* Centrar las imágenes de la galería de productos */
+@media (min-width: 768px) {
+    .swiper-wrapper {
+        display: flex;
+        justify-content: space-evenly;
+    }
+}

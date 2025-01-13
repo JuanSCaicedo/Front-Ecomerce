@@ -1,3 +1,4 @@
+/* Ver botones de compra en la vista de productos */
 @media (max-width: 768px) {
     .tp-product-add-cart-btn-large-wrapper {
         bottom: 0;
@@ -6,6 +7,7 @@
     }
 }
 
+/* Acomodar botones de compra en la vista de productos */
 @media (max-width: 768px) {
     .tp-product-action-3 {
         opacity: 1;
@@ -14,10 +16,13 @@
     }
 }
 
+/* Acomodar botones de compra en la vista de productos */
 .tp-product-action-3 {
     top: 80px;
 }
 
+
+/* Centrar las imágenes de la galería de productos */
 @media (min-width: 768px) {
     .swiper-wrapper {
         display: flex;
@@ -25,6 +30,7 @@
     }
 }
 
+/* No dejar desbordar el texto en la descripción de los productos */
 .tp-product-details-desc-wrapper {
     word-wrap: break-word;
     /* Rompe las palabras largas */
