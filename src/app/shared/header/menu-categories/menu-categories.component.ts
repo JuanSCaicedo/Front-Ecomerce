@@ -22,7 +22,7 @@ export class MenuCategoriesComponent {
     //Para solucionar bug de no ver menu en mobile se elimino afterNextRender
     this.homeService.menu().subscribe(
       (resp: any) => {
-        console.log(resp);
+        // console.log(resp);
         this.categories_menus = resp.categories_menus;
       },
       (error) => {
