@@ -15,6 +15,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(), // required animations providers
     provideToastr(), // Toastr providers
     provideHttpClient(withFetch()), 
-    // provideClientHydration() //SSR
+    provideClientHydration(
+      withNoHttpTransferCache()
+    ) //SSR
   ]
 };

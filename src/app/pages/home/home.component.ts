@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { HomeService } from './service/home.service';
 import { ToastrService } from 'ngx-toastr';
 import { SliderComponent } from './slider/slider.component';
@@ -15,6 +15,7 @@ import { BlogComponent } from './blog/blog.component';
 import { IgImagesComponent } from './ig-images/ig-images.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { FeatureComponent } from './feature/feature.component';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
@@ -68,7 +69,8 @@ export class HomeComponent {
   constructor(
     public homeService: HomeService,
     private toastr: ToastrService,
-  ) { 
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {
     this.dataHome();
   }
 
@@ -83,7 +85,7 @@ export class HomeComponent {
 
   dataHome() {
     this.homeService.home().subscribe((resp: any) => {
-      console.log(resp);
+      // console.log(resp);
       this.SLIDERS = resp.sliders_principal;
       this.CATEGORIES_RANDOMS = resp.categories_randoms;
       this.TRENDING_PRODUCT_NEW = resp.product_trending_new.data;
@@ -98,8 +100,10 @@ export class HomeComponent {
       this.LAST_PRODUCT_DISCOUNTS = resp.product_last_discounts.data;
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
-
-      this.callPlugin();
+      
+      if (isPlatformBrowser(this.platformId)) {
+        this.callPlugin();
+      }
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
@@ -111,17 +115,15 @@ export class HomeComponent {
   }
 
   callPlugin() {
-    if (typeof $ !== 'undefined') {
-      setTimeout(() => {
-        CARUSEL_PRODUCTS($);
-        SLIDER_PRINCIPAL($);
-        CAMPAING_FLASH($);
-        DATA_VALUES($);
-        SLIDER_PRODUCT($);
-        SLIDER_PRODUCT_ELECTRONIC($);
-        BLOG($);
-        IGIMAGEN($);
-      }, 50);
-    }
+    setTimeout(() => {
+      CARUSEL_PRODUCTS($);
+      SLIDER_PRINCIPAL($);
+      CAMPAING_FLASH($);
+      DATA_VALUES($);
+      SLIDER_PRODUCT($);
+      SLIDER_PRODUCT_ELECTRONIC($);
+      BLOG($);
+      IGIMAGEN($);
+    }, 50);
   }
 }
