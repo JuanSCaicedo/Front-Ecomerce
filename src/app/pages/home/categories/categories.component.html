@@ -1,7 +1,9 @@
 @defer (on viewport; when CATEGORIES_RANDOMS) {
+@if(CATEGORIES_RANDOMS.length > 0) {
 <section class="tp-product-category pt-60 pb-15">
     <div class="container">
         <div class="row row-cols-xl-5 row-cols-lg-5 row-cols-md-4">
+
             @for(CATEGORIES_RANDOM of CATEGORIES_RANDOMS;track CATEGORIES_RANDOM.id) {
             <div class="col">
                 <div class="tp-product-category-item text-center mb-40">
@@ -20,9 +22,102 @@
                 </div>
             </div>
             }
+
         </div>
     </div>
 </section>
+}
+
+<!-- Mostrar pre view -->
+<div *ngIf="CATEGORIES_RANDOMS.length === 0">
+    <section class="tp-product-category pt-60 pb-15">
+        <div class="container">
+            <div class="row row-cols-xl-5 row-cols-lg-5 row-cols-md-4">
+                <div class="col">
+                    <div class="tp-product-category-item text-center mb-40">
+                        <div class="tp-product-category-thumb fix">
+                            <a href="#" onclick="return false;">
+                                <img src="http://10.8.0.2:8000/storage/categories/preview.png"
+                                    style="width: 80px; height: 100px; object-fit: contain;" alt="product-category">
+                            </a>
+                        </div>
+                        <div class="tp-product-category-content">
+                            <h3 class="tp-product-category-title">
+                                <a href="#" onclick="return false;">* * * * * *</a>
+                            </h3>
+                            <p>- - Product</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tp-product-category-item text-center mb-40">
+                        <div class="tp-product-category-thumb fix">
+                            <a href="#" onclick="return false;">
+                                <img src="http://10.8.0.2:8000/storage/categories/preview.png"
+                                    style="width: 80px; height: 100px; object-fit: contain;" alt="product-category">
+                            </a>
+                        </div>
+                        <div class="tp-product-category-content">
+                            <h3 class="tp-product-category-title">
+                                <a href="#" onclick="return false;">* * * * * *</a>
+                            </h3>
+                            <p>- - Product</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tp-product-category-item text-center mb-40">
+                        <div class="tp-product-category-thumb fix">
+                            <a href="#" onclick="return false;">
+                                <img src="http://10.8.0.2:8000/storage/categories/preview.png"
+                                    style="width: 80px; height: 100px; object-fit: contain;" alt="product-category">
+                            </a>
+                        </div>
+                        <div class="tp-product-category-content">
+                            <h3 class="tp-product-category-title">
+                                <a href="#" onclick="return false;">* * * * * *</a>
+                            </h3>
+                            <p>- - Product</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tp-product-category-item text-center mb-40">
+                        <div class="tp-product-category-thumb fix">
+                            <a href="#" onclick="return false;">
+                                <img src="http://10.8.0.2:8000/storage/categories/preview.png"
+                                    style="width: 80px; height: 100px; object-fit: contain;" alt="product-category">
+                            </a>
+                        </div>
+                        <div class="tp-product-category-content">
+                            <h3 class="tp-product-category-title">
+                                <a href="#" onclick="return false;">* * * * * *</a>
+                            </h3>
+                            <p>- - Product</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tp-product-category-item text-center mb-40">
+                        <div class="tp-product-category-thumb fix">
+                            <a href="#" onclick="return false;">
+                                <img src="http://10.8.0.2:8000/storage/categories/preview.png"
+                                    style="width: 80px; height: 100px; object-fit: contain;" alt="product-category">
+                            </a>
+                        </div>
+                        <div class="tp-product-category-content">
+                            <h3 class="tp-product-category-title">
+                                <a href="#" onclick="return false;">* * * * * *</a>
+                            </h3>
+                            <p>- - Product</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!--End Mostrar preview-->
 } @placeholder (minimum 1000ms) {
 <!-- pre loader area start -->
 <div class="tp-preloader-container">

@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
