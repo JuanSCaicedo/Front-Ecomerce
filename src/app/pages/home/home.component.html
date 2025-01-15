@@ -1,11 +1,11 @@
 <main>
 
     <!-- slider area start -->
-    <app-slider [SLIDERS]="SLIDERS"></app-slider>
+    <app-slider [SLIDERS]="SLIDERS" [VIEW_READY]="VIEW_READY"></app-slider>
     <!-- slider area end -->
 
     <!-- product category area start -->
-    <app-categories [CATEGORIES_RANDOMS]="CATEGORIES_RANDOMS"></app-categories>
+    <app-categories [CATEGORIES_RANDOMS]="CATEGORIES_RANDOMS" [VIEW_READY]="VIEW_READY"></app-categories>
     <!-- product category area end -->
 
     <!-- feature area start (ESTATIC) -->
@@ -15,7 +15,7 @@
     <!-- product area start -->
     <app-trending-products (productSelected)="handleProductSelect($event)" [TRENDING_PRODUCT_NEW]="TRENDING_PRODUCT_NEW"
         [TRENDING_PRODUCT_FEATURED]="TRENDING_PRODUCT_FEATURED"
-        [TRENDING_PRODUCT_TOP_SELLER]="TRENDING_PRODUCT_TOP_SELLER">
+        [TRENDING_PRODUCT_TOP_SELLER]="TRENDING_PRODUCT_TOP_SELLER" [VIEW_READY]="VIEW_READY">
     </app-trending-products>
     <!-- product area end -->
 

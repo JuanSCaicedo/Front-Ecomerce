@@ -1,4 +1,4 @@
-@if(SLIDERS.length > 0) {
+@if(VIEW_READY) {
 <section class="tp-slider-area p-relative z-index-1">
     <div class="tp-slider-active tp-slider-variation swiper-container">
         <div class="swiper-wrapper">
@@ -74,7 +74,7 @@
 }
 
 <!-- Mostrar pre view -->
-<div *ngIf="SLIDERS.length === 0">
+<div *ngIf="!VIEW_READY">
     <section class="tp-slider-area p-relative z-index-1">
         <div class="tp-slider-active tp-slider-variation swiper-container">
             <div class="swiper-wrapper">

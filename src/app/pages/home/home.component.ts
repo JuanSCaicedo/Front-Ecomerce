@@ -15,7 +15,7 @@ import { BlogComponent } from './blog/blog.component';
 import { IgImagesComponent } from './ig-images/ig-images.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { FeatureComponent } from './feature/feature.component';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
@@ -65,6 +65,7 @@ export class HomeComponent {
   LAST_PRODUCT_DISCOUNTS: any = [];
   LAST_PRODUCT_FEATURED: any = [];
   LAST_PRODUCT_SELLING: any = [];
+  VIEW_READY: boolean = false;
 
   constructor(
     public homeService: HomeService,
@@ -100,7 +101,21 @@ export class HomeComponent {
       this.LAST_PRODUCT_DISCOUNTS = resp.product_last_discounts.data;
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
-      
+
+      if (this.SLIDERS.length > 0
+        && this.CATEGORIES_RANDOMS.length > 0
+        && this.TRENDING_PRODUCT_NEW.length > 0
+        && this.TRENDING_PRODUCT_FEATURED.length > 0
+        && this.TRENDING_PRODUCT_TOP_SELLER.length > 0
+        && this.DISCOUNT_FLASH_PRODUCTS.length > 0
+        && this.ELECTRONIC_PRODUCTS.length > 0
+        && this.PRODUCTS_CARUSEL.length > 0
+        && this.LAST_PRODUCT_DISCOUNTS.length > 0
+        && this.LAST_PRODUCT_FEATURED.length > 0
+        && this.LAST_PRODUCT_SELLING.length > 0) {
+        this.VIEW_READY = true;
+      }
+
       if (isPlatformBrowser(this.platformId)) {
         this.callPlugin();
       }
