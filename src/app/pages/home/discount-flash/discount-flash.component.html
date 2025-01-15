@@ -239,7 +239,8 @@
                         <div class="tp-product-offer-slider-active swiper-container">
                             <div class="swiper-wrapper">
                                 @for (item of [1,2,3]; track $index) {
-                                <div class="tp-product-offer-item tp-product-item transition-3 mx-3" style="width: 410px; height: 540px;">
+                                <div class="tp-product-offer-item tp-product-item transition-3 mx-3"
+                                    style="min-width: 410px; max-width: 410px; height: 540px;">
                                     <div class="tp-product-thumb p-relative fix m-img">
                                         <div class="skeleton skeleton-img" style="height: 291px;"></div>
                                     </div>
@@ -256,7 +257,7 @@
                                 </div>
                                 }
                             </div>
-                            <div class="tp-deals-slider-dot tp-swiper-dot text-center mt-40"></div>
+                            <!-- <div class="tp-deals-slider-dot tp-swiper-dot text-center mt-40"></div> -->
                         </div>
                     </div>
                 </div>
