@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -8,7 +9,7 @@ declare var $: any;
 @Component({
   selector: 'app-trending-products',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './trending-products.component.html',
   styleUrl: './trending-products.component.css'
 })

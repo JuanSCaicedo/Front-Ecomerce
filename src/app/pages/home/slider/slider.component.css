@@ -1,6 +1,7 @@
 /* Caja de texto que simula la carga */
 .loading-box {
-    width: 400px;
+    width: clamp(150px, 90vw, 300px);
+    /* Mínimo 200px, preferido 50% del ancho de la pantalla, máximo 600px */
     height: 150px;
     padding: 30px;
     background-color: #ffffff;
@@ -42,5 +43,26 @@
 
     100% {
         transform: translateX(100%);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .centrar-elementos {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.responsive-svg {
+    width: clamp(150px, 100vw, 400px);
+    /* Mínimo 200px, preferido 50% del ancho, máximo 400px */
+    height: auto;
+    /* Mantener la proporción del SVG */
+}
+
+@media screen and (min-width: 992px) {
+    .alinear-izquierda {
+        display: flex;
+        justify-content: flex-end;
     }
 }
