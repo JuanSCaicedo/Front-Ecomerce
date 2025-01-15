@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -8,7 +9,7 @@ declare var $: any;
 @Component({
   selector: 'app-discount-flash',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './discount-flash.component.html',
   styleUrl: './discount-flash.component.css'
 })
@@ -19,6 +20,7 @@ export class DiscountFlashComponent {
 
   @Input() DISCOUNT_FLASH: any;  // Usamos @Input() para recibir los datos
   @Input() DISCOUNT_FLASH_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
+  @Input() VIEW_READY: boolean = false;
 
   constructor(
     public homeService: HomeService,
