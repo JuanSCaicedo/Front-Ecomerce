@@ -1,7 +1,7 @@
 @defer (on viewport){
 
-@if(VIEW_READY) {
-<section class="tp-product-area pt-70 pb-55">
+@if(VIEW_READY_TRENDING && TRENDING_STATE) {
+<section class="tp-product-area pt-70">
     <div class="container">
         <div class="row align-items-end">
 
@@ -486,8 +486,8 @@
 }
 
 <!-- Mostrar pre view -->
-<div *ngIf="!VIEW_READY">
-    <section class="tp-product-area pt-70 pb-55">
+<div *ngIf="!VIEW_READY_TRENDING && TRENDING_STATE">
+    <section class="tp-product-area pt-70">
         <div class="container">
             <div class="row align-items-end">
 

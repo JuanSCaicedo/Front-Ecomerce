@@ -19,7 +19,8 @@ export class TrendingProductsComponent {
   @Input() TRENDING_PRODUCT_NEW: any[] = [];
   @Input() TRENDING_PRODUCT_FEATURED: any[] = [];
   @Input() TRENDING_PRODUCT_TOP_SELLER: any[] = [];
-  @Input() VIEW_READY: boolean = false;
+  @Input() VIEW_READY_TRENDING: boolean = false;
+  @Input() TRENDING_STATE: boolean = false;
   product_selected: any = null;
 
   constructor(

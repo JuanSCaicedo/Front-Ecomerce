@@ -17,7 +17,8 @@
     <!-- product area start -->
     <app-trending-products (productSelected)="handleProductSelect($event)" [TRENDING_PRODUCT_NEW]="TRENDING_PRODUCT_NEW"
         [TRENDING_PRODUCT_FEATURED]="TRENDING_PRODUCT_FEATURED"
-        [TRENDING_PRODUCT_TOP_SELLER]="TRENDING_PRODUCT_TOP_SELLER" [VIEW_READY]="VIEW_READY">
+        [TRENDING_PRODUCT_TOP_SELLER]="TRENDING_PRODUCT_TOP_SELLER" [TRENDING_STATE]="TRENDING_STATE"
+        [VIEW_READY_TRENDING]="VIEW_READY_TRENDING">
     </app-trending-products>
     <!-- product area end -->
 
@@ -51,15 +52,15 @@
     </app-last-products>
     <!-- product sm area end -->
 
-    <!-- blog area start -->
+    <!-- blog area start (ESTATIC) -->
     <app-blog></app-blog>
     <!-- blog area end -->
 
-    <!-- instagram area start -->
+    <!-- instagram area start (ESTATIC) -->
     <app-ig-images></app-ig-images>
     <!-- instagram area end -->
 
-    <!-- subscribe area start -->
+    <!-- subscribe area start (ESTATIC) -->
     <app-subscribe></app-subscribe>
     <!-- subscribe area end -->
 
