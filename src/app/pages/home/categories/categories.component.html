@@ -1,6 +1,6 @@
 @defer (on viewport; when CATEGORIES_RANDOMS) {
-@if(VIEW_READY) {
-<section class="tp-product-category pt-60 pb-15">
+@if(VIEW_READY_CATEGORIES_RAMDOMS && CATEGORIES_STATE) {
+<section class="tp-product-category pb-15">
     <div class="container">
         <div class="row row-cols-xl-5 row-cols-lg-5 row-cols-md-4">
 
@@ -29,8 +29,8 @@
 }
 
 <!-- Mostrar pre view -->
-<div *ngIf="!VIEW_READY">
-    <section class="tp-product-category pt-60 pb-15">
+<div *ngIf="!VIEW_READY_CATEGORIES_RAMDOMS && CATEGORIES_STATE">
+    <section class="tp-product-category pb-15">
         <div class="container">
             <div class="row row-cols-xl-5 row-cols-lg-5 row-cols-md-4">
 
@@ -110,7 +110,7 @@
                     </div>
                 </div>
                 }
-                
+
             </div>
         </div>
     </section>

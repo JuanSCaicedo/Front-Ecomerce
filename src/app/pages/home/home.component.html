@@ -5,7 +5,8 @@
     <!-- slider area end -->
 
     <!-- product category area start -->
-    <app-categories [CATEGORIES_RANDOMS]="CATEGORIES_RANDOMS" [VIEW_READY]="VIEW_READY"></app-categories>
+    <app-categories [CATEGORIES_RANDOMS]="CATEGORIES_RANDOMS" [CATEGORIES_STATE]="CATEGORIES_STATE"
+        [VIEW_READY_CATEGORIES_RAMDOMS]="VIEW_READY_CATEGORIES_RAMDOMS"></app-categories>
     <!-- product category area end -->
 
     <!-- feature area start (ESTATIC) -->
@@ -25,7 +26,7 @@
 
     <!-- product offer area start -->
     <app-discount-flash (productSelected)="handleProductSelect($event)" [DISCOUNT_FLASH]="DISCOUNT_FLASH"
-        [DISCOUNT_FLASH_PRODUCTS]="DISCOUNT_FLASH_PRODUCTS" [VIEW_READY]="VIEW_READY">
+        [DISCOUNT_FLASH_PRODUCTS]="DISCOUNT_FLASH_PRODUCTS" [VIEW_READY_FLASH]="VIEW_READY_FLASH">
     </app-discount-flash>
     <!-- product deal area end -->
 
@@ -39,8 +40,8 @@
     <!-- product banner area end -->
 
     <!-- product arrival area start -->
-    <app-carusel-products (productSelected)="handleProductSelect($event)"
-        [PRODUCTS_CARUSEL]="PRODUCTS_CARUSEL"></app-carusel-products>
+    <app-carusel-products (productSelected)="handleProductSelect($event)" [PRODUCTS_CARUSEL]="PRODUCTS_CARUSEL"
+        [VIEW_READY_CARUSEL]="VIEW_READY_CARUSEL"></app-carusel-products>
     <!-- product arrival area end -->
 
     <!-- product sm area start -->

@@ -66,6 +66,12 @@ export class HomeComponent {
   LAST_PRODUCT_FEATURED: any = [];
   LAST_PRODUCT_SELLING: any = [];
   VIEW_READY: boolean = false;
+  VIEW_READY_CARUSEL: boolean = false;
+  VIEW_READY_FLASH: boolean = false;
+  VIEW_READY_CATEGORIES_RAMDOMS: boolean = false;
+  HOME_VIEWS: any;
+  HOME_VIEW: any;
+  CATEGORIES_STATE: boolean = true;
 
   constructor(
     public homeService: HomeService,
@@ -87,6 +93,8 @@ export class HomeComponent {
   dataHome() {
     this.homeService.home().subscribe((resp: any) => {
       // console.log(resp);
+
+      this.HOME_VIEWS = resp.home_views;
       this.SLIDERS = resp.sliders_principal;
       this.CATEGORIES_RANDOMS = resp.categories_randoms;
       this.TRENDING_PRODUCT_NEW = resp.product_trending_new.data;
@@ -102,18 +110,51 @@ export class HomeComponent {
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
 
-      if (this.SLIDERS.length > 0
-        && this.CATEGORIES_RANDOMS.length > 0
-        && this.TRENDING_PRODUCT_NEW.length > 0
-        && this.TRENDING_PRODUCT_FEATURED.length > 0
-        && this.TRENDING_PRODUCT_TOP_SELLER.length > 0
-        && this.DISCOUNT_FLASH_PRODUCTS.length > 0
-        && this.ELECTRONIC_PRODUCTS.length > 0
-        && this.PRODUCTS_CARUSEL.length > 0
-        && this.LAST_PRODUCT_DISCOUNTS.length > 0
-        && this.LAST_PRODUCT_FEATURED.length > 0
-        && this.LAST_PRODUCT_SELLING.length > 0) {
-        this.VIEW_READY = true;
+      // if (this.SLIDERS.length > 0
+      //   || this.TRENDING_PRODUCT_NEW.length > 0
+      //   || this.TRENDING_PRODUCT_FEATURED.length > 0
+      //   || this.TRENDING_PRODUCT_TOP_SELLER.length > 0
+      //   || this.ELECTRONIC_PRODUCTS.length > 0
+      //   || this.LAST_PRODUCT_DISCOUNTS.length > 0
+      //   || this.LAST_PRODUCT_FEATURED.length > 0
+      //   || this.LAST_PRODUCT_SELLING.length > 0) {
+      //   this.VIEW_READY = true;
+      // }
+
+      interface HomeView {
+        id: number;
+        name: string;
+        state: number;
+      }
+
+      const sliders = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders');
+      const categories = this.HOME_VIEWS.find((view: HomeView) => view.name === 'categories');
+      const trending = this.HOME_VIEWS.find((view: HomeView) => view.name === 'trending');
+      const sldiers_second = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sldiers_second');
+      const campaing_flash = this.HOME_VIEWS.find((view: HomeView) => view.name === 'campaing_flash');
+      const product_electronics = this.HOME_VIEWS.find((view: HomeView) => view.name === 'product_electronics');
+      const sliders_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders_products');
+      const carusel_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'carusel_products');
+      const last_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'last_products');
+      const blog = this.HOME_VIEWS.find((view: HomeView) => view.name === 'blog');
+      const ig_imagenes = this.HOME_VIEWS.find((view: HomeView) => view.name === 'ig_imagenes');
+
+      if (this.CATEGORIES_RANDOMS.length > 0) {
+        this.VIEW_READY_CATEGORIES_RAMDOMS = true;
+      }
+
+      if (categories.state === 1) {
+        this.CATEGORIES_STATE = true;
+      } else {
+        this.CATEGORIES_STATE = false;
+      }
+
+      if (this.PRODUCTS_CARUSEL) {
+        this.VIEW_READY_CARUSEL = true;
+      }
+
+      if (this.DISCOUNT_FLASH_PRODUCTS.length > 0) {
+        this.VIEW_READY_FLASH = true;
       }
 
       if (isPlatformBrowser(this.platformId)) {

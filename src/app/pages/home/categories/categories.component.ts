@@ -12,7 +12,8 @@ import { CommonModule } from '@angular/common';
 export class CategoriesComponent {
 
   @Input() CATEGORIES_RANDOMS: any[] = [];  // Usamos @Input() para recibir los datos
-  @Input() VIEW_READY: boolean = false;
+  @Input() VIEW_READY_CATEGORIES_RAMDOMS: boolean = false;
+  @Input() CATEGORIES_STATE: boolean = false;
 
   constructor(
     public homeService: HomeService,
