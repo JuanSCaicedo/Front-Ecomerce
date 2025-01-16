@@ -21,6 +21,7 @@ export class DiscountFlashComponent {
   @Input() DISCOUNT_FLASH: any;  // Usamos @Input() para recibir los datos
   @Input() DISCOUNT_FLASH_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_FLASH: boolean = false;
+  @Input() DISCOUNT_FLASH_PRODUCTS_STATE: boolean = false;
 
   constructor(
     public homeService: HomeService,

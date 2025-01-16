@@ -1,4 +1,4 @@
-@if(VIEW_READY_FLASH){
+@if(VIEW_READY_FLASH && DISCOUNT_FLASH_PRODUCTS_STATE){
 <section class="tp-product-offer grey-bg-2 pt-70 pb-80">
     <div class="container">
         <div class="row align-items-end">
@@ -18,7 +18,7 @@
             <div class="col-xl-8 col-md-7 col-sm-6">
                 <div class="tp-product-offer-more-wrapper d-flex justify-content-sm-end p-relative z-index-1">
                     <div class="tp-product-offer-more mb-40 text-sm-end grey-bg-2">
-                        <a href="/" onclick="return false;"  class="tp-btn tp-btn-2 tp-btn-blue">View All Deals
+                        <a href="/" onclick="return false;" class="tp-btn tp-btn-2 tp-btn-blue">View All Deals
                             <svg width="17" height="14" viewBox="0 0 17 14" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16 6.99976L1 6.99976" stroke="currentColor" stroke-width="1.5"
@@ -197,3 +197,20 @@
     </div>
 </section>
 }
+
+<!-- Mostrar pre view -->
+<div *ngIf="!VIEW_READY_FLASH && DISCOUNT_FLASH_PRODUCTS_STATE">
+    <!-- pre loader area start -->
+    <div class="tp-preloader-container">
+        <div class="tp-preloader-logo">
+            <div class="tp-preloader-circle">
+                <svg width="190" height="190" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle stroke="#D9D9D9" cx="190" cy="190" r="180" stroke-width="6" stroke-linecap="round"></circle>
+                    <circle stroke="red" cx="190" cy="190" r="180" stroke-width="6" stroke-linecap="round"></circle>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <!-- pre loader area end -->
+</div>
+<!--End Mostrar preview-->

@@ -77,6 +77,7 @@ export class HomeComponent {
   CATEGORIES_STATE: boolean = true;
   TRENDING_STATE: boolean = true;
   SLIDERS_SECUNDARIOS_STATE: boolean = true;
+  DISCOUNT_FLASH_PRODUCTS_STATE: boolean = true;
 
   constructor(
     public homeService: HomeService,
@@ -122,22 +123,18 @@ export class HomeComponent {
 
       this.SLIDERS.length > 0 ? this.VIEW_READY_SLIDERS = true : this.VIEW_READY_SLIDERS = false;
 
+      this.CATEGORIES_RANDOMS.length > 0 ? this.VIEW_READY_CATEGORIES_RAMDOMS = true : this.VIEW_READY_CATEGORIES_RAMDOMS = false;
+
       this.TRENDING_PRODUCT_NEW && this.TRENDING_PRODUCT_FEATURED && this.TRENDING_PRODUCT_TOP_SELLER ? this.VIEW_READY_TRENDING = true : this.VIEW_READY_TRENDING = false;
 
       this.SLIDERS_SECUNDARIOS.length > 0 ? this.VIEW_READY_SLIDERS_SECUNDARIOS = true : this.VIEW_READY_SLIDERS_SECUNDARIOS = false;
 
-      this.llamarHomeViews(this.HOME_VIEWS);
+      this.DISCOUNT_FLASH_PRODUCTS.length > 0 ? this.VIEW_READY_FLASH = true : this.VIEW_READY_FLASH = false;
 
-      if (this.CATEGORIES_RANDOMS.length > 0) {
-        this.VIEW_READY_CATEGORIES_RAMDOMS = true;
-      }
+      this.llamarHomeViews(this.HOME_VIEWS);
 
       if (this.PRODUCTS_CARUSEL) {
         this.VIEW_READY_CARUSEL = true;
-      }
-
-      if (this.DISCOUNT_FLASH_PRODUCTS.length > 0) {
-        this.VIEW_READY_FLASH = true;
       }
 
       if (isPlatformBrowser(this.platformId)) {
@@ -216,6 +213,12 @@ export class HomeComponent {
       this.SLIDERS_SECUNDARIOS_STATE = true;
     } else {
       this.SLIDERS_SECUNDARIOS_STATE = false;
+    }
+
+    if (campaing_flash.state === 1) {
+      this.DISCOUNT_FLASH_PRODUCTS_STATE = true;
+    } else {
+      this.DISCOUNT_FLASH_PRODUCTS_STATE = false;
     }
   }
 }
