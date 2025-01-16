@@ -23,10 +23,6 @@ export class LastProductsComponent {
     public homeService: HomeService,
   ) { }
 
-  ngOnInit() {
-    console.log(this.VIEW_READY_LAST_PRODUCTS);
-  }
-
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {
       return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);

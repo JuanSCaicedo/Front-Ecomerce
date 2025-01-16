@@ -50,6 +50,7 @@ declare var $: any;
 })
 export class HomeComponent {
 
+  [key: string]: any; // Agrega este índice dinámico para evitar errores de compilación
   product_selected: any = null;
   SLIDERS: any = [];
   CATEGORIES_RANDOMS: any = [];
@@ -182,96 +183,25 @@ export class HomeComponent {
       state: number;
     }
 
-    const sliders = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders');
-    const categories = this.HOME_VIEWS.find((view: HomeView) => view.name === 'categories');
-    const feature = this.HOME_VIEWS.find((view: HomeView) => view.name === 'feature');
-    const trending = this.HOME_VIEWS.find((view: HomeView) => view.name === 'trending');
-    const sldiers_second = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sldiers_second');
-    const campaing_flash = this.HOME_VIEWS.find((view: HomeView) => view.name === 'campaing_flash');
-    const product_electronics = this.HOME_VIEWS.find((view: HomeView) => view.name === 'product_electronics');
-    const sliders_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders_products');
-    const carusel_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'carusel_products');
-    const last_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'last_products');
-    const blog = this.HOME_VIEWS.find((view: HomeView) => view.name === 'blog');
-    const ig_imagenes = this.HOME_VIEWS.find((view: HomeView) => view.name === 'ig_imagenes');
-    const subscribe = this.HOME_VIEWS.find((view: HomeView) => view.name === 'subscribe');
+    const statesMap: { [key: string]: string } = {
+      sliders: "SLIDERS_STATE",
+      categories: "CATEGORIES_STATE",
+      feature: "FEATURE_STATE",
+      trending: "TRENDING_STATE",
+      sldiers_second: "SLIDERS_SECUNDARIOS_STATE",
+      campaing_flash: "DISCOUNT_FLASH_PRODUCTS_STATE",
+      product_electronics: "ELECTRONIC_PRODUCTS_STATE",
+      sliders_products: "SLIDERS_PRODUCTS_STATE",
+      carusel_products: "PRODUCTS_CARUSEL_STATE",
+      last_products: "LAST_PRODUCTS_STATE",
+      blog: "BLOG_STATE",
+      ig_imagenes: "IG_IMAGES_STATE",
+      subscribe: "SUBSCRIBE_STATE",
+    };
 
-    if (categories.state === 1) {
-      this.CATEGORIES_STATE = true;
-    } else {
-      this.CATEGORIES_STATE = false;
-    }
-
-    if (sliders.state === 1) {
-      this.SLIDERS_STATE = true;
-    } else {
-      this.SLIDERS_STATE = false;
-    }
-
-    if (feature.state === 1) {
-      this.FEATURE_STATE = true;
-    } else {
-      this.FEATURE_STATE = false;
-    }
-
-    if (trending.state === 1) {
-      this.TRENDING_STATE = true;
-    } else {
-      this.TRENDING_STATE = false;
-    }
-
-    if (sldiers_second.state === 1) {
-      this.SLIDERS_SECUNDARIOS_STATE = true;
-    } else {
-      this.SLIDERS_SECUNDARIOS_STATE = false;
-    }
-
-    if (campaing_flash.state === 1) {
-      this.DISCOUNT_FLASH_PRODUCTS_STATE = true;
-    } else {
-      this.DISCOUNT_FLASH_PRODUCTS_STATE = false;
-    }
-
-    if (product_electronics.state === 1) {
-      this.ELECTRONIC_PRODUCTS_STATE = true;
-    } else {
-      this.ELECTRONIC_PRODUCTS_STATE = false;
-    }
-
-    if (sliders_products.state === 1) {
-      this.SLIDERS_PRODUCTS_STATE = true;
-    } else {
-      this.SLIDERS_PRODUCTS_STATE = false;
-    }
-
-    if (carusel_products.state === 1) {
-      this.PRODUCTS_CARUSEL_STATE = true;
-    } else {
-      this.PRODUCTS_CARUSEL_STATE = false;
-    }
-
-    if (last_products.state === 1) {
-      this.LAST_PRODUCTS_STATE = true;
-    } else {
-      this.LAST_PRODUCTS_STATE = false;
-    }
-
-    if (blog.state === 1) {
-      this.BLOG_STATE = true;
-    } else {
-      this.BLOG_STATE = false;
-    }
-
-    if (ig_imagenes.state === 1) {
-      this.IG_IMAGES_STATE = true;
-    } else {
-      this.IG_IMAGES_STATE = false;
-    }
-
-    if (subscribe.state === 1) {
-      this.SUBSCRIBE_STATE = true;
-    } else {
-      this.SUBSCRIBE_STATE = false;
-    }
+    Object.keys(statesMap).forEach((key) => {
+      const view = HOME_VIEWS.find((view: HomeView) => view.name === key);
+      this[statesMap[key]] = view?.state === 1;
+    });
   }
 }
