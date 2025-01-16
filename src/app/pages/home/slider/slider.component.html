@@ -1,5 +1,5 @@
-@if(VIEW_READY) {
-<section class="tp-slider-area p-relative z-index-1 pb-60">
+@if(VIEW_READY_SLIDERS && SLIDERS_STATE) {
+<section class="tp-slider-area p-relative z-index-1">
     <div class="tp-slider-active tp-slider-variation swiper-container">
         <div class="swiper-wrapper">
             @for(SLIDER of SLIDERS;track SLIDER.id) {
@@ -74,8 +74,8 @@
 }
 
 <!-- Mostrar pre view -->
-<div *ngIf="!VIEW_READY">
-    <section class="tp-slider-area p-relative z-index-1 pb-60">
+<div *ngIf="!VIEW_READY_SLIDERS && SLIDERS_STATE">
+    <section class="tp-slider-area p-relative z-index-1">
         <div class="tp-slider-active tp-slider-variation swiper-container">
             <div class="swiper-wrapper">
                 <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide green-dark-bg">
@@ -98,7 +98,7 @@
                                         <div class="animated-line"></div>
                                         <div class="animated-line"></div>
                                         <div class="animated-line"></div>
-                                    </div>                                    
+                                    </div>
                                     <!-- Boton -->
                                     <div class="tp-slider-btn">
                                         <a href="/" onclick="return false;"

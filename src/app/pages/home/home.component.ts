@@ -66,11 +66,12 @@ export class HomeComponent {
   LAST_PRODUCT_FEATURED: any = [];
   LAST_PRODUCT_SELLING: any = [];
   VIEW_READY: boolean = false;
+  VIEW_READY_SLIDERS: boolean = false;
+  VIEW_READY_CATEGORIES_RAMDOMS: boolean = false;
   VIEW_READY_CARUSEL: boolean = false;
   VIEW_READY_FLASH: boolean = false;
-  VIEW_READY_CATEGORIES_RAMDOMS: boolean = false;
   HOME_VIEWS: any;
-  HOME_VIEW: any;
+  SLIDERS_STATE: boolean = true;
   CATEGORIES_STATE: boolean = true;
 
   constructor(
@@ -82,18 +83,12 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    // Realiza scroll hacia la parte superior de la página
-    setTimeout(() => {
-      if (typeof window !== 'undefined') {
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
-      }
-    }, 0);
+    this.scrollUp();
   }
 
   dataHome() {
     this.homeService.home().subscribe((resp: any) => {
       // console.log(resp);
-
       this.HOME_VIEWS = resp.home_views;
       this.SLIDERS = resp.sliders_principal;
       this.CATEGORIES_RANDOMS = resp.categories_randoms;
@@ -121,32 +116,12 @@ export class HomeComponent {
       //   this.VIEW_READY = true;
       // }
 
-      interface HomeView {
-        id: number;
-        name: string;
-        state: number;
-      }
+      this.SLIDERS.length > 0 ? this.VIEW_READY_SLIDERS = true : this.VIEW_READY_SLIDERS = false;
 
-      const sliders = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders');
-      const categories = this.HOME_VIEWS.find((view: HomeView) => view.name === 'categories');
-      const trending = this.HOME_VIEWS.find((view: HomeView) => view.name === 'trending');
-      const sldiers_second = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sldiers_second');
-      const campaing_flash = this.HOME_VIEWS.find((view: HomeView) => view.name === 'campaing_flash');
-      const product_electronics = this.HOME_VIEWS.find((view: HomeView) => view.name === 'product_electronics');
-      const sliders_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders_products');
-      const carusel_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'carusel_products');
-      const last_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'last_products');
-      const blog = this.HOME_VIEWS.find((view: HomeView) => view.name === 'blog');
-      const ig_imagenes = this.HOME_VIEWS.find((view: HomeView) => view.name === 'ig_imagenes');
+      this.llamarHomeViews(this.HOME_VIEWS);
 
       if (this.CATEGORIES_RANDOMS.length > 0) {
         this.VIEW_READY_CATEGORIES_RAMDOMS = true;
-      }
-
-      if (categories.state === 1) {
-        this.CATEGORIES_STATE = true;
-      } else {
-        this.CATEGORIES_STATE = false;
       }
 
       if (this.PRODUCTS_CARUSEL) {
@@ -181,5 +156,46 @@ export class HomeComponent {
       BLOG($);
       IGIMAGEN($);
     }, 50);
+  }
+
+  scrollUp() {
+    // Realiza scroll hacia la parte superior de la página
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }
+    }, 0);
+  }
+
+  llamarHomeViews(HOME_VIEWS: any) {
+    interface HomeView {
+      id: number;
+      name: string;
+      state: number;
+    }
+
+    const sliders = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders');
+    const categories = this.HOME_VIEWS.find((view: HomeView) => view.name === 'categories');
+    const trending = this.HOME_VIEWS.find((view: HomeView) => view.name === 'trending');
+    const sldiers_second = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sldiers_second');
+    const campaing_flash = this.HOME_VIEWS.find((view: HomeView) => view.name === 'campaing_flash');
+    const product_electronics = this.HOME_VIEWS.find((view: HomeView) => view.name === 'product_electronics');
+    const sliders_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders_products');
+    const carusel_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'carusel_products');
+    const last_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'last_products');
+    const blog = this.HOME_VIEWS.find((view: HomeView) => view.name === 'blog');
+    const ig_imagenes = this.HOME_VIEWS.find((view: HomeView) => view.name === 'ig_imagenes');
+
+    if (categories.state === 1) {
+      this.CATEGORIES_STATE = true;
+    } else {
+      this.CATEGORIES_STATE = false;
+    }
+
+    if (sliders.state === 1) {
+      this.SLIDERS_STATE = true;
+    } else {
+      this.SLIDERS_STATE = false;
+    }
   }
 }

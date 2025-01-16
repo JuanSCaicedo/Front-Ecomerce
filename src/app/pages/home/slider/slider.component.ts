@@ -13,7 +13,8 @@ import { HomeService } from '../service/home.service';
 export class SliderComponent {
 
   @Input() SLIDERS: any[] = [];  // Usamos @Input() para recibir los datos
-  @Input() VIEW_READY: boolean = false;
+  @Input() VIEW_READY_SLIDERS: boolean = false;
+  @Input() SLIDERS_STATE: boolean = false;
 
   constructor(
     public homeService: HomeService,
