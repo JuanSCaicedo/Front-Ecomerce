@@ -82,6 +82,10 @@ export class HomeComponent {
   DISCOUNT_FLASH_PRODUCTS_STATE: boolean = true;
   ELECTRONIC_PRODUCTS_STATE: boolean = true;
   SLIDERS_PRODUCTS_STATE: boolean = true;
+  PRODUCTS_CARUSEL_STATE: boolean = true;
+  LAST_PRODUCTS_STATE: boolean = true;
+  BLOG_STATE: boolean = true;
+  IG_IMAGES_STATE: boolean = true;
 
   constructor(
     public homeService: HomeService,
@@ -114,17 +118,6 @@ export class HomeComponent {
       this.LAST_PRODUCT_FEATURED = resp.product_last_featured.data;
       this.LAST_PRODUCT_SELLING = resp.product_last_selling.data;
 
-      // if (this.SLIDERS.length > 0
-      //   || this.TRENDING_PRODUCT_NEW.length > 0
-      //   || this.TRENDING_PRODUCT_FEATURED.length > 0
-      //   || this.TRENDING_PRODUCT_TOP_SELLER.length > 0
-      //   || this.ELECTRONIC_PRODUCTS.length > 0
-      //   || this.LAST_PRODUCT_DISCOUNTS.length > 0
-      //   || this.LAST_PRODUCT_FEATURED.length > 0
-      //   || this.LAST_PRODUCT_SELLING.length > 0) {
-      //   this.VIEW_READY = true;
-      // }
-
       this.SLIDERS.length > 0 ? this.VIEW_READY_SLIDERS = true : this.VIEW_READY_SLIDERS = false;
 
       this.CATEGORIES_RANDOMS.length > 0 ? this.VIEW_READY_CATEGORIES_RAMDOMS = true : this.VIEW_READY_CATEGORIES_RAMDOMS = false;
@@ -139,11 +132,9 @@ export class HomeComponent {
 
       this.SLIDERS_PRODUCTS.length > 0 ? this.VIEW_READY_SLIDERS_PRODUCTS = true : this.VIEW_READY_SLIDERS_PRODUCTS = false;
 
-      this.llamarHomeViews(this.HOME_VIEWS);
+      this.PRODUCTS_CARUSEL ? this.VIEW_READY_CARUSEL = true : this.VIEW_READY_CARUSEL = false;
 
-      if (this.PRODUCTS_CARUSEL) {
-        this.VIEW_READY_CARUSEL = true;
-      }
+      this.llamarHomeViews(this.HOME_VIEWS);
 
       if (isPlatformBrowser(this.platformId)) {
         this.callPlugin();
@@ -239,6 +230,30 @@ export class HomeComponent {
       this.SLIDERS_PRODUCTS_STATE = true;
     } else {
       this.SLIDERS_PRODUCTS_STATE = false;
+    }
+
+    if (carusel_products.state === 1) {
+      this.PRODUCTS_CARUSEL_STATE = true;
+    } else {
+      this.PRODUCTS_CARUSEL_STATE = false;
+    }
+
+    if (last_products.state === 1) {
+      this.LAST_PRODUCTS_STATE = true;
+    } else {
+      this.LAST_PRODUCTS_STATE = false;
+    }
+
+    if (blog.state === 1) {
+      this.BLOG_STATE = true;
+    } else {
+      this.BLOG_STATE = false;
+    }
+
+    if (ig_imagenes.state === 1) {
+      this.IG_IMAGES_STATE = true;
+    } else {
+      this.IG_IMAGES_STATE = false;
     }
   }
 }

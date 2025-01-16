@@ -19,6 +19,7 @@ export class CaruselProductsComponent {
   @Output() productSelected = new EventEmitter<any>();
   @Input() PRODUCTS_CARUSEL: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_CARUSEL: boolean = false;
+  @Input() PRODUCTS_CARUSEL_STATE: boolean = false;
 
   constructor(
     public homeService: HomeService,
