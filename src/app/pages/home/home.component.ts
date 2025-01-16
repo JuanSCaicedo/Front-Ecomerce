@@ -86,6 +86,8 @@ export class HomeComponent {
   LAST_PRODUCTS_STATE: boolean = true;
   BLOG_STATE: boolean = true;
   IG_IMAGES_STATE: boolean = true;
+  FEATURE_STATE: boolean = true;
+  SUBSCRIBE_STATE: boolean = true;
 
   constructor(
     public homeService: HomeService,
@@ -180,6 +182,7 @@ export class HomeComponent {
 
     const sliders = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sliders');
     const categories = this.HOME_VIEWS.find((view: HomeView) => view.name === 'categories');
+    const feature = this.HOME_VIEWS.find((view: HomeView) => view.name === 'feature');
     const trending = this.HOME_VIEWS.find((view: HomeView) => view.name === 'trending');
     const sldiers_second = this.HOME_VIEWS.find((view: HomeView) => view.name === 'sldiers_second');
     const campaing_flash = this.HOME_VIEWS.find((view: HomeView) => view.name === 'campaing_flash');
@@ -189,6 +192,7 @@ export class HomeComponent {
     const last_products = this.HOME_VIEWS.find((view: HomeView) => view.name === 'last_products');
     const blog = this.HOME_VIEWS.find((view: HomeView) => view.name === 'blog');
     const ig_imagenes = this.HOME_VIEWS.find((view: HomeView) => view.name === 'ig_imagenes');
+    const subscribe = this.HOME_VIEWS.find((view: HomeView) => view.name === 'subscribe');
 
     if (categories.state === 1) {
       this.CATEGORIES_STATE = true;
@@ -200,6 +204,12 @@ export class HomeComponent {
       this.SLIDERS_STATE = true;
     } else {
       this.SLIDERS_STATE = false;
+    }
+
+    if (feature.state === 1) {
+      this.FEATURE_STATE = true;
+    } else {
+      this.FEATURE_STATE = false;
     }
 
     if (trending.state === 1) {
@@ -254,6 +264,12 @@ export class HomeComponent {
       this.IG_IMAGES_STATE = true;
     } else {
       this.IG_IMAGES_STATE = false;
+    }
+
+    if (subscribe.state === 1) {
+      this.SUBSCRIBE_STATE = true;
+    } else {
+      this.SUBSCRIBE_STATE = false;
     }
   }
 }

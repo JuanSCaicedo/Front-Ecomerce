@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-feature',
@@ -8,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './feature.component.css'
 })
 export class FeatureComponent {
-
+  @Input() FEATURE_STATE: boolean = false;
 }
