@@ -66,6 +66,7 @@ export class HomeComponent {
   LAST_PRODUCT_FEATURED: any = [];
   LAST_PRODUCT_SELLING: any = [];
   VIEW_READY: boolean = false;
+  VIEW_READY_ELECTRONIC_PRODUCTS: boolean = false;
   VIEW_READY_SLIDERS_SECUNDARIOS: boolean = false;
   VIEW_READY_TRENDING: boolean = false;
   VIEW_READY_SLIDERS: boolean = false;
@@ -78,6 +79,7 @@ export class HomeComponent {
   TRENDING_STATE: boolean = true;
   SLIDERS_SECUNDARIOS_STATE: boolean = true;
   DISCOUNT_FLASH_PRODUCTS_STATE: boolean = true;
+  ELECTRONIC_PRODUCTS_STATE: boolean = true;
 
   constructor(
     public homeService: HomeService,
@@ -130,6 +132,8 @@ export class HomeComponent {
       this.SLIDERS_SECUNDARIOS.length > 0 ? this.VIEW_READY_SLIDERS_SECUNDARIOS = true : this.VIEW_READY_SLIDERS_SECUNDARIOS = false;
 
       this.DISCOUNT_FLASH_PRODUCTS.length > 0 ? this.VIEW_READY_FLASH = true : this.VIEW_READY_FLASH = false;
+
+      this.ELECTRONIC_PRODUCTS ? this.VIEW_READY_ELECTRONIC_PRODUCTS = true : this.VIEW_READY_ELECTRONIC_PRODUCTS = false;
 
       this.llamarHomeViews(this.HOME_VIEWS);
 
@@ -219,6 +223,12 @@ export class HomeComponent {
       this.DISCOUNT_FLASH_PRODUCTS_STATE = true;
     } else {
       this.DISCOUNT_FLASH_PRODUCTS_STATE = false;
+    }
+
+    if (product_electronics.state === 1) {
+      this.ELECTRONIC_PRODUCTS_STATE = true;
+    } else {
+      this.ELECTRONIC_PRODUCTS_STATE = false;
     }
   }
 }
