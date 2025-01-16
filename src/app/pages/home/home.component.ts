@@ -66,6 +66,7 @@ export class HomeComponent {
   LAST_PRODUCT_FEATURED: any = [];
   LAST_PRODUCT_SELLING: any = [];
   VIEW_READY: boolean = false;
+  VIEW_READY_SLIDERS_SECUNDARIOS: boolean = false;
   VIEW_READY_TRENDING: boolean = false;
   VIEW_READY_SLIDERS: boolean = false;
   VIEW_READY_CATEGORIES_RAMDOMS: boolean = false;
@@ -75,6 +76,7 @@ export class HomeComponent {
   SLIDERS_STATE: boolean = true;
   CATEGORIES_STATE: boolean = true;
   TRENDING_STATE: boolean = true;
+  SLIDERS_SECUNDARIOS_STATE: boolean = true;
 
   constructor(
     public homeService: HomeService,
@@ -121,6 +123,8 @@ export class HomeComponent {
       this.SLIDERS.length > 0 ? this.VIEW_READY_SLIDERS = true : this.VIEW_READY_SLIDERS = false;
 
       this.TRENDING_PRODUCT_NEW && this.TRENDING_PRODUCT_FEATURED && this.TRENDING_PRODUCT_TOP_SELLER ? this.VIEW_READY_TRENDING = true : this.VIEW_READY_TRENDING = false;
+
+      this.SLIDERS_SECUNDARIOS.length > 0 ? this.VIEW_READY_SLIDERS_SECUNDARIOS = true : this.VIEW_READY_SLIDERS_SECUNDARIOS = false;
 
       this.llamarHomeViews(this.HOME_VIEWS);
 
@@ -206,6 +210,12 @@ export class HomeComponent {
       this.TRENDING_STATE = true;
     } else {
       this.TRENDING_STATE = false;
+    }
+
+    if (sldiers_second.state === 1) {
+      this.SLIDERS_SECUNDARIOS_STATE = true;
+    } else {
+      this.SLIDERS_SECUNDARIOS_STATE = false;
     }
   }
 }
