@@ -44,7 +44,7 @@
                                     <a [routerLink]="[ '/producto', PRODUCT.slug ]"
                                         [queryParams]="{campaing_discount : DISCOUNT_FLASH.code}">
                                         <img [src]="PRODUCT.imagen"
-                                            style="width: 386px; height: 322px; object-fit: contain;"
+                                            style="height: 322px; object-fit: contain;"
                                             alt="product-electronic">
                                     </a>
 
@@ -166,10 +166,10 @@
                                     <!-- Reviews end -->
 
                                     <div class="tp-product-price-wrapper">
-                                        <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
-                                            }}</span>
+                                        <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
+                                            }} {{ currency }}</span>
                                         <span class="tp-product-price new-price">${{ getNewTotal(PRODUCT,DISCOUNT_FLASH)
-                                            }}</span>
+                                            }} {{ currency }}</span>
                                     </div>
 
                                     <div class="tp-product-countdown" data-countdown

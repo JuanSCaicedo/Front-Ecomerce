@@ -50,11 +50,11 @@
                                 <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
                                     @if(PRODUCT.discount_g) {
-                                    <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
-                                        }}</span>
+                                    <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
+                                        }} {{ currency }} </span>
                                     }
                                     <span class="tp-product-price new-price">${{
-                                        getTotalPrice(PRODUCT)}}</span>
+                                        getTotalPrice(PRODUCT)}} {{ currency }} </span>
                                 </div>
                                 <!-- End Precio -->
                             </div>
@@ -110,11 +110,11 @@
                                 <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
                                     @if(PRODUCT.discount_g) {
-                                    <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
-                                        }}</span>
+                                    <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
+                                        }} {{ currency }} </span>
                                     }
                                     <span class="tp-product-price new-price">${{
-                                        getTotalPrice(PRODUCT)}}</span>
+                                        getTotalPrice(PRODUCT)}} {{ currency }} </span>
                                 </div>
                                 <!-- End Precio -->
                             </div>
@@ -170,11 +170,11 @@
                                 <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
                                     @if(PRODUCT.discount_g) {
-                                    <span class="tp-product-price old-price mx-1">${{ PRODUCT.price_cop
-                                        }}</span>
+                                    <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
+                                        }} {{ currency }} </span>
                                     }
                                     <span class="tp-product-price new-price">${{
-                                        getTotalPrice(PRODUCT)}}</span>
+                                        getTotalPrice(PRODUCT)}} {{ currency }} </span>
                                 </div>
                                 <!-- End Precio -->
                             </div>

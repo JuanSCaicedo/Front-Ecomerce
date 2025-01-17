@@ -196,7 +196,7 @@
                                             <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
-                                                <span class="tp-product-price old-price mx-1">${{ product.price_cop
+                                                <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(product)
                                                     }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
@@ -329,7 +329,7 @@
                                             <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
-                                                <span class="tp-product-price old-price mx-1">${{ product.price_cop
+                                                <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(product)
                                                     }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
@@ -463,7 +463,7 @@
                                             <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
-                                                <span class="tp-product-price old-price mx-1">${{ product.price_cop
+                                                <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(product)
                                                     }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{

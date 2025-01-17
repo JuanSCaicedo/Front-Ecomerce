@@ -35,10 +35,18 @@ export class TrendingProductsComponent {
   }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
-    if (DISCOUNT_FLASH_P.type_discount == 1) {
-      return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+    if (this.currency == 'COP') {
+      if (DISCOUNT_FLASH_P.type_discount == 1) {
+        return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+      } else {
+        return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
+      }
     } else {
-      return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
+      if (DISCOUNT_FLASH_P.type_discount == 1) {
+        return (PRODUCT.price_usd - PRODUCT.price_usd * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+      } else {
+        return (PRODUCT.price_usd - DISCOUNT_FLASH_P.discount).toFixed(2);
+      }
     }
   }
 
@@ -51,6 +59,14 @@ export class TrendingProductsComponent {
       return product.price_cop;
     } else {
       return product.price_usd;
+    }
+  }
+
+  getTotalCurrency(PRODUCT: any) {
+    if (this.currency == 'COP') {
+      return PRODUCT.price_cop;
+    } else {
+      return PRODUCT.price_usd;
     }
   }
 
