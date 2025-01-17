@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { CookieService } from 'ngx-cookie-service';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function LANDING_PRODUCT([]): any;
@@ -33,16 +34,23 @@ export class LandingProductComponent {
   EXIST_CAMPAING: boolean = false;
 
   sanitizedDescription!: SafeHtml;
+  currency: string = 'COP';
 
   constructor(
     public homeService: HomeService,
     public activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    public cookieService: CookieService,
   ) {
     this.queryParams(); // Llama a la función para obtener los parámetros de la URL
     this.params(); // Llama a la función para obtener los parámetros de la URL
+  }
+
+  ngAfterViewInit() {
+    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+    console.log(this.currency);
   }
 
   queryParams() {
@@ -136,10 +144,18 @@ export class LandingProductComponent {
   }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
-    if (DISCOUNT_FLASH_P.type_discount == 1) {
-      return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+    if (this.currency == 'COP') {
+      if (DISCOUNT_FLASH_P.type_discount == 1) {
+        return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+      } else {
+        return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
+      }
     } else {
-      return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
+      if (DISCOUNT_FLASH_P.type_discount == 1) {
+        return (PRODUCT.price_usd - PRODUCT.price_usd * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+      } else {
+        return (PRODUCT.price_usd - DISCOUNT_FLASH_P.discount).toFixed(2);
+      }
     }
   }
 
@@ -147,7 +163,20 @@ export class LandingProductComponent {
     if (product.discount_g) {
       return this.getNewTotal(product, product.discount_g);
     }
-    return product.price_cop;
+
+    if (this.currency == 'COP') {
+      return product.price_cop;
+    } else {
+      return product.price_usd;
+    }
+  }
+
+  getTotalCurrency(PRODUCT: any) {
+    if (this.currency == 'COP') {
+      return PRODUCT.price_cop;
+    } else {
+      return PRODUCT.price_usd;
+    }
   }
 
   selectedVariation(variation: any) {
