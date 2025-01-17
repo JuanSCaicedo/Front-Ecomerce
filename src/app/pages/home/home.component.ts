@@ -16,6 +16,7 @@ import { IgImagesComponent } from './ig-images/ig-images.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { FeatureComponent } from './feature/feature.component';
 import { isPlatformBrowser } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
@@ -93,6 +94,7 @@ export class HomeComponent {
   constructor(
     public homeService: HomeService,
     private toastr: ToastrService,
+    private cookieService: CookieService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.dataHome();

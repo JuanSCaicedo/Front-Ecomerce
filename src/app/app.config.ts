@@ -7,16 +7,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideClientHydration, withNoHttpTransferCache } from '@angular/platform-browser';
-
 import { CookieService } from 'ngx-cookie-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes),
-    provideAnimations(), // required animations providers
-    provideToastr(), // Toastr providers
-    provideHttpClient(withFetch()), 
-    provideClientHydration(
-      withNoHttpTransferCache()
-    ) //SSR
+  provideAnimations(), // required animations providers
+  provideToastr(), // Toastr providers
+  provideHttpClient(withFetch()),
+  provideClientHydration(
+    withNoHttpTransferCache()
+  ), CookieService //SSR
   ]
 };
