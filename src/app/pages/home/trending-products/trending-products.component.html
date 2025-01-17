@@ -99,7 +99,8 @@
                                                 <span class="product-hot">- {{ product.discount_g.discount }} %</span>
                                                 }
                                                 @if(product.discount_g.type_discount == 2) {
-                                                <span class="product-hot">- {{ product.discount_g.discount }} COP</span>
+                                                <span class="product-hot">- {{ product.discount_g.discount }} {{
+                                                    currency }}</span>
                                                 }
                                             </div>
                                             }
@@ -170,8 +171,7 @@
                                             </div>
                                         </div>
                                         <!-- product content -->
-                                        <div class="tp-product-content"
-                                            style="width: 214px; height: 226px; object-fit: contain;">
+                                        <div class="tp-product-content" style="height: 175px; object-fit: contain;">
                                             <div class="tp-product-category">
                                                 <a [routerLink]="'/producto/'+product.slug">{{ product.brand.name }}</a>
                                             </div>
@@ -197,10 +197,10 @@
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
                                                 <span class="tp-product-price old-price mx-1">${{ product.price_cop
-                                                    }}</span>
+                                                    }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
-                                                    getTotalPrice(product)}}</span>
+                                                    getTotalPrice(product)}} {{ currency }} </span>
                                             </div>
                                             <!-- End Precio -->
                                         </div>
@@ -233,7 +233,8 @@
                                                 <span class="product-hot">- {{ product.discount_g.discount }} %</span>
                                                 }
                                                 @if(product.discount_g.type_discount == 2) {
-                                                <span class="product-hot">- {{ product.discount_g.discount }} COP</span>
+                                                <span class="product-hot">- {{ product.discount_g.discount }} {{
+                                                    currency }}</span>
                                                 }
                                             </div>
                                             }
@@ -304,8 +305,7 @@
                                             </div>
                                         </div>
                                         <!-- product content -->
-                                        <div class="tp-product-content"
-                                            style="width: 214px; height: 216px; object-fit: contain;">
+                                        <div class="tp-product-content" style="height: 175px; object-fit: contain;">
                                             <div class="tp-product-category">
                                                 <a [routerLink]="'/producto/'+product.slug">{{ product.brand.name }}</a>
                                             </div>
@@ -330,10 +330,10 @@
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
                                                 <span class="tp-product-price old-price mx-1">${{ product.price_cop
-                                                    }}</span>
+                                                    }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
-                                                    getTotalPrice(product)}}</span>
+                                                    getTotalPrice(product)}} {{ currency }} </span>
                                             </div>
                                             <!-- End Precio -->
                                         </div>
@@ -367,7 +367,8 @@
                                                 <span class="product-hot">- {{ product.discount_g.discount }} %</span>
                                                 }
                                                 @if(product.discount_g.type_discount == 2) {
-                                                <span class="product-hot">- {{ product.discount_g.discount }} COP</span>
+                                                <span class="product-hot">- {{ product.discount_g.discount }} {{
+                                                    currency }}</span>
                                                 }
                                             </div>
                                             }
@@ -438,8 +439,7 @@
                                             </div>
                                         </div>
                                         <!-- product content -->
-                                        <div class="tp-product-content"
-                                            style="width: 214px; height: 226px; object-fit: contain;">
+                                        <div class="tp-product-content" style="height: 175px; object-fit: contain;">
                                             <div class="tp-product-category">
                                                 <a [routerLink]="'/producto/'+product.slug">{{ product.brand.name }}</a>
                                             </div>
@@ -464,10 +464,10 @@
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
                                                 <span class="tp-product-price old-price mx-1">${{ product.price_cop
-                                                    }}</span>
+                                                    }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
-                                                    getTotalPrice(product)}}</span>
+                                                    getTotalPrice(product)}} {{ currency }} </span>
                                             </div>
                                             <!-- End Precio -->
                                         </div>

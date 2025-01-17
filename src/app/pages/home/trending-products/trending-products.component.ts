@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { CookieService } from 'ngx-cookie-service';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -22,10 +23,16 @@ export class TrendingProductsComponent {
   @Input() VIEW_READY_TRENDING: boolean = false;
   @Input() TRENDING_STATE: boolean = false;
   product_selected: any = null;
+  currency: string = 'COP';
 
   constructor(
     public homeService: HomeService,
+    public cookieService: CookieService
   ) { }
+
+  ngAfterViewInit() {
+    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+  }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (DISCOUNT_FLASH_P.type_discount == 1) {
@@ -39,7 +46,12 @@ export class TrendingProductsComponent {
     if (product.discount_g) {
       return this.getNewTotal(product, product.discount_g);
     }
-    return product.price_cop;
+
+    if (this.currency == 'COP') {
+      return product.price_cop;
+    } else {
+      return product.price_usd;
+    }
   }
 
   OpenDetailProduct(product: any) {

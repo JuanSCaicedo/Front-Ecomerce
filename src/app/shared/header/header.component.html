@@ -48,14 +48,16 @@
         </div>
         <div class="offcanvas__bottom">
             <div class="offcanvas__footer d-flex align-items-center justify-content-between">
-                <div class="offcanvas__currency-wrapper currency">
+                <div class="offcanvas__currency-wrapper currency" *ngIf="isLoading">
                     <span class="offcanvas__currency-selected-currency tp-currency-toggle"
-                        id="tp-offcanvas-currency-toggle">Currency : USD</span>
+                        id="tp-offcanvas-currency-toggle">Currency : {{ currency }}</span>
                     <ul class="offcanvas__currency-list tp-currency-list">
-                        <li>USD</li>
-                        <li>ERU</li>
-                        <li>BDT </li>
-                        <li>INR</li>
+                        <li *ngIf="currency == 'COP'">
+                            <a href="#" onclick="return false;" (click)="changeCurrency('USD')">USD</a>
+                        </li>
+                        <li *ngIf="currency == 'USD'">
+                            <a href="#" onclick="return false;" (click)="changeCurrency('COP')">COP</a>
+                        </li>
                     </ul>
                 </div>
                 <div class="offcanvas__select language">
