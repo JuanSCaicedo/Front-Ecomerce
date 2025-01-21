@@ -99,12 +99,12 @@ export class HomeComponent {
     private cookieService: CookieService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
+    this.mantinanceStatus();
     this.dataHome();
   }
 
   ngOnInit() {
     this.scrollUp();
-    this.mantinanceStatus();
   }
 
   dataHome() {
