@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { HomeService } from '../service/home.service';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -18,7 +19,11 @@ export class ModalProductoComponent {
   filtered_images: any[] = []; // Lista de imágenes aleatorias
   variation_selected: any = null; // Lista de subvariaciones
 
+  constructor(private homeService: HomeService) { }
+
   ngOnInit() {
+    this.homeService.homeView().subscribe();
+
     console.log(this.product_selected);
     if (this.product_selected?.images) {
       this.filtered_images = this.getRandomImages(this.product_selected.images, 3);
