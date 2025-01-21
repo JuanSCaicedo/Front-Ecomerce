@@ -8,6 +8,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './subscribe.component.css'
 })
 export class SubscribeComponent {
-  @Input() SUBSCRIBE_STATE: boolean = false; 
-  @Input() MANTINANCE_STATUS: boolean = false; 
+  @Input() SUBSCRIBE_STATE: boolean = false;
 }

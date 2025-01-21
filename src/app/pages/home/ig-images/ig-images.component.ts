@@ -9,5 +9,4 @@ import { Component, Input } from '@angular/core';
 })
 export class IgImagesComponent {
   @Input() IG_IMAGES_STATE: boolean = false;
-  @Input() MANTINANCE_STATUS: boolean = false;
 }

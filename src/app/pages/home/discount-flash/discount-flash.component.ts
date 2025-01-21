@@ -23,7 +23,6 @@ export class DiscountFlashComponent {
   @Input() DISCOUNT_FLASH_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_FLASH: boolean = false;
   @Input() DISCOUNT_FLASH_PRODUCTS_STATE: boolean = false;
-  @Input() MANTINANCE_STATUS: boolean = false;
   currency: string = 'COP';
 
   constructor(

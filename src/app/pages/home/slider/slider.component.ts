@@ -15,7 +15,6 @@ export class SliderComponent {
   @Input() SLIDERS: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_SLIDERS: boolean = false;
   @Input() SLIDERS_STATE: boolean = false;
-  @Input() MANTINANCE_STATUS: boolean = false;
 
   constructor(
     public homeService: HomeService,

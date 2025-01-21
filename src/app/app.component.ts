@@ -53,9 +53,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.checkSession();
-    // Realiza la llamada inicial a homeView() y almacena los datos en el BehaviorSubject
-    // Realiza la llamada inicial para llenar el BehaviorSubject
-
+    
     // Suscríbete al observable para acceder a los datos cuando estén disponibles
     this.homeService.homeViewData$.subscribe((data) => {
       if (data) {

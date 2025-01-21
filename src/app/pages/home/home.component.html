@@ -1,76 +1,74 @@
 <main>
-
     <!-- slider area start -->
-    <app-slider [MANTINANCE_STATUS]="MANTINANCE_STATUS" [SLIDERS]="SLIDERS" [SLIDERS_STATE]="SLIDERS_STATE"
+    <app-slider [SLIDERS]="SLIDERS" [SLIDERS_STATE]="SLIDERS_STATE"
         [VIEW_READY_SLIDERS]="VIEW_READY_SLIDERS"></app-slider>
     <!-- slider area end -->
 
     <!-- product category area start -->
-    <app-categories [MANTINANCE_STATUS]="MANTINANCE_STATUS" [CATEGORIES_RANDOMS]="CATEGORIES_RANDOMS"
-        [CATEGORIES_STATE]="CATEGORIES_STATE"
+    <app-categories [CATEGORIES_RANDOMS]="CATEGORIES_RANDOMS" [CATEGORIES_STATE]="CATEGORIES_STATE"
         [VIEW_READY_CATEGORIES_RAMDOMS]="VIEW_READY_CATEGORIES_RAMDOMS"></app-categories>
     <!-- product category area end -->
 
     <!-- feature area start (ESTATIC) -->
-    <app-feature [MANTINANCE_STATUS]="MANTINANCE_STATUS" [FEATURE_STATE]="FEATURE_STATE"></app-feature>
+    <app-feature [FEATURE_STATE]="FEATURE_STATE"></app-feature>
     <!-- feature area end -->
 
     <!-- product area start -->
-    <app-trending-products [MANTINANCE_STATUS]="MANTINANCE_STATUS" (productSelected)="handleProductSelect($event)"
-        [TRENDING_PRODUCT_NEW]="TRENDING_PRODUCT_NEW" [TRENDING_PRODUCT_FEATURED]="TRENDING_PRODUCT_FEATURED"
+    <app-trending-products (productSelected)="handleProductSelect($event)" [TRENDING_PRODUCT_NEW]="TRENDING_PRODUCT_NEW"
+        [TRENDING_PRODUCT_FEATURED]="TRENDING_PRODUCT_FEATURED"
         [TRENDING_PRODUCT_TOP_SELLER]="TRENDING_PRODUCT_TOP_SELLER" [TRENDING_STATE]="TRENDING_STATE"
         [VIEW_READY_TRENDING]="VIEW_READY_TRENDING">
     </app-trending-products>
     <!-- product area end -->
 
     <!-- banner area start -->
-    <app-slider-secundario [MANTINANCE_STATUS]="MANTINANCE_STATUS" [SLIDERS_SECUNDARIOS]="SLIDERS_SECUNDARIOS"
+    <app-slider-secundario [SLIDERS_SECUNDARIOS]="SLIDERS_SECUNDARIOS"
         [VIEW_READY_SLIDERS_SECUNDARIOS]="VIEW_READY_SLIDERS_SECUNDARIOS"
         [SLIDERS_SECUNDARIOS_STATE]="SLIDERS_SECUNDARIOS_STATE"></app-slider-secundario>
     <!-- banner area end -->
 
     <!-- product offer area start -->
-    <app-discount-flash [MANTINANCE_STATUS]="MANTINANCE_STATUS" (productSelected)="handleProductSelect($event)"
-        [DISCOUNT_FLASH]="DISCOUNT_FLASH" [DISCOUNT_FLASH_PRODUCTS]="DISCOUNT_FLASH_PRODUCTS"
-        [VIEW_READY_FLASH]="VIEW_READY_FLASH" [DISCOUNT_FLASH_PRODUCTS_STATE]="DISCOUNT_FLASH_PRODUCTS_STATE">
+    <app-discount-flash (productSelected)="handleProductSelect($event)" [DISCOUNT_FLASH]="DISCOUNT_FLASH"
+        [DISCOUNT_FLASH_PRODUCTS]="DISCOUNT_FLASH_PRODUCTS" [VIEW_READY_FLASH]="VIEW_READY_FLASH"
+        [DISCOUNT_FLASH_PRODUCTS_STATE]="DISCOUNT_FLASH_PRODUCTS_STATE">
     </app-discount-flash>
     <!-- product deal area end -->
 
     <!-- Banner & Product Electronics -->
-    <app-electronic-products [MANTINANCE_STATUS]="MANTINANCE_STATUS" (productSelected)="handleProductSelect($event)"
-        [ELECTRONIC_PRODUCTS]="ELECTRONIC_PRODUCTS" [VIEW_READY_ELECTRONIC_PRODUCTS]="VIEW_READY_ELECTRONIC_PRODUCTS"
+    <app-electronic-products (productSelected)="handleProductSelect($event)" [ELECTRONIC_PRODUCTS]="ELECTRONIC_PRODUCTS"
+        [VIEW_READY_ELECTRONIC_PRODUCTS]="VIEW_READY_ELECTRONIC_PRODUCTS"
         [ELECTRONIC_PRODUCTS_STATE]="ELECTRONIC_PRODUCTS_STATE"></app-electronic-products>
     <!-- End Banner & Product Electronics -->
 
     <!-- product banner area start -->
-    <app-slider-products [MANTINANCE_STATUS]="MANTINANCE_STATUS" [SLIDERS_PRODUCTS]="SLIDERS_PRODUCTS"
+    <app-slider-products [SLIDERS_PRODUCTS]="SLIDERS_PRODUCTS"
         [VIEW_READY_SLIDERS_PRODUCTS]="VIEW_READY_SLIDERS_PRODUCTS"
         [SLIDERS_PRODUCTS_STATE]="SLIDERS_PRODUCTS_STATE"></app-slider-products>
     <!-- product banner area end -->
 
     <!-- product arrival area start -->
-    <app-carusel-products [MANTINANCE_STATUS]="MANTINANCE_STATUS" (productSelected)="handleProductSelect($event)"
-        [PRODUCTS_CARUSEL]="PRODUCTS_CARUSEL" [VIEW_READY_CARUSEL]="VIEW_READY_CARUSEL"
+    <app-carusel-products (productSelected)="handleProductSelect($event)" [PRODUCTS_CARUSEL]="PRODUCTS_CARUSEL"
+        [VIEW_READY_CARUSEL]="VIEW_READY_CARUSEL"
         [PRODUCTS_CARUSEL_STATE]="PRODUCTS_CARUSEL_STATE"></app-carusel-products>
     <!-- product arrival area end -->
 
     <!-- product sm area start -->
-    <app-last-products [MANTINANCE_STATUS]="MANTINANCE_STATUS" [LAST_PRODUCT_DISCOUNTS]="LAST_PRODUCT_DISCOUNTS"
-        [LAST_PRODUCT_FEATURED]="LAST_PRODUCT_FEATURED" [LAST_PRODUCT_SELLING]="LAST_PRODUCT_SELLING"
-        [VIEW_READY_LAST_PRODUCTS]="VIEW_READY_LAST_PRODUCTS" [LAST_PRODUCTS_STATE]="LAST_PRODUCTS_STATE">
+    <app-last-products [LAST_PRODUCT_DISCOUNTS]="LAST_PRODUCT_DISCOUNTS" [LAST_PRODUCT_FEATURED]="LAST_PRODUCT_FEATURED"
+        [LAST_PRODUCT_SELLING]="LAST_PRODUCT_SELLING" [VIEW_READY_LAST_PRODUCTS]="VIEW_READY_LAST_PRODUCTS"
+        [LAST_PRODUCTS_STATE]="LAST_PRODUCTS_STATE">
     </app-last-products>
     <!-- product sm area end -->
 
     <!-- blog area start (ESTATIC) -->
-    <app-blog [MANTINANCE_STATUS]="MANTINANCE_STATUS" [BLOG_STATE]="BLOG_STATE"></app-blog>
+    <app-blog [BLOG_STATE]="BLOG_STATE"></app-blog>
     <!-- blog area end -->
 
     <!-- instagram area start (ESTATIC) -->
-    <app-ig-images [MANTINANCE_STATUS]="MANTINANCE_STATUS" [IG_IMAGES_STATE]="IG_IMAGES_STATE"></app-ig-images>
+    <app-ig-images [IG_IMAGES_STATE]="IG_IMAGES_STATE"></app-ig-images>
     <!-- instagram area end -->
 
     <!-- subscribe area start (ESTATIC) -->
-    <app-subscribe [MANTINANCE_STATUS]="MANTINANCE_STATUS" [SUBSCRIBE_STATE]="SUBSCRIBE_STATE"></app-subscribe>
+    <app-subscribe [SUBSCRIBE_STATE]="SUBSCRIBE_STATE"></app-subscribe>
     <!-- subscribe area end -->
 
     <!-- Modal producto -->
@@ -106,7 +104,6 @@
         </div>
     </div>
     <!-- End Modal producto-->
-
 </main>
 
 @if(MANTINANCE_STATUS) {

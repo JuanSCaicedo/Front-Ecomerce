@@ -9,5 +9,4 @@ import { Component, Input } from '@angular/core';
 })
 export class BlogComponent {
   @Input() BLOG_STATE: boolean = true;
-  @Input() MANTINANCE_STATUS: boolean = false;
 }

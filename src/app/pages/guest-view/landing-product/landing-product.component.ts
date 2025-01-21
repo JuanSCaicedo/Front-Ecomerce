@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
+import { MaintenanceComponent } from '../../maintenance/maintenance.component';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function LANDING_PRODUCT([]): any;
@@ -15,7 +16,7 @@ declare var $: any;
 @Component({
   selector: 'app-landing-product',
   standalone: true,
-  imports: [CommonModule, RouterModule, ModalProductoComponent],
+  imports: [CommonModule, RouterModule, ModalProductoComponent, MaintenanceComponent],
   templateUrl: './landing-product.component.html',
   styleUrl: './landing-product.component.css'
 })
@@ -35,6 +36,7 @@ export class LandingProductComponent {
 
   sanitizedDescription!: SafeHtml;
   currency: string = 'COP';
+  MANTINANCE_STATUS: boolean = false;
 
   constructor(
     public homeService: HomeService,
@@ -63,7 +65,8 @@ export class LandingProductComponent {
     // Escuchar cambios en los parámetros de la ruta
     this.activatedRoute.params.subscribe((resp: any) => {
       this.PRODUCT_SLUG = resp.slug; // Actualiza el slug
-      this.loadProductDetails(); // Llama a la función para cargar los datos del producto
+      this.loadProductDetails(); // Llama a la función para cargar los datos del 
+      this.homeService.homeView().subscribe();
     });
   }
 

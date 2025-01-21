@@ -22,7 +22,6 @@ export class TrendingProductsComponent {
   @Input() TRENDING_PRODUCT_TOP_SELLER: any[] = [];
   @Input() VIEW_READY_TRENDING: boolean = false;
   @Input() TRENDING_STATE: boolean = false;
-  @Input() MANTINANCE_STATUS: boolean = false;
   product_selected: any = null;
   currency: string = 'COP';
 
