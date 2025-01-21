@@ -4,6 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HomeService } from '../../home/service/home.service';
 
 declare function password_show_toggle(): any;
 declare function password_show_toggle2(): any;
@@ -29,7 +30,8 @@ export class RegisterComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public homeService: HomeService
   ) {
     afterNextRender(() => {
       setTimeout(() => {
@@ -41,6 +43,8 @@ export class RegisterComponent {
 
   ngOnInit(): void {
     this.isLoading$ = this.authService.isLoading$;
+
+    this.homeService.homeView().subscribe();
 
     // Realiza scroll hacia la parte superior de la página
     setTimeout(() => {

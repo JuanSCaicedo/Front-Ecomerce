@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HomeService } from '../../home/service/home.service';
 
 declare function password_show_toggle(): any;
 declare function password_show_toggle2(): any;
@@ -27,7 +28,8 @@ export class NewPasswordComponent {
   constructor(
     public authService: AuthService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    public homeService: HomeService
   ) {
     afterNextRender(() => {
       setTimeout(() => {
@@ -39,6 +41,8 @@ export class NewPasswordComponent {
 
   ngOnInit() {
     this.isLoading$ = this.authService.isLoading$;
+
+    this.homeService.homeView().subscribe();
   }
 
   verifiedNewPassword() {

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../service/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HomeService } from '../../home/service/home.service';
 // import { HttpClientModule } from '@angular/common/http';
 
 declare function password_show_toggle(): any;
@@ -27,7 +28,8 @@ export class LoginComponent {
     private toastr: ToastrService,
     private authService: AuthService,
     public router: Router,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public homeService: HomeService,
   ) {
     afterNextRender(() => {
       setTimeout(() => {
@@ -39,6 +41,8 @@ export class LoginComponent {
   ngOnInit(): void {
 
     this.isLoading$ = this.authService.isLoading$;
+
+    this.homeService.homeView().subscribe();
 
     if (this.authService.token && this.authService.user) {
       window.location.href = "/";
@@ -103,9 +107,5 @@ export class LoginComponent {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     })
-  }
-
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
   }
 }

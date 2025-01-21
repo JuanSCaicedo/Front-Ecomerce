@@ -3,6 +3,7 @@ import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HomeService } from '../../home/service/home.service';
 
 @Component({
   selector: 'app-code-forgot-password',
@@ -23,12 +24,15 @@ export class CodeForgotPasswordComponent {
 
   constructor(
     public authService: AuthService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    public homeService: HomeService
   ) { }
 
   ngOnInit() {
 
     this.isLoading$ = this.authService.isLoading$;
+
+    this.homeService.homeView().subscribe();
 
     const storedIsLoadingCode = localStorage.getItem('isLoadingCode'); // Recuperar el valor de localStorage
     this.isLoadingCode = storedIsLoadingCode ? parseInt(storedIsLoadingCode) : null;

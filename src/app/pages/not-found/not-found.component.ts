@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HomeService } from '../home/service/home.service';
 
 @Component({
   selector: 'app-not-found',
@@ -9,6 +10,12 @@ import { RouterModule } from '@angular/router';
   styleUrl: './not-found.component.css'
 })
 export class NotFoundComponent {
+
+  constructor(
+    public homeService: HomeService,
+  ) { }
+
+
   ngOnInit() {
     // Realiza scroll hacia la parte superior de la página
     setTimeout(() => {
@@ -16,5 +23,7 @@ export class NotFoundComponent {
         window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
       }
     }, 0);
+
+    this.homeService.homeView().subscribe();
   }
 }

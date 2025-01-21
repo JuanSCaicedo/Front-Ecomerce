@@ -6,6 +6,7 @@ import { AuthService } from '../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HomeService } from '../../home/service/home.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -27,12 +28,15 @@ export class ForgotPasswordComponent {
 
   constructor(
     public authService: AuthService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    public homeService: HomeService
   ) { }
 
   ngOnInit() {
 
     this.isLoading$ = this.authService.isLoading$;
+
+    this.homeService.homeView().subscribe();
 
     if (typeof window !== 'undefined' && window.localStorage) {
       const storedData = localStorage.getItem('isLoadingMail');
