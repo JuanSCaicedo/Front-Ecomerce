@@ -45,7 +45,7 @@ declare var $: any;
     BlogComponent,
     IgImagesComponent,
     SubscribeComponent,
-    FeatureComponent, MaintenanceComponent],
+    FeatureComponent],
 
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

@@ -16,7 +16,7 @@ declare var $: any;
 @Component({
   selector: 'app-landing-product',
   standalone: true,
-  imports: [CommonModule, RouterModule, ModalProductoComponent, MaintenanceComponent],
+  imports: [CommonModule, RouterModule, ModalProductoComponent],
   templateUrl: './landing-product.component.html',
   styleUrl: './landing-product.component.css'
 })
