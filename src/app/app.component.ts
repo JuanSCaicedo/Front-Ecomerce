@@ -49,26 +49,22 @@ export class AppComponent {
     ).subscribe(() => {
       this.checkSession();
     });
-
-    this.mantinanceStatus();
-  }
-
-  mantinanceStatus() {
-    interface HomeView {
-      id: number;
-      name: string;
-      state: number;
-    }
-
-    this.homeService.homeView().subscribe((resp: any) => {
-      const homeViews: HomeView[] = resp.home_views;
-      const vista_mantenimiento = homeViews.find(view => view.name === 'vista_mantenimiento');
-      this.MANTINANCE_STATUS = vista_mantenimiento?.state === 1 ? true : false;
-    });
   }
 
   ngOnInit(): void {
     this.checkSession();
+    // Realiza la llamada inicial a homeView() y almacena los datos en el BehaviorSubject
+    // Realiza la llamada inicial para llenar el BehaviorSubject
+
+    // Suscríbete al observable para acceder a los datos cuando estén disponibles
+    this.homeService.homeViewData$.subscribe((data) => {
+      if (data) {
+        const vista_mantenimiento = data.home_views.find(
+          (view: any) => view.name === 'vista_mantenimiento'
+        );
+        this.MANTINANCE_STATUS = vista_mantenimiento?.state === 1 ? true : false;
+      }
+    });
   }
 
   ngOnDestroy(): void {

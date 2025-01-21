@@ -99,12 +99,12 @@ export class HomeComponent {
     private cookieService: CookieService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.dataHome();    
-    this.mantinanceStatus();
+    this.dataHome();
   }
 
   ngOnInit() {
-    this.scrollUp();    
+    this.scrollUp();
+    this.mantinanceStatus();
   }
 
   dataHome() {
@@ -211,16 +211,6 @@ export class HomeComponent {
   }
 
   mantinanceStatus() {
-    interface HomeView {
-      id: number;
-      name: string; 
-      state: number;
-    }
-
-    this.homeService.homeView().subscribe((resp: any) => {
-      const homeViews: HomeView[] = resp.home_views;
-      const vista_mantenimiento = homeViews.find(view => view.name === 'vista_mantenimiento');
-      this.MANTINANCE_STATUS = vista_mantenimiento?.state === 1 ? true : false;
-    });
+    this.homeService.homeView().subscribe();
   }
 }
