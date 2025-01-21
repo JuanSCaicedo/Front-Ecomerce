@@ -1,5 +1,6 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
+@if(!MANTINANCE_STATUS) {
+<app-app-layout></app-app-layout>
+
 <!-- Botón flotante de WhatsApp -->
 <div class="whatsapp-button">
     <a href="https://api.whatsapp.com/send?phone=573214285789" target="_blank">
@@ -7,4 +8,8 @@
             alt="WhatsApp">
     </a>
 </div>
-<app-footer></app-footer>
+}
+
+@if(MANTINANCE_STATUS) {
+<app-maintenance></app-maintenance>
+}

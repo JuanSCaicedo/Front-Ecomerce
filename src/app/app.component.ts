@@ -6,6 +6,9 @@ import { Subscription } from 'rxjs';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AppLayoutComponent } from './pages/app-layout/app-layout.component';
+import { HomeService } from './pages/home/service/home.service';
+import { MaintenanceComponent } from './pages/maintenance/maintenance.component';
 
 declare var $: any;
 declare function HOMEINIT([]): any;
@@ -13,7 +16,7 @@ declare function HOMEINIT([]): any;
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, HttpClientModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterOutlet, HttpClientModule, HeaderComponent, FooterComponent, AppLayoutComponent, MaintenanceComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -25,9 +28,11 @@ export class AppComponent {
 
   sessionTimeoutId: any = null;
   warningTimeoutId: any = null;
+  MANTINANCE_STATUS: boolean = false;
 
   constructor(
     public router: Router,
+    private homeService: HomeService
   ) {
     afterNextRender(() => {
       setTimeout(() => {
@@ -43,6 +48,22 @@ export class AppComponent {
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.checkSession();
+    });
+
+    this.mantinanceStatus();
+  }
+
+  mantinanceStatus() {
+    interface HomeView {
+      id: number;
+      name: string;
+      state: number;
+    }
+
+    this.homeService.homeView().subscribe((resp: any) => {
+      const homeViews: HomeView[] = resp.home_views;
+      const vista_mantenimiento = homeViews.find(view => view.name === 'vista_mantenimiento');
+      this.MANTINANCE_STATUS = vista_mantenimiento?.state === 1 ? true : false;
     });
   }
 

@@ -18,6 +18,11 @@ export class HomeService {
     return this.http.get(URL);
   }
 
+  homeView() {
+    let URL = URL_SERVICIOS + "/ecommerce/homeView";
+    return this.http.get(URL);
+  }
+
   menu() {
     let URL = URL_SERVICIOS + "/ecommerce/menu";
     return this.http.get(URL);

@@ -90,6 +90,7 @@ export class HomeComponent {
   IG_IMAGES_STATE: boolean = true;
   FEATURE_STATE: boolean = true;
   SUBSCRIBE_STATE: boolean = true;
+  MANTINANCE_STATUS: boolean = false;
 
   constructor(
     public homeService: HomeService,
@@ -97,11 +98,12 @@ export class HomeComponent {
     private cookieService: CookieService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.dataHome();
+    this.dataHome();    
+    this.mantinanceStatus();
   }
 
   ngOnInit() {
-    this.scrollUp();
+    this.scrollUp();    
   }
 
   dataHome() {
@@ -204,6 +206,20 @@ export class HomeComponent {
     Object.keys(statesMap).forEach((key) => {
       const view = HOME_VIEWS.find((view: HomeView) => view.name === key);
       this[statesMap[key]] = view?.state === 1;
+    });
+  }
+
+  mantinanceStatus() {
+    interface HomeView {
+      id: number;
+      name: string; 
+      state: number;
+    }
+
+    this.homeService.homeView().subscribe((resp: any) => {
+      const homeViews: HomeView[] = resp.home_views;
+      const vista_mantenimiento = homeViews.find(view => view.name === 'vista_mantenimiento');
+      this.MANTINANCE_STATUS = vista_mantenimiento?.state === 1 ? true : false;
     });
   }
 }
