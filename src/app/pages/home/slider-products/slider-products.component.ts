@@ -13,6 +13,7 @@ export class SliderProductsComponent {
   @Input() SLIDERS_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_SLIDERS_PRODUCTS: boolean = false;  // Usamos @Input() para recibir los datos
   @Input() SLIDERS_PRODUCTS_STATE: boolean = false;  // Usamos @Input() para recibir los datos
+  @Input() MANTINANCE_STATUS: boolean = false;  // Usamos @Input() para recibir los datos
 
   constructor(
     public homeService: HomeService,

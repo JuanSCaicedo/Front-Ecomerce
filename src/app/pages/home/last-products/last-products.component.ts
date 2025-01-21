@@ -19,6 +19,7 @@ export class LastProductsComponent {
   @Input() LAST_PRODUCT_SELLING: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_LAST_PRODUCTS: boolean = false;  // Usamos @Input() para recibir los datos
   @Input() LAST_PRODUCTS_STATE: boolean = false;  // Usamos @Input() para recibir los datos
+  @Input() MANTINANCE_STATUS: boolean = false;  // Usamos @Input() para recibir los datos
   currency: string = 'COP';
 
   constructor(

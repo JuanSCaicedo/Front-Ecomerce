@@ -17,6 +17,7 @@ import { SubscribeComponent } from './subscribe/subscribe.component';
 import { FeatureComponent } from './feature/feature.component';
 import { isPlatformBrowser } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
+import { MaintenanceComponent } from '../maintenance/maintenance.component';
 
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
@@ -44,7 +45,7 @@ declare var $: any;
     BlogComponent,
     IgImagesComponent,
     SubscribeComponent,
-    FeatureComponent],
+    FeatureComponent, MaintenanceComponent],
 
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

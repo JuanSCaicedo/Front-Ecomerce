@@ -1,4 +1,4 @@
-@if(VIEW_READY_FLASH && DISCOUNT_FLASH_PRODUCTS_STATE){
+@if(VIEW_READY_FLASH && DISCOUNT_FLASH_PRODUCTS_STATE && !MANTINANCE_STATUS){
 <section class="tp-product-offer grey-bg-2 pt-70 pb-80">
     <div class="container">
         <div class="row align-items-end">
@@ -43,8 +43,7 @@
                                 <div class="tp-product-thumb p-relative fix m-img">
                                     <a [routerLink]="[ '/producto', PRODUCT.slug ]"
                                         [queryParams]="{campaing_discount : DISCOUNT_FLASH.code}">
-                                        <img [src]="PRODUCT.imagen"
-                                            style="height: 322px; object-fit: contain;"
+                                        <img [src]="PRODUCT.imagen" style="height: 322px; object-fit: contain;"
                                             alt="product-electronic">
                                     </a>
 

@@ -14,6 +14,7 @@ export class SliderSecundarioComponent {
   @Input() SLIDERS_SECUNDARIOS: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_SLIDERS_SECUNDARIOS: boolean = false;  // Usamos @Input() para recibir los datos
   @Input() SLIDERS_SECUNDARIOS_STATE: boolean = false;  // Usamos @Input() para recibir los datos
+  @Input() MANTINANCE_STATUS: boolean = false;  // Usamos @Input() para recibir los datos
 
   constructor(
     public homeService: HomeService,

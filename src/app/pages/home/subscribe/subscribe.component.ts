@@ -9,4 +9,5 @@ import { Component, Input } from '@angular/core';
 })
 export class SubscribeComponent {
   @Input() SUBSCRIBE_STATE: boolean = false; 
+  @Input() MANTINANCE_STATUS: boolean = false; 
 }
