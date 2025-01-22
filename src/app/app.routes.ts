@@ -5,6 +5,7 @@ import { RegisterComponent } from './pages/auth/register/register.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { LandingProductComponent } from './pages/guest-view/landing-product/landing-product.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { authGuard } from './pages/auth/service/auth.guard';
 
 export const routes: Routes = [
     {
@@ -16,6 +17,7 @@ export const routes: Routes = [
         component: LoginComponent
     },
     {
+        // canActivate: [authGuard],
         path: 'register',
         component: RegisterComponent
     },
