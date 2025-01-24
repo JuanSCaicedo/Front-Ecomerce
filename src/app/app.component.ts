@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppLayoutComponent } from './pages/app-layout/app-layout.component';
 import { HomeService } from './pages/home/service/home.service';
 import { MaintenanceComponent } from './pages/maintenance/maintenance.component';
+import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 declare function HOMEINIT([]): any;
@@ -32,7 +33,8 @@ export class AppComponent {
 
   constructor(
     public router: Router,
-    private homeService: HomeService
+    private homeService: HomeService,
+    private toastr: ToastrService,
   ) {
     afterNextRender(() => {
       setTimeout(() => {
@@ -53,7 +55,7 @@ export class AppComponent {
 
   ngOnInit(): void {
     this.checkSession();
-    
+
     // Suscríbete al observable para acceder a los datos cuando estén disponibles
     this.homeService.homeViewData$.subscribe((data) => {
       if (data) {
@@ -62,6 +64,9 @@ export class AppComponent {
         );
         this.MANTINANCE_STATUS = vista_mantenimiento?.state === 1 ? true : false;
       }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 

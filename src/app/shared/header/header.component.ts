@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { isPlatformServer } from '@angular/common';
+import { CartService } from '../../pages/home/service/cart.service';
 
 declare function CurrecyChange([]): any;
 declare var $: any;
@@ -20,10 +21,13 @@ export class HeaderComponent {
   currency: string = 'COP';
   isLoading: boolean = false;
 
+  user: any;
+
   constructor(
     private router: Router,
     public cookieService: CookieService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    public cartService: CartService,
   ) {
     if (!isPlatformServer(this.platformId)) {
       setTimeout(() => {
@@ -32,6 +36,16 @@ export class HeaderComponent {
           CurrecyChange($);
         }, 50);
       }, 50);
+    }
+  }
+
+  ngOnInit() {
+    this.user = this.cartService.authService.user;
+
+    if (this.user) {
+      this.cartService.listCart().subscribe((resp: any) => {
+        console.log(resp);
+      });
     }
   }
 

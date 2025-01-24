@@ -108,7 +108,7 @@
                                             <!-- product action -->
                                             <div class="tp-product-action">
                                                 <div class="tp-product-action-item d-flex flex-column">
-                                                    <button type="button"
+                                                    <button type="button" (click)="addCart(product)"
                                                         class="tp-product-action-btn tp-product-add-cart-btn">
                                                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -196,7 +196,8 @@
                                             <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
-                                                <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(product)
+                                                <span class="tp-product-price old-price mx-1">${{
+                                                    getTotalCurrency(product)
                                                     }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
@@ -329,7 +330,8 @@
                                             <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
-                                                <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(product)
+                                                <span class="tp-product-price old-price mx-1">${{
+                                                    getTotalCurrency(product)
                                                     }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
@@ -463,7 +465,8 @@
                                             <!-- Precio -->
                                             <div class="tp-product-price-wrapper">
                                                 @if(product.discount_g) {
-                                                <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(product)
+                                                <span class="tp-product-price old-price mx-1">${{
+                                                    getTotalCurrency(product)
                                                     }} {{ currency }} </span>
                                                 }
                                                 <span class="tp-product-price new-price">${{
