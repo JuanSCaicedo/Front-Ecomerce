@@ -37,6 +37,8 @@ export class TrendingProductsComponent {
   ) { }
 
   addCart(PRODUCT: any) {
+    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
+
     if (!this.cartService.authService.user) {
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
       this.router.navigateByUrl("/login");
