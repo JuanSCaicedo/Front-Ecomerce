@@ -43,6 +43,13 @@ export class TrendingProductsComponent {
       return;
     }
 
+    if (PRODUCT.variations.length > 0) {
+      $("#producQuickViewModal").modal("show");
+      this.OpenDetailProduct(PRODUCT);
+      this.toastr.warning("Este producto tiene variaciones, por favor selecciona una variación antes de agregar al carrito", "Aviso");
+      return;
+    }
+
     let data = {
       product_id: PRODUCT.id,
       type_discount: null,

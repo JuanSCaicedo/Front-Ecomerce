@@ -17013,6 +17013,7 @@ only screen and (min-width: 576px) and (max-width: 767px),
 
 .cartmini__empty {
   margin-top: 150px;
+  margin-bottom: 150px;
 }
 
 .cartmini__empty img {

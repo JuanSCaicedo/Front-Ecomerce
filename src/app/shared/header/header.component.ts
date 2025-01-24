@@ -22,6 +22,8 @@ export class HeaderComponent {
   isLoading: boolean = false;
 
   user: any;
+  listCart: any = [];
+  totalCarts: number = 0;
 
   constructor(
     private router: Router,
@@ -45,8 +47,17 @@ export class HeaderComponent {
     if (this.user) {
       this.cartService.listCart().subscribe((resp: any) => {
         console.log(resp);
+        resp.carts.data.forEach((cart: any) => {
+          this.cartService.changeCart(cart);
+        });
       });
     }
+
+    this.cartService.currentDataCart$.subscribe((resp: any) => {
+      console.log(resp);
+      this.listCart = resp;
+      this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
+    });
   }
 
   ngAfterViewInit() {

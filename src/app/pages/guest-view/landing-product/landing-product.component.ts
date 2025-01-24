@@ -250,20 +250,22 @@ export class LandingProductComponent {
   }
 
   cerrarAlerta() {
-    // Ocultar después de 3 segundos
-    setTimeout(() => {
+    if (typeof $ !== 'undefined') {
+      // Ocultar después de 3 segundos
+      setTimeout(() => {
+        const toastElement = document.querySelector('.toast-container') as HTMLElement;
+        if (toastElement) {
+          toastElement.style.display = 'none';
+        }
+      }, 3000);
+
+      // Agregar evento click para ocultar
       const toastElement = document.querySelector('.toast-container') as HTMLElement;
       if (toastElement) {
-        toastElement.style.display = 'none';
+        toastElement.addEventListener('click', () => {
+          toastElement.style.display = 'none';
+        });
       }
-    }, 3000);
-
-    // Agregar evento click para ocultar
-    const toastElement = document.querySelector('.toast-container') as HTMLElement;
-    if (toastElement) {
-      toastElement.addEventListener('click', () => {
-        toastElement.style.display = 'none';
-      });
     }
   }
 }
