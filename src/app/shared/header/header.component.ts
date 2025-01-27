@@ -5,6 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { isPlatformServer } from '@angular/common';
 import { CartService } from '../../pages/home/service/cart.service';
+import { AuthService } from '../../pages/auth/service/auth.service';
 
 declare function CurrecyChange([]): any;
 declare var $: any;
@@ -30,6 +31,7 @@ export class HeaderComponent {
     public cookieService: CookieService,
     @Inject(PLATFORM_ID) private platformId: Object,
     public cartService: CartService,
+    public authService: AuthService,
   ) {
     if (!isPlatformServer(this.platformId)) {
       setTimeout(() => {
@@ -38,13 +40,17 @@ export class HeaderComponent {
           CurrecyChange($);
         }, 50);
       }, 50);
+
+      this.listadoCarrito();
     }
   }
 
-  ngOnInit() {
-    this.user = this.cartService.authService.user;
+  listadoCarrito() {
+    const token = localStorage.getItem('token');
 
-    if (this.user) {
+    if (token) {
+      this.authService.tokenSubject.next(token); // Sincroniza el token
+
       this.cartService.listCart().subscribe((resp: any) => {
         console.log(resp);
         resp.carts.data.forEach((cart: any) => {

@@ -17,7 +17,8 @@ import { SubscribeComponent } from './subscribe/subscribe.component';
 import { FeatureComponent } from './feature/feature.component';
 import { isPlatformBrowser } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
-import { MaintenanceComponent } from '../maintenance/maintenance.component';
+import { CartService } from './service/cart.service';
+import { AuthService } from '../auth/service/auth.service';
 
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
@@ -92,19 +93,40 @@ export class HomeComponent {
   FEATURE_STATE: boolean = true;
   SUBSCRIBE_STATE: boolean = true;
   MANTINANCE_STATUS: boolean = false;
+  user: any;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     public homeService: HomeService,
     private toastr: ToastrService,
-    private cookieService: CookieService,
-    @Inject(PLATFORM_ID) private platformId: Object
+    private cartService: CartService,
+    private authService: AuthService,
   ) {
     this.mantinanceStatus();
     this.dataHome();
+    this.listadoCarrito();
   }
 
   ngOnInit() {
     this.scrollUp();
+  }
+
+  listadoCarrito() {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      this.authService.tokenSubject.next(token); // Sincroniza el token
+
+      this.cartService.listCart().subscribe((resp: any) => {
+        console.log(resp);
+        resp.carts.data.forEach((cart: any) => {
+          this.cartService.changeCart(cart);
+        });
+      });
+    } else {
+      this.authService.tokenSubject.next(token); // Sincroniza el token
+      this.cartService.clearCart();
+    }
   }
 
   dataHome() {

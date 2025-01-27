@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { CartService } from '../service/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../auth/service/auth.service';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -33,13 +34,13 @@ export class TrendingProductsComponent {
     public cartService: CartService,
     private router: Router,
     private toastr: ToastrService,
-
+    private authService: AuthService,
   ) { }
 
   addCart(PRODUCT: any) {
     this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
-    if (!this.cartService.authService.user) {
+    if (!this.authService.tokenSubject.value) {
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
       this.router.navigateByUrl("/login");
       return;

@@ -12,10 +12,16 @@ export class CartService {
   public cart = new BehaviorSubject<Array<any>>([]);
   public currentDataCart$ = this.cart.asObservable();
 
+  token: any;
+
   constructor(
     public authService: AuthService,
     public http: HttpClient,
-  ) { }
+  ) {
+    this.authService.tokenSubject.subscribe((token) => {
+      this.token = token; // Actualiza el token del servicio
+    });
+  }
 
   changeCart(DATA: any) {
     let listCart = this.cart.getValue();
@@ -48,26 +54,38 @@ export class CartService {
     this.cart.next(listCart);
   }
 
+  clearCart() {
+    this.cart.next([]); // Vacía el carrito
+  }
+
   listCart() {
-    let headers = new HttpHeaders({ "Authorization": 'Bearer' + this.authService.token });
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${this.token}` // Usa el token actualizado
+    });
     let URL = URL_SERVICIOS + "/ecommerce/cart";
     return this.http.get(URL, { headers: headers });
   }
 
   registerCart(data: any) {
-    let headers = new HttpHeaders({ "Authorization": 'Bearer' + this.authService.token });
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${this.token}` // Usa el token actualizado
+    });
     let URL = URL_SERVICIOS + "/ecommerce/cart";
     return this.http.post(URL, data, { headers: headers });
   }
 
   updateCart(cart_id: string, data: any) {
-    let headers = new HttpHeaders({ "Authorization": 'Bearer' + this.authService.token });
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${this.token}` // Usa el token actualizado
+    });
     let URL = URL_SERVICIOS + "/ecommerce/cart" + cart_id;
     return this.http.put(URL, data, { headers: headers });
   }
 
   deleteCart(cart_id: string) {
-    let headers = new HttpHeaders({ "Authorization": 'Bearer' + this.authService.token });
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${this.token}` // Usa el token actualizado
+    });
     let URL = URL_SERVICIOS + "/ecommerce/cart" + cart_id;
     return this.http.delete(URL, { headers: headers });
   }

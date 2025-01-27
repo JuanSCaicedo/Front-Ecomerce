@@ -1,14 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, afterNextRender } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { URL_SERVICIOS } from '../../../config/config';
-import { isPlatformBrowser } from '@angular/common';
 import { catchError, BehaviorSubject, Observable, finalize, map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  public tokenSubject = new BehaviorSubject<string | null>(null);
+
+  get token_t() {
+    return this.tokenSubject.value;
+  }
 
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
@@ -60,6 +65,7 @@ export class AuthService {
     if (resp && resp.access_token) {
       localStorage.setItem("token", resp.access_token);
       localStorage.setItem("user", JSON.stringify(resp.user));
+      this.tokenSubject.next(resp.token); // Notifica cambios
       return true;
     }
     return false;
