@@ -104,7 +104,10 @@ export class HomeComponent {
   ) {
     this.mantinanceStatus();
     this.dataHome();
-    this.listadoCarrito();
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.listadoCarrito();
+    }
   }
 
   ngOnInit() {
