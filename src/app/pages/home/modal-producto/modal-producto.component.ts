@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../auth/service/auth.service';
+import { CartService } from '../service/cart.service';
+import { ToastrService } from 'ngx-toastr';
+import { CookieService } from 'ngx-cookie-service';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -18,8 +23,17 @@ export class ModalProductoComponent {
 
   filtered_images: any[] = []; // Lista de imágenes aleatorias
   variation_selected: any = null; // Lista de subvariaciones
+  currency: string = 'COP';
+  sub_variation_selected: any; // Subvariación seleccionada
 
-  constructor(private homeService: HomeService) { }
+  constructor(
+    private homeService: HomeService,
+    private router: Router,
+    private authService: AuthService,
+    private cartService: CartService,
+    private toastr: ToastrService,
+    public cookieService: CookieService,
+  ) { }
 
   ngOnInit() {
     this.homeService.homeView().subscribe();
@@ -32,6 +46,10 @@ export class ModalProductoComponent {
     setTimeout(() => {
       MODAL_PRODUCT_DETAIL($);
     }, 50);
+  }
+
+  ngAfterViewInit() {
+    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
   }
 
   // Método para obtener N elementos aleatorios
@@ -63,5 +81,85 @@ export class ModalProductoComponent {
       this.variation_selected = variation;
       MODAL_PRODUCT_DETAIL($);
     }, 50);
+  }
+
+  getTotalCurrency(PRODUCT: any) {
+    if (this.currency == 'COP') {
+      return PRODUCT.price_cop;
+    } else {
+      return PRODUCT.price_usd;
+    }
+  }
+
+  selectedSubVariation(subvariation: any) {
+    this.sub_variation_selected = null;
+
+    setTimeout(() => {
+      this.sub_variation_selected = subvariation;
+      MODAL_PRODUCT_DETAIL($);
+    }, 50);
+  }
+
+  addCart() {
+    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
+
+    if (!this.authService.tokenSubject.value) {
+      this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
+      this.router.navigateByUrl("/login");
+      return;
+    }
+
+    if (this.product_selected.variations.length > 0) {
+      if (!this.variation_selected) {
+        this.toastr.error("Validación", "Debes seleccionar una variación");
+        return;
+      }
+
+      if (this.variation_selected && this.variation_selected.subvariations.length > 0) {
+        if (!this.sub_variation_selected) {
+          this.toastr.error("Validación", "Debes seleccionar una sub-variación");
+          return;
+        }
+      }
+    }
+
+    let product_variation_id = null;
+
+    if (this.product_selected.variations.length > 0 && this.variation_selected.subvariations.length == 0 && this.variation_selected) {
+      product_variation_id = this.variation_selected.id;
+    }
+
+    if (this.product_selected.variations.length > 0 && this.variation_selected.subvariations.length > 0 && this.variation_selected) {
+      product_variation_id = this.sub_variation_selected.id;
+    }
+
+    let data = {
+      product_id: this.product_selected.id,
+      type_discount: null,
+      discount: 0,
+      type_campaing: null,
+      code_cupon: null,
+      code_discount: null,
+      product_variation_id: product_variation_id,
+      quantity: 1,
+      price_unit: this.product_selected.price_cop,
+      subtotal: this.product_selected.price_cop,
+      total: this.product_selected.price_cop,
+      currency: this.currency,
+    }
+
+    this.cartService.registerCart(data).subscribe((resp: any) => {
+      console.log(resp);
+
+      if (resp.message == 403) {
+        this.toastr.error("Validación", resp.message_text);
+      } else {
+        this.cartService.changeCart(resp.cart);
+        this.toastr.success("Éxito", "Producto agregado al carrito");
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
   }
 }

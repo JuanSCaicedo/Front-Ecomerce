@@ -37,6 +37,10 @@ export class TrendingProductsComponent {
     private authService: AuthService,
   ) { }
 
+  ngOnInit() {
+    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+  }
+
   addCart(PRODUCT: any) {
     this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
@@ -65,7 +69,7 @@ export class TrendingProductsComponent {
       price_unit: PRODUCT.price_cop,
       subtotal: PRODUCT.price_cop,
       total: PRODUCT.price_cop,
-      currency: 'COP',
+      currency: this.currency,
     }
 
     this.cartService.registerCart(data).subscribe((resp: any) => {
@@ -81,10 +85,6 @@ export class TrendingProductsComponent {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
-  }
-
-  ngAfterViewInit() {
-    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
   }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {

@@ -121,7 +121,6 @@ export class HomeComponent {
       this.authService.tokenSubject.next(token); // Sincroniza el token
 
       this.cartService.listCart().subscribe((resp: any) => {
-        console.log(resp);
         resp.carts.data.forEach((cart: any) => {
           this.cartService.changeCart(cart);
         });

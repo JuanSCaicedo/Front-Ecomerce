@@ -50,9 +50,8 @@ export class LandingProductComponent {
     this.params(); // Llama a la función para obtener los parámetros de la URL
   }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
-    console.log(this.currency);
   }
 
   queryParams() {

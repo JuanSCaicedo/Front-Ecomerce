@@ -45,6 +45,10 @@ export class HeaderComponent {
     }
   }
 
+  ngOnInit() {
+    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+  }
+
   listadoCarrito() {
     const token = localStorage.getItem('token');
 
@@ -60,14 +64,9 @@ export class HeaderComponent {
     }
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
-      console.log(resp);
       this.listCart = resp;
       this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
     });
-  }
-
-  ngAfterViewInit() {
-    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
   }
 
   navigateToHome() {
