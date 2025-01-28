@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { HomeService } from '../service/home.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/service/auth.service';
 import { CartService } from '../service/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
-
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
 
@@ -34,6 +33,8 @@ export class ModalProductoComponent {
     private cartService: CartService,
     private toastr: ToastrService,
     public cookieService: CookieService,
+    private el: ElementRef,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -130,6 +131,8 @@ export class ModalProductoComponent {
     if (!this.authService.tokenSubject.value) {
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
       this.router.navigateByUrl("/login");
+
+      $("#producQuickViewModal").modal("hide"); // Oculta el modal
       return;
     }
 
