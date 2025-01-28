@@ -37,6 +37,7 @@ export class LandingProductComponent {
   sanitizedDescription!: SafeHtml;
   currency: string = 'COP';
   MANTINANCE_STATUS: boolean = false;
+  is_flash: boolean = false;
 
   constructor(
     public homeService: HomeService,
@@ -57,6 +58,12 @@ export class LandingProductComponent {
   queryParams() {
     this.activatedRoute.queryParams.subscribe((resp: any) => {
       this.CAMPAING_CODE = resp.campaing_discount; // Actualiza CAMPAING_CODE
+
+      if (this.CAMPAING_CODE) {
+        this.is_flash = true;
+      } else {
+        this.is_flash = false;
+      }
     });
   }
 
@@ -161,15 +168,25 @@ export class LandingProductComponent {
     }
   }
 
-  getTotalPrice(product: any) {
-    if (product.discount_g) {
-      return this.getNewTotal(product, product.discount_g);
+  getTotalPriceProduct(PRODUCT: any) {
+    if (PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
+      return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
     }
-
     if (this.currency == 'COP') {
-      return product.price_cop;
+      return PRODUCT.price_cop;
     } else {
-      return product.price_usd;
+      return PRODUCT.price_usd;
+    }
+  }
+
+  getTotalPriceProductFlash(PRODUCT: any) {
+    if (PRODUCT.discount_g) {
+      return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
+    }
+    if (this.currency == 'COP') {
+      return PRODUCT.price_cop;
+    } else {
+      return PRODUCT.price_usd;
     }
   }
 

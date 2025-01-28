@@ -113,12 +113,38 @@
                      </p>
 
                      <!-- price -->
+                     @if(!is_flash){
                      <div class="tp-product-details-price-wrapper mb-20">
-                        <span class="tp-product-details-price old-price mx-1" *ngIf="PRODUCT_SELECTED.discount_g">${{
-                           getTotalCurrency(PRODUCT_SELECTED) }} {{ currency }}</span>
-                        <span class="tp-product-details-price new-price">${{ getTotalPrice(PRODUCT_SELECTED) }} {{
-                           currency }}</span>
+
+                        @if(PRODUCT_SELECTED.discount_g && PRODUCT_SELECTED.discount_g.type_campaing != 2){
+                        <span class="tp-product-details-price old-price mx-1">
+                           {{ getTotalCurrency(PRODUCT_SELECTED) }} {{ currency }}
+                        </span>
+                        }
+
+                        <span class="tp-product-details-price new-price">
+                           {{ getTotalPriceProduct(PRODUCT_SELECTED) }} {{ currency }}
+                        </span>
+
                      </div>
+                     }
+
+                     @if(is_flash){
+                     <div class="tp-product-details-price-wrapper mb-20">
+
+                        @if(PRODUCT_SELECTED.discount_g){
+                        <span class="tp-product-details-price old-price mx-1">
+                           {{ getTotalCurrency(PRODUCT_SELECTED) }} {{ currency }}
+                        </span>
+                        }
+
+                        <span class="tp-product-details-price new-price">
+                           {{ getTotalPriceProductFlash(PRODUCT_SELECTED) }} {{ currency }}
+                        </span>
+
+                     </div>
+                     }
+                     <!-- End price -->
 
                      <!-- variations & subvariations -->
                      <div class="tp-product-details-variation">
@@ -613,7 +639,7 @@
                               </a>
 
                               <!-- product badge -->
-                              @if(PRODUCT.discount_g) {
+                              @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
                               <div class="tp-product-badge">
 
                                  @if(PRODUCT.discount_g.type_discount == 1) {
@@ -714,12 +740,12 @@
                               </div>
 
                               <div class="tp-product-price-wrapper">
-                                 @if(PRODUCT.discount_g) {
+                                 @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
                                  <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
                                     }} {{ currency }}</span>
                                  }
                                  <span class="tp-product-price new-price">${{
-                                    getTotalPrice(PRODUCT)}} {{ currency }}</span>
+                                    getTotalPriceProduct(PRODUCT)}} {{ currency }}</span>
                               </div>
                            </div>
                         </div>
