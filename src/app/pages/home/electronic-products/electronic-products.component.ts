@@ -18,6 +18,7 @@ declare var $: any;
 export class ElectronicProductsComponent {
 
   @Output() productSelected = new EventEmitter<any>();
+  @Output() isFlash = new EventEmitter<boolean>();
   @Input() ELECTRONIC_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_ELECTRONIC_PRODUCTS: boolean = false;
   @Input() ELECTRONIC_PRODUCTS_STATE: boolean = false;
@@ -49,7 +50,7 @@ export class ElectronicProductsComponent {
   }
 
   getTotalPrice(product: any) {
-    if (product.discount_g) {
+    if (product.discount_g && product.discount_g.type_campaing != 2) {
       return this.getNewTotal(product, product.discount_g);
     }
 
@@ -76,6 +77,7 @@ export class ElectronicProductsComponent {
     setTimeout(() => {
       // Emitimos el producto seleccionado
       this.productSelected.emit(PRODUCT);
+      this.isFlash.emit(false);
       // Abrimos el modal
       MODAL_PRODUCT_DETAIL($);
     }, 50);

@@ -20,6 +20,7 @@ declare var $: any;
 export class TrendingProductsComponent {
 
   @Output() productSelected = new EventEmitter<any>();
+  @Output() isFlash = new EventEmitter<boolean>();
   @Input() TRENDING_PRODUCT_NEW: any[] = [];
   @Input() TRENDING_PRODUCT_FEATURED: any[] = [];
   @Input() TRENDING_PRODUCT_TOP_SELLER: any[] = [];
@@ -104,7 +105,7 @@ export class TrendingProductsComponent {
   }
 
   getTotalPrice(product: any) {
-    if (product.discount_g) {
+    if (product.discount_g && product.discount_g.type_campaing != 2) {
       return this.getNewTotal(product, product.discount_g);
     }
 
@@ -131,6 +132,7 @@ export class TrendingProductsComponent {
     setTimeout(() => {
       // Emitimos el producto seleccionado
       this.productSelected.emit(product);
+      this.isFlash.emit(false);
       // Abrimos el modal
       MODAL_PRODUCT_DETAIL($);
     }, 50);

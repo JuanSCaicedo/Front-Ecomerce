@@ -20,6 +20,7 @@ declare var $: any;
 export class ModalProductoComponent {
 
   @Input() product_selected: any = null;
+  @Input() is_flash: boolean = false;
 
   filtered_images: any[] = []; // Lista de imágenes aleatorias
   variation_selected: any = null; // Lista de subvariaciones
@@ -76,6 +77,17 @@ export class ModalProductoComponent {
   }
 
   getTotalPriceProduct(PRODUCT: any) {
+    if (PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
+      return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
+    }
+    if (this.currency == 'COP') {
+      return PRODUCT.price_cop;
+    } else {
+      return PRODUCT.price_usd;
+    }
+  }
+
+  getTotalPriceProductFlash(PRODUCT: any) {
     if (PRODUCT.discount_g) {
       return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
     }

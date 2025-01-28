@@ -80,14 +80,15 @@
                                     </a>
 
                                     <!-- product badge -->
-                                    @if(PRODUCT.discount_g) {
+                                    @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
                                     <div class="tp-product-badge">
 
                                         @if(PRODUCT.discount_g.type_discount == 1) {
                                         <span class="product-hot">- {{ PRODUCT.discount_g.discount }} %</span>
                                         }
                                         @if(PRODUCT.discount_g.type_discount == 2) {
-                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} {{ currency }}</span>
+                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} {{ currency
+                                            }}</span>
                                         }
                                     </div>
                                     }
@@ -180,7 +181,7 @@
                                     </div>
                                     <!-- Precio -->
                                     <div class="tp-product-price-wrapper">
-                                        @if(PRODUCT.discount_g) {
+                                        @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
                                         <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
                                             }} {{ currency }}</span>
                                         }

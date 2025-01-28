@@ -14,8 +14,8 @@
     <!-- feature area end -->
 
     <!-- product area start -->
-    <app-trending-products (productSelected)="handleProductSelect($event)" [TRENDING_PRODUCT_NEW]="TRENDING_PRODUCT_NEW"
-        [TRENDING_PRODUCT_FEATURED]="TRENDING_PRODUCT_FEATURED"
+    <app-trending-products (isFlash)="viewFlash($event)" (productSelected)="handleProductSelect($event)"
+        [TRENDING_PRODUCT_NEW]="TRENDING_PRODUCT_NEW" [TRENDING_PRODUCT_FEATURED]="TRENDING_PRODUCT_FEATURED"
         [TRENDING_PRODUCT_TOP_SELLER]="TRENDING_PRODUCT_TOP_SELLER" [TRENDING_STATE]="TRENDING_STATE"
         [VIEW_READY_TRENDING]="VIEW_READY_TRENDING">
     </app-trending-products>
@@ -28,15 +28,15 @@
     <!-- banner area end -->
 
     <!-- product offer area start -->
-    <app-discount-flash (productSelected)="handleProductSelect($event)" [DISCOUNT_FLASH]="DISCOUNT_FLASH"
-        [DISCOUNT_FLASH_PRODUCTS]="DISCOUNT_FLASH_PRODUCTS" [VIEW_READY_FLASH]="VIEW_READY_FLASH"
-        [DISCOUNT_FLASH_PRODUCTS_STATE]="DISCOUNT_FLASH_PRODUCTS_STATE">
+    <app-discount-flash (isFlash)="viewFlash($event)" (productSelected)="handleProductSelect($event)"
+        [DISCOUNT_FLASH]="DISCOUNT_FLASH" [DISCOUNT_FLASH_PRODUCTS]="DISCOUNT_FLASH_PRODUCTS"
+        [VIEW_READY_FLASH]="VIEW_READY_FLASH" [DISCOUNT_FLASH_PRODUCTS_STATE]="DISCOUNT_FLASH_PRODUCTS_STATE">
     </app-discount-flash>
     <!-- product deal area end -->
 
     <!-- Banner & Product Electronics -->
-    <app-electronic-products (productSelected)="handleProductSelect($event)" [ELECTRONIC_PRODUCTS]="ELECTRONIC_PRODUCTS"
-        [VIEW_READY_ELECTRONIC_PRODUCTS]="VIEW_READY_ELECTRONIC_PRODUCTS"
+    <app-electronic-products (isFlash)="viewFlash($event)" (productSelected)="handleProductSelect($event)"
+        [ELECTRONIC_PRODUCTS]="ELECTRONIC_PRODUCTS" [VIEW_READY_ELECTRONIC_PRODUCTS]="VIEW_READY_ELECTRONIC_PRODUCTS"
         [ELECTRONIC_PRODUCTS_STATE]="ELECTRONIC_PRODUCTS_STATE"></app-electronic-products>
     <!-- End Banner & Product Electronics -->
 
@@ -78,7 +78,7 @@
             <div class="modal-content">
                 @defer (on viewport; when product_selected){
                 @if(product_selected){
-                <app-modal-producto [product_selected]="product_selected"></app-modal-producto>
+                <app-modal-producto [is_flash]="is_flash" [product_selected]="product_selected"></app-modal-producto>
                 }
                 } @placeholder (minimum 1000ms) {
                 <!-- pre loader area start -->

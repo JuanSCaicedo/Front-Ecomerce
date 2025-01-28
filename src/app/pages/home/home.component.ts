@@ -55,6 +55,7 @@ export class HomeComponent {
 
   [key: string]: any; // Agrega este índice dinámico para evitar errores de compilación
   product_selected: any = null;
+  is_flash: boolean = false;
   SLIDERS: any = [];
   CATEGORIES_RANDOMS: any = [];
   TRENDING_PRODUCT_NEW: any = [];
@@ -181,6 +182,10 @@ export class HomeComponent {
 
   handleProductSelect(product: any) {
     this.product_selected = product;
+  }
+
+  viewFlash(viewFlash: any) {
+    this.is_flash = viewFlash;
   }
 
   callPlugin() {

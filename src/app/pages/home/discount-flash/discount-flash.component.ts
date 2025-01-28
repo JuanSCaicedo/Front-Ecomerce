@@ -18,6 +18,7 @@ declare var $: any;
 export class DiscountFlashComponent {
 
   @Output() productSelected = new EventEmitter<any>();
+  @Output() isFlash = new EventEmitter<boolean>();
 
   @Input() DISCOUNT_FLASH: any;  // Usamos @Input() para recibir los datos
   @Input() DISCOUNT_FLASH_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
@@ -58,6 +59,7 @@ export class DiscountFlashComponent {
     setTimeout(() => {
       // Emitimos el producto seleccionado
       this.productSelected.emit(PRODUCT);
+      this.isFlash.emit(true);
       // Abrimos el modal
       MODAL_PRODUCT_DETAIL($);
     }, 50);

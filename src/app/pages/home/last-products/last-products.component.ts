@@ -47,7 +47,7 @@ export class LastProductsComponent {
   }
 
   getTotalPrice(product: any) {
-    if (product.discount_g) {
+    if (product.discount_g && product.discount_g.type_campaing != 2) {
       return this.getNewTotal(product, product.discount_g);
     }
 

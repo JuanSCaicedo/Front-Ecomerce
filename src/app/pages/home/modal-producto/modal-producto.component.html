@@ -73,14 +73,37 @@
         </p>
 
         <!-- Precio -->
+        @if(!is_flash){
         <div class="tp-product-details-price-wrapper mb-20">
-            @if(product_selected.discount_g){
-            <span class="tp-product-details-price old-price mx-1">{{ getTotalCurrency(product_selected) }} {{ currency
-                }}</span>
+
+            @if(product_selected.discount_g && product_selected.discount_g.type_campaing != 2){
+            <span class="tp-product-details-price old-price mx-1">
+                {{ getTotalCurrency(product_selected) }} {{ currency }}
+            </span>
             }
-            <span class="tp-product-details-price new-price">{{ getTotalPriceProduct(product_selected) }} {{ currency
-                }}</span>
+
+            <span class="tp-product-details-price new-price">
+                {{ getTotalPriceProduct(product_selected) }} {{ currency }}
+            </span>
+
         </div>
+        }
+
+        @if(is_flash){
+        <div class="tp-product-details-price-wrapper mb-20">
+
+            @if(product_selected.discount_g){
+            <span class="tp-product-details-price old-price mx-1">
+                {{ getTotalCurrency(product_selected) }} {{ currency }}
+            </span>
+            }
+
+            <span class="tp-product-details-price new-price">
+                {{ getTotalPriceProductFlash(product_selected) }} {{ currency }}
+            </span>
+
+        </div>
+        }
         <!-- End Precio -->
 
         <!-- variations -->
