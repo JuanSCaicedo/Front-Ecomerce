@@ -38,6 +38,8 @@ export class ModalProductoComponent {
   ngOnInit() {
     this.homeService.homeView().subscribe();
 
+    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+
     console.log(this.product_selected);
     if (this.product_selected?.images) {
       this.filtered_images = this.getRandomImages(this.product_selected.images, 3);
@@ -48,10 +50,6 @@ export class ModalProductoComponent {
     }, 50);
   }
 
-  ngAfterViewInit() {
-    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
-  }
-
   // Método para obtener N elementos aleatorios
   getRandomImages(images: any[], count: number): any[] {
     return [...images]
@@ -60,18 +58,40 @@ export class ModalProductoComponent {
   }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
-    if (DISCOUNT_FLASH_P.type_discount == 1) {
-      return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+    if (this.currency == 'COP') {
+      if (DISCOUNT_FLASH_P.type_discount == 1) {//% DE DESCUENT0 50
+        // 100 / 100*(50*0.01) 100*0.5=50
+        return ((PRODUCT.price_cop) - (PRODUCT.price_cop) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2)
+      } else {//-PEN/-USD 
+        return ((PRODUCT.price_cop) - DISCOUNT_FLASH_P.discount).toFixed(2);
+      }
     } else {
-      return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
+      if (DISCOUNT_FLASH_P.type_discount == 1) {//% DE DESCUENT0 50
+        // 100 / 100*(50*0.01) 100*0.5=50
+        return ((PRODUCT.price_usd) - (PRODUCT.price_usd) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2)
+      } else {//-PEN/-USD 
+        return ((PRODUCT.price_usd) - DISCOUNT_FLASH_P.discount).toFixed(2);
+      }
     }
   }
 
-  getTotalPrice(product: any) {
-    if (product.discount_g) {
-      return this.getNewTotal(product, product.discount_g);
+  getTotalPriceProduct(PRODUCT: any) {
+    if (PRODUCT.discount_g) {
+      return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
     }
-    return product.price_cop;
+    if (this.currency == 'COP') {
+      return PRODUCT.price_cop;
+    } else {
+      return PRODUCT.price_usd;
+    }
+  }
+
+  getTotalCurrency(PRODUCT: any) {
+    if (this.currency == 'COP') {
+      return PRODUCT.price_cop;
+    } else {
+      return PRODUCT.price_usd;
+    }
   }
 
   selectedVariation(variation: any) {
@@ -81,14 +101,6 @@ export class ModalProductoComponent {
       this.variation_selected = variation;
       MODAL_PRODUCT_DETAIL($);
     }, 50);
-  }
-
-  getTotalCurrency(PRODUCT: any) {
-    if (this.currency == 'COP') {
-      return PRODUCT.price_cop;
-    } else {
-      return PRODUCT.price_usd;
-    }
   }
 
   selectedSubVariation(subvariation: any) {
