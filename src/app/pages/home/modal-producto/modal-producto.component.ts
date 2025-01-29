@@ -109,6 +109,7 @@ export class ModalProductoComponent {
 
   selectedVariation(variation: any) {
     this.variation_selected = null;
+    this.sub_variation_selected = null;
 
     setTimeout(() => {
       this.variation_selected = variation;
@@ -168,10 +169,10 @@ export class ModalProductoComponent {
       code_cupon: null,
       code_discount: null,
       product_variation_id: product_variation_id,
-      quantity: 1,
+      quantity: $("#tp-cart-input-val").val(),
       price_unit: this.product_selected.price_cop,
       subtotal: this.product_selected.price_cop,
-      total: this.product_selected.price_cop,
+      total: this.product_selected.price_cop*$("#tp-cart-input-val").val(),
       currency: this.currency,
     }
 

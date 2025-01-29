@@ -45,12 +45,11 @@ export class CartService {
   removeCart(DATA: any) {
     let listCart = this.cart.getValue();
 
-    let INDEX = listCart.findIndex((item: any) => item.id === DATA.id);
+    let INDEX = listCart.findIndex((item: any) => item.id == DATA.id);
 
     if (INDEX != -1) {
-      listCart.slice(INDEX, 1);
+      listCart.splice(INDEX, 1);
     }
-
     this.cart.next(listCart);
   }
 
@@ -78,7 +77,7 @@ export class CartService {
     let headers = new HttpHeaders({
       "Authorization": `Bearer ${this.token}` // Usa el token actualizado
     });
-    let URL = URL_SERVICIOS + "/ecommerce/cart" + cart_id;
+    let URL = URL_SERVICIOS + "/ecommerce/cart/" + cart_id;
     return this.http.put(URL, data, { headers: headers });
   }
 
@@ -86,7 +85,7 @@ export class CartService {
     let headers = new HttpHeaders({
       "Authorization": `Bearer ${this.token}` // Usa el token actualizado
     });
-    let URL = URL_SERVICIOS + "/ecommerce/cart" + cart_id;
+    let URL = URL_SERVICIOS + "/ecommerce/cart/" + cart_id;
     return this.http.delete(URL, { headers: headers });
   }
 }

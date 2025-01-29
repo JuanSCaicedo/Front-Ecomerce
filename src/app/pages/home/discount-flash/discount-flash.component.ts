@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { HomeService } from '../service/home.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../auth/service/auth.service';
+import { CartService } from '../service/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare var $: any;
@@ -28,11 +31,61 @@ export class DiscountFlashComponent {
 
   constructor(
     public homeService: HomeService,
-    public cookieService: CookieService
+    public cookieService: CookieService,
+    private router: Router,
+    private authService: AuthService,
+    private cartService: CartService,
+    private toastr: ToastrService
   ) { }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+  }
+
+  addCart(PRODUCT: any) {
+    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
+
+    if (!this.authService.tokenSubject.value) {
+      this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
+      this.router.navigateByUrl("/login");
+      return;
+    }
+
+    if (PRODUCT.variations.length > 0) {
+      $("#producQuickViewModal").modal("show");
+      this.OpenDetailProduct(PRODUCT);
+      this.toastr.warning("Este producto tiene variaciones, por favor selecciona una variación antes de agregar al carrito", "Aviso");
+      return;
+    }
+
+    let data = {
+      product_id: PRODUCT.id,
+      type_discount: null,
+      discount: 0,
+      type_campaing: null,
+      code_cupon: null,
+      code_discount: null,
+      product_variation_id: null,
+      quantity: 1,
+      price_unit: PRODUCT.price_cop,
+      subtotal: PRODUCT.price_cop,
+      total: PRODUCT.price_cop,
+      currency: this.currency,
+    }
+
+    this.cartService.registerCart(data).subscribe((resp: any) => {
+      console.log(resp);
+
+      if (resp.message == 403) {
+        this.toastr.error("Validación", resp.message_text);
+      } else {
+        this.cartService.changeCart(resp.cart);
+        this.toastr.success("Éxito", "Producto agregado al carrito");
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
   }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
@@ -60,8 +113,6 @@ export class DiscountFlashComponent {
       // Emitimos el producto seleccionado
       this.productSelected.emit(PRODUCT);
       this.isFlash.emit(true);
-      // Abrimos el modal
-      MODAL_PRODUCT_DETAIL($);
     }, 50);
   }
 

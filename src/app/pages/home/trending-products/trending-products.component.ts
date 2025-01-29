@@ -133,8 +133,6 @@ export class TrendingProductsComponent {
       // Emitimos el producto seleccionado
       this.productSelected.emit(product);
       this.isFlash.emit(false);
-      // Abrimos el modal
-      MODAL_PRODUCT_DETAIL($);
     }, 50);
   }
 }

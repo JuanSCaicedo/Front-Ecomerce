@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { isPlatformServer } from '@angular/common';
 import { CartService } from '../../pages/home/service/cart.service';
 import { AuthService } from '../../pages/auth/service/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 declare function CurrecyChange([]): any;
 declare var $: any;
@@ -27,11 +28,12 @@ export class HeaderComponent {
   totalCarts: number = 0;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     public cookieService: CookieService,
-    @Inject(PLATFORM_ID) private platformId: Object,
     public cartService: CartService,
     public authService: AuthService,
+    private toastr: ToastrService,
   ) {
     if (!isPlatformServer(this.platformId)) {
       setTimeout(() => {
@@ -47,6 +49,13 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+  }
+
+  deleteCart(CART: any) {
+    this.cartService.deleteCart(CART.id).subscribe((resp: any) => {
+      this.cartService.removeCart(CART);
+      this.toastr.info("El producto" + CART.product.title + "fue eliminado del carrito", "Producto eliminado");
+    });
   }
 
   listadoCarrito() {
