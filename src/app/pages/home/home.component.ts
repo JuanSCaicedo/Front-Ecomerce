@@ -104,9 +104,9 @@ export class HomeComponent {
     private authService: AuthService,
   ) {
     this.mantinanceStatus();
-    this.dataHome();
-
+    
     if (isPlatformBrowser(this.platformId)) {
+      this.dataHome();
       this.listadoCarrito();
     }
   }
