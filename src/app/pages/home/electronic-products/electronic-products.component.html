@@ -80,18 +80,28 @@
                                     </a>
 
                                     <!-- product badge -->
-                                    @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
+                                    @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2 &&
+                                    PRODUCT.stock > 0) {
                                     <div class="tp-product-badge">
 
                                         @if(PRODUCT.discount_g.type_discount == 1) {
-                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} %</span>
+                                        <span class="product-offer">- {{ PRODUCT.discount_g.discount }} %</span>
                                         }
                                         @if(PRODUCT.discount_g.type_discount == 2) {
-                                        <span class="product-hot">- {{ PRODUCT.discount_g.discount }} {{ currency
-                                            }}</span>
+                                        <span class="product-offer">- {{ PRODUCT.discount_g.discount }} {{
+                                            currency }}</span>
                                         }
                                     </div>
                                     }
+                                    <!-- End product badge -->
+
+                                    <!-- product sold out -->
+                                    @if(PRODUCT.stock == 0 && PRODUCT.variations.length == 0) {
+                                    <div class="tp-product-badge">
+                                        <span class="product-hot">Sold out</span>
+                                    </div>
+                                    }
+                                    <!-- End product sold out -->
 
                                     <!-- product action -->
                                     <div class="tp-product-action">
