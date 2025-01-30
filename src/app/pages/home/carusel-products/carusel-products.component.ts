@@ -21,6 +21,7 @@ declare var $: any;
 export class CaruselProductsComponent {
 
   @Output() productSelected = new EventEmitter<any>();
+  @Output() isFlash = new EventEmitter<boolean>();
   @Input() PRODUCTS_CARUSEL: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_CARUSEL: boolean = false;
   @Input() PRODUCTS_CARUSEL_STATE: boolean = false;
@@ -129,6 +130,7 @@ export class CaruselProductsComponent {
     setTimeout(() => {
       // Emitimos el producto seleccionado
       this.productSelected.emit(PRODUCT);
+      this.isFlash.emit(false);
     }, 50);
   }
 }

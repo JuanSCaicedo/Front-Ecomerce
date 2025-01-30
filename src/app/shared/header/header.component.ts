@@ -55,6 +55,9 @@ export class HeaderComponent {
     this.cartService.deleteCart(CART.id).subscribe((resp: any) => {
       this.cartService.removeCart(CART);
       this.toastr.info("El producto" + CART.product.title + "fue eliminado del carrito", "Producto eliminado");
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 
@@ -69,12 +72,18 @@ export class HeaderComponent {
         resp.carts.data.forEach((cart: any) => {
           this.cartService.changeCart(cart);
         });
+      }, (error) => {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       });
     }
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
       this.listCart = resp;
       this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 

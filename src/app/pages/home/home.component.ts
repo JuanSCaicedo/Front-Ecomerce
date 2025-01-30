@@ -104,7 +104,7 @@ export class HomeComponent {
     private authService: AuthService,
   ) {
     this.mantinanceStatus();
-    
+
     if (isPlatformBrowser(this.platformId)) {
       this.dataHome();
       this.listadoCarrito();
@@ -125,6 +125,9 @@ export class HomeComponent {
         resp.carts.data.forEach((cart: any) => {
           this.cartService.changeCart(cart);
         });
+      }, (error) => {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       });
     } else {
       this.authService.tokenSubject.next(token); // Sincroniza el token

@@ -47,8 +47,8 @@
     <!-- product banner area end -->
 
     <!-- product arrival area start -->
-    <app-carusel-products (productSelected)="handleProductSelect($event)" [PRODUCTS_CARUSEL]="PRODUCTS_CARUSEL"
-        [VIEW_READY_CARUSEL]="VIEW_READY_CARUSEL"
+    <app-carusel-products (isFlash)="viewFlash($event)" (productSelected)="handleProductSelect($event)"
+        [PRODUCTS_CARUSEL]="PRODUCTS_CARUSEL" [VIEW_READY_CARUSEL]="VIEW_READY_CARUSEL"
         [PRODUCTS_CARUSEL_STATE]="PRODUCTS_CARUSEL_STATE"></app-carusel-products>
     <!-- product arrival area end -->
 
