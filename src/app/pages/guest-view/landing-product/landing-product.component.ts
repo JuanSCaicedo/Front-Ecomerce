@@ -128,6 +128,7 @@ export class LandingProductComponent {
       if (typeof $ !== 'undefined') {
         setTimeout(() => {
           MODAL_PRODUCT_DETAIL($);
+          $('#tp-cart-input-val').val(1); // Reinicia la cantidad a 1
           COUNTER($);
           LANDING_PRODUCT($);
         }, 50);

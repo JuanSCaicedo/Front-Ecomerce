@@ -2173,6 +2173,12 @@ function MODAL_PRODUCT_DETAIL($) {
 }
 
 function COUNTER($) {
+	// Elimina clases previas (opcional, según tu caso)
+	$('.tp-cart-minus, .tp-cart-plus').removeClass('active disabled custom-class');
+
+	// Reinicia valores y eventos
+	$('.tp-cart-minus, .tp-cart-plus').off('click'); // Elimina eventos previos
+
 	//Quantity Counter
 	$('.tp-cart-minus').on('click', function () {
 		var $input = $(this).parent().find('input');
