@@ -7,9 +7,12 @@ import { ModalProductoComponent } from '../../home/modal-producto/modal-producto
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
 import { MaintenanceComponent } from '../../maintenance/maintenance.component';
+import { AuthService } from '../../auth/service/auth.service';
+import { CartService } from '../../home/service/cart.service';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function LANDING_PRODUCT([]): any;
+declare function COUNTER([]): any;
 declare function LINEA([]): any;
 declare var $: any;
 
@@ -26,6 +29,7 @@ export class LandingProductComponent {
   PRODUCT_SELECTED: any;
   filtered_images: any = []; // Lista de imágenes aleatorias
   variation_selected: any;
+  sub_variation_selected: any;
   PRODUCT_RELATEDS: any = [];
   product_relateds_count: boolean = false;
   product_selected_modal: any;
@@ -46,6 +50,8 @@ export class LandingProductComponent {
     private router: Router,
     private sanitizer: DomSanitizer,
     public cookieService: CookieService,
+    private authService: AuthService,
+    private cartService: CartService,
   ) {
     this.queryParams(); // Llama a la función para obtener los parámetros de la URL
     this.params(); // Llama a la función para obtener los parámetros de la URL
@@ -122,6 +128,7 @@ export class LandingProductComponent {
       if (typeof $ !== 'undefined') {
         setTimeout(() => {
           MODAL_PRODUCT_DETAIL($);
+          COUNTER($);
           LANDING_PRODUCT($);
         }, 50);
       }
@@ -200,9 +207,19 @@ export class LandingProductComponent {
 
   selectedVariation(variation: any) {
     this.variation_selected = null;
+    this.sub_variation_selected = null;
 
     setTimeout(() => {
       this.variation_selected = variation;
+      MODAL_PRODUCT_DETAIL($);
+    }, 50);
+  }
+
+  selectedSubVariation(subvariation: any) {
+    this.sub_variation_selected = null;
+
+    setTimeout(() => {
+      this.sub_variation_selected = subvariation;
       MODAL_PRODUCT_DETAIL($);
     }, 50);
   }
@@ -283,5 +300,181 @@ export class LandingProductComponent {
         });
       }
     }
+  }
+
+  addCart() {
+    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
+
+    if (!this.authService.tokenSubject.value) {
+      this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
+      this.router.navigateByUrl("/login");
+      return;
+    }
+
+    if (this.PRODUCT_SELECTED.variations.length > 0) {
+      if (!this.variation_selected) {
+        this.toastr.error("Validación", "Debes seleccionar una variación");
+        return;
+      }
+
+      if (this.variation_selected && this.variation_selected.subvariations.length > 0) {
+        if (!this.sub_variation_selected) {
+          this.toastr.error("Validación", "Debes seleccionar una sub-variación");
+          return;
+        }
+      }
+    }
+
+    let product_variation_id = null;
+
+    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected.subvariations.length == 0 && this.variation_selected) {
+      product_variation_id = this.variation_selected.id;
+    }
+
+    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected.subvariations.length > 0 && this.variation_selected) {
+      product_variation_id = this.sub_variation_selected.id;
+    }
+
+    let discount_g = null;
+
+    if (this.PRODUCT_SELECTED.discount_g) {
+      discount_g = this.PRODUCT_SELECTED.discount_g;
+    }
+
+    let subtotal_v = null;
+    let code_discount_v = null;
+    let type_campaing_v = null;
+    let type_discount_v = null;
+    let discount_v = null;
+
+    // Primera validación para subtotal
+    if (discount_g) {
+      if (discount_g.type_campaing == 2 && this.is_flash) {
+        subtotal_v = this.getTotalPriceProductFlash(this.PRODUCT_SELECTED);
+      } else {
+        subtotal_v = this.getTotalPriceProduct(this.PRODUCT_SELECTED);
+      }
+    } else {
+      subtotal_v = this.getTotalPriceProduct(this.PRODUCT_SELECTED);
+    }
+
+    // Segunda validación para code_discount
+    if (discount_g) {
+      if (discount_g.type_campaing == 2 && this.is_flash) {
+        code_discount_v = discount_g.code;
+        type_campaing_v = discount_g.type_campaing;
+        discount_v = discount_g.discount;
+        type_discount_v = discount_g.type_discount;
+      } else if (discount_g.type_campaing == 1) {
+        code_discount_v = discount_g.code;
+        type_campaing_v = discount_g.type_campaing;
+        discount_v = discount_g.discount;
+        type_discount_v = discount_g.type_discount;
+      } else {
+        code_discount_v = null;
+        type_campaing_v = null;
+        discount_v = null;
+        type_discount_v = null;
+      }
+    } else {
+      code_discount_v = null;
+      type_campaing_v = null;
+      discount_v = null;
+      type_discount_v = null;
+    }
+
+    let data = {
+      product_id: this.PRODUCT_SELECTED.id,
+      type_discount: type_discount_v,
+      discount: discount_v,
+      type_campaing: type_campaing_v,
+      code_cupon: null,
+      code_discount: code_discount_v,
+      product_variation_id: product_variation_id,
+      quantity: $("#tp-cart-input-val").val(),
+      price_unit: this.currency == 'COP' ? this.PRODUCT_SELECTED.price_cop : this.PRODUCT_SELECTED.price_usd,
+      subtotal: subtotal_v,
+      total: subtotal_v * $("#tp-cart-input-val").val(),
+      currency: this.currency,
+    }
+
+    this.cartService.registerCart(data).subscribe((resp: any) => {
+      console.log(resp);
+
+      if (resp.message == 403) {
+        this.toastr.error("Validación", resp.message_text);
+      } else {
+        this.cartService.changeCart(resp.cart);
+        this.toastr.success("Éxito", "Producto agregado al carrito");
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
+  }
+
+  addCartRelated(PRODUCT: any) {
+    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
+
+    if (!this.authService.tokenSubject.value) {
+      this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
+      this.router.navigateByUrl("/login");
+      return;
+    }
+
+    if (PRODUCT.variations.length > 0) {
+      $("#producQuickViewModal").modal("show");
+      this.OpenDetailProduct(PRODUCT);
+      this.toastr.warning("Este producto tiene variaciones, por favor selecciona una variación antes de agregar al carrito", "Aviso");
+      return;
+    }
+
+    let discount_g = null;
+    let code_discount_v = null;
+
+    if (PRODUCT.discount_g) {
+      discount_g = PRODUCT.discount_g;
+    }
+
+    if (discount_g) {
+      if (discount_g.type_campaing == 2 && this.is_flash) {
+        code_discount_v = discount_g.code;
+      } else if (discount_g.type_campaing == 1) {
+        code_discount_v = discount_g.code;
+      } else {
+        code_discount_v = null;
+      }
+    } else {
+      code_discount_v = null;
+    }
+
+    let data = {
+      product_id: PRODUCT.id,
+      type_discount: discount_g ? discount_g.type_discount : null,
+      discount: discount_g ? discount_g.discount : null,
+      type_campaing: discount_g ? discount_g.type_campaing : null,
+      code_cupon: null,
+      code_discount: code_discount_v,
+      product_variation_id: null,
+      quantity: 1,
+      price_unit: this.currency == 'COP' ? PRODUCT.price_cop : PRODUCT.price_usd,
+      subtotal: this.getTotalPriceProduct(PRODUCT),
+      total: this.getTotalPriceProduct(PRODUCT) * 1,
+      currency: this.currency,
+    }
+
+    this.cartService.registerCart(data).subscribe((resp: any) => {
+      console.log(resp);
+
+      if (resp.message == 403) {
+        this.toastr.error("Validación", resp.message_text);
+      } else {
+        this.cartService.changeCart(resp.cart);
+        this.toastr.success("Éxito", "Producto agregado al carrito");
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
   }
 }

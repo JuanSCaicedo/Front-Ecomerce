@@ -194,7 +194,8 @@
                               @for(subvariation of variation_selected.subvariations;track subvariation.id) {
 
                               @if(subvariation.propertie && subvariation.propertie.code) {
-                              <button type="button" class="color tp-color-variation-btn me-1">
+                              <button type="button" class="color tp-color-variation-btn me-1"
+                                 (click)="selectedSubVariation(subvariation)">
                                  <span [attr.data-bg-color]="subvariation.propertie.code"></span>
                                  <span class="tp-color-variation-tootltip">{{ subvariation.propertie.name }}</span>
                               </button>
@@ -202,6 +203,7 @@
 
                               @if(subvariation.propertie && !subvariation.propertie.code) {
                               <button type="button" class="tp-size-variation-btn me-1"
+                                 (click)="selectedSubVariation(subvariation)"
                                  style="width: auto; padding-left: 10px; padding-right: 10px;">
                                  {{ subvariation.propertie.name }}
                               </button>
@@ -209,6 +211,7 @@
 
                               @if(!subvariation.propertie) {
                               <button type="button" class="tp-size-variation-btn me-1"
+                                 (click)="selectedSubVariation(subvariation)"
                                  style="width: auto; padding-left: 10px; padding-right: 10px;">
                                  {{ subvariation.value_add }}
                               </button>
@@ -234,7 +237,7 @@
                                           stroke-linejoin="round" />
                                     </svg>
                                  </span>
-                                 <input class="tp-cart-input" type="text" value="1">
+                                 <input class="tp-cart-input" id="tp-cart-input-val" type="text" value="1">
                                  <span class="tp-cart-plus">
                                     <svg width="11" height="12" viewBox="0 0 11 12" fill="none"
                                        xmlns="http://www.w3.org/2000/svg">
@@ -247,7 +250,8 @@
                               </div>
                            </div>
                            <div class="tp-product-details-add-to-cart mb-15 w-100">
-                              <button class="tp-product-details-add-to-cart-btn w-100">Add To Cart</button>
+                              <button class="tp-product-details-add-to-cart-btn w-100" (click)="addCart()">Add To
+                                 Cart</button>
                            </div>
                         </div>
                         <button class="tp-product-details-buy-now-btn w-100">Buy Now</button>
@@ -655,7 +659,8 @@
                               <!-- product action -->
                               <div class="tp-product-action-3 has-shadow tp-product-action-primaryStyle">
                                  <div class="tp-product-action-item-3 d-flex flex-column">
-                                    <button type="button" class="tp-product-action-btn-3 tp-product-add-cart-btn">
+                                    <button (click)="addCartRelated(PRODUCT)" type="button"
+                                       class="tp-product-action-btn-3 tp-product-add-cart-btn">
                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                           xmlns="http://www.w3.org/2000/svg">
                                           <path fill-rule="evenodd" clip-rule="evenodd"
@@ -711,7 +716,8 @@
                               <!-- End product action -->
 
                               <div class="tp-product-add-cart-btn-large-wrapper">
-                                 <button type="button" class="tp-product-add-cart-btn-large">
+                                 <button (click)="addCartRelated(PRODUCT)" type="button"
+                                    class="tp-product-add-cart-btn-large">
                                     Add To Cart
                                  </button>
                               </div>

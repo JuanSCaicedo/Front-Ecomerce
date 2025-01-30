@@ -44,18 +44,14 @@ export class AppComponent {
       $(window).on('load', function () {
         $("#loading").fadeOut(500);
       });
-    })
-
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.checkSession();
     });
   }
 
   ngOnInit(): void {
-    this.checkSession();
+    this.viewMantinance();
+  }
 
+  viewMantinance() {
     // Suscríbete al observable para acceder a los datos cuando estén disponibles
     this.homeService.homeViewData$.subscribe((data) => {
       if (data) {
@@ -68,41 +64,5 @@ export class AppComponent {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
-  }
-
-  ngOnDestroy(): void {
-    // Unsubscribe from router events to avoid memory leaks
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
-    // Clear timeouts to avoid code execution after component destruction
-    if (this.sessionTimeoutId) {
-      clearTimeout(this.sessionTimeoutId);
-    }
-    if (this.warningTimeoutId) {
-      clearTimeout(this.warningTimeoutId);
-    }
-  }
-
-  checkSession(): void {
-    if (typeof window !== 'undefined' && window.localStorage
-      && localStorage.getItem('user') && localStorage.getItem('token')) {
-
-      // 60000 ms = 1 minute
-      // 3600000 ms = 1 hour
-      // 10800000 ms = 3 hours
-      const timeExp = 10800000;
-      const warningTime = 30000; // 2 hours and 55 minutes
-
-      this.sessionTimeoutId = setTimeout(() => {
-        this.clearLocalStorage();
-        this.router.navigateByUrl("/login");
-      }, timeExp);
-    }
-  }
-
-  clearLocalStorage(): void {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
   }
 }
