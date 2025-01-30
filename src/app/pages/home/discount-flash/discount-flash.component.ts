@@ -28,6 +28,7 @@ export class DiscountFlashComponent {
   @Input() VIEW_READY_FLASH: boolean = false;
   @Input() DISCOUNT_FLASH_PRODUCTS_STATE: boolean = false;
   currency: string = 'COP';
+  is_flash: boolean = true;
 
   constructor(
     public homeService: HomeService,
@@ -58,18 +59,41 @@ export class DiscountFlashComponent {
       return;
     }
 
+    let discount_g = null;
+    let code_discount_v = null;
+
+    if (PRODUCT.discount_g) {
+      discount_g = PRODUCT.discount_g;
+    }
+
+    if (discount_g) {
+      if (discount_g.type_campaing == 2 && this.is_flash) {
+        code_discount_v = discount_g.code;
+      } else if (discount_g.type_campaing == 1) {
+        code_discount_v = discount_g.code;
+      } else {
+        code_discount_v = null;
+      }
+    } else {
+      code_discount_v = null;
+    }
+
+    let subtotal_v = null;
+
+    subtotal_v = this.getNewTotal(PRODUCT, PRODUCT.discount_g);
+
     let data = {
       product_id: PRODUCT.id,
-      type_discount: null,
-      discount: 0,
-      type_campaing: null,
+      type_discount: discount_g ? discount_g.type_discount : null,
+      discount: discount_g ? discount_g.discount : null,
+      type_campaing: discount_g ? discount_g.type_campaing : null,
       code_cupon: null,
-      code_discount: null,
+      code_discount: code_discount_v,
       product_variation_id: null,
       quantity: 1,
-      price_unit: PRODUCT.price_cop,
-      subtotal: PRODUCT.price_cop,
-      total: PRODUCT.price_cop,
+      price_unit: this.currency == 'COP' ? PRODUCT.price_cop : PRODUCT.price_usd,
+      subtotal: subtotal_v,
+      total: Number(subtotal_v) * 1,
       currency: this.currency,
     }
 

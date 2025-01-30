@@ -203,7 +203,7 @@ export class ModalProductoComponent {
       code_discount: code_discount_v,
       product_variation_id: product_variation_id,
       quantity: $("#tp-cart-input-val").val(),
-      price_unit: this.product_selected.price_cop,
+      price_unit: this.currency == 'COP' ? this.product_selected.price_cop : this.product_selected.price_usd,
       subtotal: subtotal_v,
       total: subtotal_v * $("#tp-cart-input-val").val(),
       currency: this.currency,
