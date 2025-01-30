@@ -7,6 +7,7 @@ import { CartService } from '../service/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 declare function MODAL_PRODUCT_DETAIL([]): any;
+declare function COUNTER([]): any;
 declare var $: any;
 
 @Component({
@@ -47,6 +48,7 @@ export class ModalProductoComponent {
 
     setTimeout(() => {
       MODAL_PRODUCT_DETAIL($);
+      COUNTER($);
     }, 50);
   }
 
@@ -166,18 +168,28 @@ export class ModalProductoComponent {
     }
 
     let subtotal_v = null;
+    let code_discount_v = null;
 
-    if (discount_g.type_campaing == 2 && this.is_flash) {
-      subtotal_v = this.getTotalPriceProductFlash(this.product_selected);
+    // Primera validación para subtotal
+    if (discount_g) {
+      if (discount_g.type_campaing == 2 && this.is_flash) {
+        subtotal_v = this.getTotalPriceProductFlash(this.product_selected);
+      } else {
+        subtotal_v = this.getTotalPriceProduct(this.product_selected);
+      }
     } else {
       subtotal_v = this.getTotalPriceProduct(this.product_selected);
     }
 
-    let code_discount_v = null;
-    if (discount_g.type_campaing == 2 && this.is_flash) {
-      code_discount_v = discount_g.code;
-    } else if (discount_g.type_campaing == 1) {
-      code_discount_v = discount_g.code;
+    // Segunda validación para code_discount
+    if (discount_g) {
+      if (discount_g.type_campaing == 2 && this.is_flash) {
+        code_discount_v = discount_g.code;
+      } else if (discount_g.type_campaing == 1) {
+        code_discount_v = discount_g.code;
+      } else {
+        code_discount_v = null;
+      }
     } else {
       code_discount_v = null;
     }

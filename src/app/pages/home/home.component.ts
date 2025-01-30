@@ -122,9 +122,15 @@ export class HomeComponent {
       this.authService.tokenSubject.next(token); // Sincroniza el token
 
       this.cartService.listCart().subscribe((resp: any) => {
-        resp.carts.data.forEach((cart: any) => {
-          this.cartService.changeCart(cart);
-        });
+
+        if (resp.carts.data.length > 0) {
+          resp.carts.data.forEach((cart: any) => {
+            this.cartService.changeCart(cart);
+          });
+        } else {
+          this.cartService.clearCart();
+        }
+
       }, (error) => {
         console.log(error);
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
