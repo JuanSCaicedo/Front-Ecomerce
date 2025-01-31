@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { URL_SERVICIOS } from '../../../config/config';
-import { catchError, BehaviorSubject, Observable, finalize, map, of } from 'rxjs';
+import { catchError, BehaviorSubject, Observable, finalize, map, of, tap } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,12 @@ export class AuthService {
 
   token!: string;
   user!: any;
+  private readonly apiUrl = URL_SERVICIOS + "/auth/me";
 
   constructor(
     public http: HttpClient,
     public router: Router,
+    private toastr: ToastrService,
   ) {
     this.initAuth();
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
@@ -139,4 +142,42 @@ export class AuthService {
       this.router.navigateByUrl("/login");
     }, 500);
   }
+
+  me(): Observable<any> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return of(null); // Devolver un Observable vacío
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+
+    return this.http.post(this.apiUrl, {}, { headers }).pipe(
+      catchError((err) => {
+        return of(null); // Retornar un Observable con valor `null` en caso de error
+      })
+    );
+  }
+
+  validarToken(token: any): Observable<any> {
+    return this.me().pipe(
+      tap((response: any) => {
+        if (!response) {
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          if (token) {
+            this.toastr.warning('Sesión expirada', 'Por favor, inicia sesión de nuevo');
+          }
+        }
+      }),
+      catchError((err) => {
+        console.error('Error al validar el token:', err);
+        return of(null);
+      })
+    );
+  }
+
 }

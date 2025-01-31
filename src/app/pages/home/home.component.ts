@@ -16,9 +16,6 @@ import { IgImagesComponent } from './ig-images/ig-images.component';
 import { SubscribeComponent } from './subscribe/subscribe.component';
 import { FeatureComponent } from './feature/feature.component';
 import { isPlatformBrowser } from '@angular/common';
-import { CookieService } from 'ngx-cookie-service';
-import { CartService } from './service/cart.service';
-import { AuthService } from '../auth/service/auth.service';
 
 declare function CARUSEL_PRODUCTS([]): any;
 declare function SLIDER_PRINCIPAL([]): any;
@@ -100,45 +97,15 @@ export class HomeComponent {
     @Inject(PLATFORM_ID) private platformId: Object,
     public homeService: HomeService,
     private toastr: ToastrService,
-    private cartService: CartService,
-    private authService: AuthService,
-  ) {
-    this.mantinanceStatus();
-
+  ) {    
     if (isPlatformBrowser(this.platformId)) {
+      this.mantinanceStatus();
       this.dataHome();
-      this.listadoCarrito();
     }
   }
 
   ngOnInit() {
     this.scrollUp();
-  }
-
-  listadoCarrito() {
-    const token = localStorage.getItem('token');
-
-    if (token) {
-      this.authService.tokenSubject.next(token); // Sincroniza el token
-
-      this.cartService.listCart().subscribe((resp: any) => {
-
-        if (resp.carts.data.length > 0) {
-          resp.carts.data.forEach((cart: any) => {
-            this.cartService.changeCart(cart);
-          });
-        } else {
-          this.cartService.clearCart();
-        }
-
-      }, (error) => {
-        console.log(error);
-        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-      });
-    } else {
-      this.authService.tokenSubject.next(token); // Sincroniza el token
-      this.cartService.clearCart();
-    }
   }
 
   dataHome() {
