@@ -432,6 +432,9 @@ export class LandingProductComponent {
 
     let discount_g = null;
     let code_discount_v = null;
+    let type_campaing_v = null;
+    let type_discount_v = null;
+    let discount_v = null;
 
     if (PRODUCT.discount_g) {
       discount_g = PRODUCT.discount_g;
@@ -451,9 +454,9 @@ export class LandingProductComponent {
 
     let data = {
       product_id: PRODUCT.id,
-      type_discount: discount_g ? discount_g.type_discount : null,
-      discount: discount_g ? discount_g.discount : null,
-      type_campaing: discount_g ? discount_g.type_campaing : null,
+      type_discount: type_discount_v,
+      discount: discount_v,
+      type_campaing: type_campaing_v,
       code_cupon: null,
       code_discount: code_discount_v,
       product_variation_id: null,

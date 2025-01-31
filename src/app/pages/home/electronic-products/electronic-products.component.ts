@@ -57,6 +57,9 @@ export class ElectronicProductsComponent {
 
     let discount_g = null;
     let code_discount_v = null;
+    let type_campaing_v = null;
+    let type_discount_v = null;
+    let discount_v = null;
 
     if (PRODUCT.discount_g) {
       discount_g = PRODUCT.discount_g;
@@ -65,20 +68,32 @@ export class ElectronicProductsComponent {
     if (discount_g) {
       if (discount_g.type_campaing == 2 && this.is_flash) {
         code_discount_v = discount_g.code;
+        type_campaing_v = discount_g.type_campaing;
+        discount_v = discount_g.discount;
+        type_discount_v = discount_g.type_discount;
       } else if (discount_g.type_campaing == 1) {
         code_discount_v = discount_g.code;
+        type_campaing_v = discount_g.type_campaing;
+        discount_v = discount_g.discount;
+        type_discount_v = discount_g.type_discount;
       } else {
         code_discount_v = null;
+        type_campaing_v = null;
+        discount_v = null;
+        type_discount_v = null;
       }
     } else {
       code_discount_v = null;
+      type_campaing_v = null;
+      discount_v = null;
+      type_discount_v = null;
     }
 
     let data = {
       product_id: PRODUCT.id,
-      type_discount: discount_g ? discount_g.type_discount : null,
-      discount: discount_g ? discount_g.discount : null,
-      type_campaing: discount_g ? discount_g.type_campaing : null,
+      type_discount: type_discount_v,
+      discount: discount_v,
+      type_campaing: type_campaing_v,
       code_cupon: null,
       code_discount: code_discount_v,
       product_variation_id: null,
