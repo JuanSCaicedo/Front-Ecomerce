@@ -166,9 +166,9 @@ export class AuthService {
     return this.me().pipe(
       tap((response: any) => {
         if (!response) {
-          localStorage.removeItem('user');
-          localStorage.removeItem('token');
           if (token) {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
             this.toastr.warning('Sesión expirada', 'Por favor, inicia sesión de nuevo');
           }
         }

@@ -104,18 +104,28 @@ export class ElectronicProductsComponent {
       currency: this.currency,
     }
 
-    this.cartService.registerCart(data).subscribe((resp: any) => {
-      console.log(resp);
+    this.authService.validarToken(this.authService.tokenSubject.value).subscribe((response: any) => {
+      if (response) {
+        this.cartService.registerCart(data).subscribe((resp: any) => {
+          console.log(resp);
 
-      if (resp.message == 403) {
-        this.toastr.error("Validación", resp.message_text);
+          if (resp.message == 403) {
+            this.toastr.error("Validación", resp.message_text);
+          } else {
+            this.cartService.changeCart(resp.cart);
+            this.toastr.success("Éxito", "Producto agregado al carrito");
+          }
+        }, (error) => {
+          console.log(error);
+          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+        });
       } else {
-        this.cartService.changeCart(resp.cart);
-        this.toastr.success("Éxito", "Producto agregado al carrito");
+        this.cartService.clearCart();
+        this.authService.tokenSubject.next(this.authService.tokenSubject.value); // Sincroniza el token
+        this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
+        this.router.navigateByUrl("/login");
+        return;
       }
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 
