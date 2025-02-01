@@ -430,7 +430,7 @@ export class LandingProductComponent {
           console.log(error);
           this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
         });
-      } else {
+      } else if (response != undefined) {
         this.cartService.clearCart();
         this.authService.tokenSubject.next(this.authService.tokenSubject.value); // Sincroniza el token
         this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");

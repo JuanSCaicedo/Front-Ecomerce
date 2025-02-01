@@ -167,13 +167,13 @@ export class TrendingProductsComponent {
         switchMap((response: any) => {
           if (response) {
             return this.cartService.registerCart(data);
-          } else {
+          } if (response != undefined) {
             this.cartService.clearCart();
             this.authService.tokenSubject.next(this.authService.tokenSubject.value);
             this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
             this.router.navigateByUrl("/login");
-            return [];
           }
+          return [];
         }),
         finalize(() => this.isProcessing.next(false))
       )
