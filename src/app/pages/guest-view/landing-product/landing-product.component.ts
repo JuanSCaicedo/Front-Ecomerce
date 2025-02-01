@@ -84,6 +84,9 @@ export class LandingProductComponent {
 
   // Función para cargar los detalles del producto
   loadProductDetails() {
+    this.variation_selected = null;
+    this.sub_variation_selected = null;
+
     this.homeService.showProduct(this.PRODUCT_SLUG, this.CAMPAING_CODE).subscribe((resp: any) => {
       console.log(resp);
 
