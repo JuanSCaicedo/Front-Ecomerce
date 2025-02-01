@@ -40,6 +40,11 @@ export class ElectronicProductsComponent {
   }
 
   addCart(PRODUCT: any) {
+
+    if (PRODUCT.variations.length == 0 && this.authService.tokenSubject.value) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
     this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
     if (!this.authService.tokenSubject.value) {

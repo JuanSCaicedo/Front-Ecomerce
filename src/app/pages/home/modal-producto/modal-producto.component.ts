@@ -127,6 +127,19 @@ export class ModalProductoComponent {
   }
 
   addCart() {
+
+    if (this.authService.tokenSubject.value && this.product_selected.variations.length == 0) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
+    if (this.product_selected.variations.length > 0 && this.variation_selected && this.sub_variation_selected) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
+    if (this.product_selected.variations.length > 0 && this.variation_selected && this.variation_selected.subvariations.length == 0) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
     this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
     if (!this.authService.tokenSubject.value) {
@@ -230,7 +243,7 @@ export class ModalProductoComponent {
           console.log(resp);
 
           if (resp.message == 403) {
-            this.toastr.error("Validación", resp.message_text);
+            this.toastr.error(resp.message_text, "Validación");
           } else {
             this.cartService.changeCart(resp.cart);
             this.toastr.success("Éxito", "Producto agregado al carrito");

@@ -70,6 +70,9 @@ export class HeaderComponent {
   }
 
   deleteCart(CART: any) {
+
+    this.toastr.info("Eliminando producto del carrito, espere...", "Eliminando producto");
+
     let token = localStorage.getItem('token');
 
     this.authService.validarToken(token).subscribe((response: any) => {

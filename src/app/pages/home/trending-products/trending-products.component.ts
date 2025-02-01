@@ -43,6 +43,11 @@ export class TrendingProductsComponent {
   }
 
   addCart(PRODUCT: any) {
+
+    if (PRODUCT.variations.length == 0 && this.authService.tokenSubject.value) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
     this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
     if (!this.authService.tokenSubject.value) {
@@ -113,7 +118,7 @@ export class TrendingProductsComponent {
           console.log(resp);
 
           if (resp.message == 403) {
-            this.toastr.error("Validación", resp.message_text);
+            this.toastr.error(resp.message_text, "Validación");
           } else {
             this.cartService.changeCart(resp.cart);
             this.toastr.success("Éxito", "Producto agregado al carrito");

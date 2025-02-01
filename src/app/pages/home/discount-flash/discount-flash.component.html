@@ -47,6 +47,14 @@
                                             alt="product-electronic">
                                     </a>
 
+                                    <!-- product sold out -->
+                                    @if(PRODUCT.stock == 0 && PRODUCT.variations.length == 0) {
+                                    <div class="tp-product-badge">
+                                        <span class="product-hot">Sold out</span>
+                                    </div>
+                                    }
+                                    <!-- End product sold out -->
+
                                     <!-- product action -->
                                     <div class="tp-product-action">
                                         <div class="tp-product-action-item d-flex flex-column">
