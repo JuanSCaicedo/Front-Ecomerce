@@ -173,6 +173,7 @@ export class AuthService {
           if (token) {
             localStorage.removeItem('user');
             localStorage.removeItem('token');
+            this.tokenSubject.next(null);
             this.toastr.warning('Por favor, inicia sesión de nuevo', 'Sesión expirada');
           }
         }

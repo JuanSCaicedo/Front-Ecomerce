@@ -107,7 +107,6 @@ export class TrendingProductsComponent {
     }
 
     this.homeService.homeView().subscribe();
-
     if (!this.authService.tokenSubject.value) {
       this.isProcessing.next(false);
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
