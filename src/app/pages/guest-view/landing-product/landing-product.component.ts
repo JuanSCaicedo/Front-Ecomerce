@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
 import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CookieService } from 'ngx-cookie-service';
-import { MaintenanceComponent } from '../../maintenance/maintenance.component';
 import { AuthService } from '../../auth/service/auth.service';
 import { CartService } from '../../home/service/cart.service';
+import { BehaviorSubject, timer } from 'rxjs';
+import { finalize, switchMap } from 'rxjs/operators';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function LANDING_PRODUCT([]): any;
@@ -42,6 +43,43 @@ export class LandingProductComponent {
   currency: string = 'COP';
   MANTINANCE_STATUS: boolean = false;
   is_flash: boolean = false;
+
+  private isProcessing = new BehaviorSubject<boolean>(false);
+  private attemptCount = 0;
+  private isBlocked = false;
+  private lastAttemptTime = Date.now();
+  private readonly ATTEMPT_THRESHOLD = 10; // Número máximo de intentos
+  private readonly ATTEMPT_WINDOW = 5000; // Ventana de tiempo para contar intentos (5 segundos)
+  private readonly BLOCK_DURATION = 10000; // Duración del bloqueo (10 segundos)
+
+  private checkRateLimit(): boolean {
+    const now = Date.now();
+
+    // Resetear contador si ha pasado la ventana de tiempo
+    if (now - this.lastAttemptTime > this.ATTEMPT_WINDOW) {
+      this.attemptCount = 0;
+    }
+
+    this.lastAttemptTime = now;
+    this.attemptCount++;
+
+    // Si excede el límite de intentos, activar bloqueo
+    if (this.attemptCount >= this.ATTEMPT_THRESHOLD) {
+      this.isBlocked = true;
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Landing Products");
+
+      // Programar el desbloqueo
+      timer(this.BLOCK_DURATION).subscribe(() => {
+        this.isBlocked = false;
+        this.attemptCount = 0;
+        this.toastr.info("Ya puedes volver a agregar productos al carrito", "Desbloqueo Landing Products");
+      });
+
+      return true;
+    }
+
+    return false;
+  }
 
   constructor(
     public homeService: HomeService,
@@ -307,6 +345,25 @@ export class LandingProductComponent {
   }
 
   addCart() {
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Landing Products");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
 
     if (this.authService.tokenSubject.value && this.PRODUCT_SELECTED.variations.length == 0) {
       this.toastr.info("Agregando producto al carrito", "Procesando");
@@ -323,12 +380,14 @@ export class LandingProductComponent {
     this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
     if (!this.authService.tokenSubject.value) {
+      this.isProcessing.next(false);
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
       this.router.navigateByUrl("/login");
       return;
     }
 
     if (this.PRODUCT_SELECTED.variations.length > 0) {
+      this.isProcessing.next(false);
       if (!this.variation_selected) {
         this.toastr.error("Validación", "Debes seleccionar una variación");
         return;
@@ -415,32 +474,57 @@ export class LandingProductComponent {
       currency: this.currency,
     }
 
-    this.authService.validarToken(this.authService.tokenSubject.value).subscribe((response: any) => {
-      if (response) {
-        this.cartService.registerCart(data).subscribe((resp: any) => {
-          console.log(resp);
-
-          if (resp.message == 403) {
+    this.authService.validarToken(this.authService.tokenSubject.value)
+      .pipe(
+        switchMap((response: any) => {
+          if (response) {
+            return this.cartService.registerCart(data);
+          } if (response != undefined) {
+            this.cartService.clearCart();
+            this.authService.tokenSubject.next(this.authService.tokenSubject.value);
+            this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
+            this.router.navigateByUrl("/login");
+          }
+          return [];
+        }),
+        finalize(() => this.isProcessing.next(false))
+      )
+      .subscribe({
+        next: (resp: any) => {
+          if (resp && resp.message == 403) {
             this.toastr.error(resp.message_text, "Validación");
-          } else {
+          } else if (resp) {
             this.cartService.changeCart(resp.cart);
             this.toastr.success("Éxito", "Producto agregado al carrito");
           }
-        }, (error) => {
+        },
+        error: (error) => {
           console.log(error);
           this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-        });
-      } else if (response != undefined) {
-        this.cartService.clearCart();
-        this.authService.tokenSubject.next(this.authService.tokenSubject.value); // Sincroniza el token
-        this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
-        this.router.navigateByUrl("/login");
-        return;
-      }
-    });
+        }
+      });
   }
 
   addCartRelated(PRODUCT: any) {
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Landing Products");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
 
     if (PRODUCT.variations.length == 0 && this.authService.tokenSubject.value) {
       this.toastr.info("Agregando producto al carrito", "Procesando");
@@ -449,12 +533,14 @@ export class LandingProductComponent {
     this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
     if (!this.authService.tokenSubject.value) {
+      this.isProcessing.next(false);
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
       this.router.navigateByUrl("/login");
       return;
     }
 
     if (PRODUCT.variations.length > 0) {
+      this.isProcessing.next(false);
       $("#producQuickViewModal").modal("show");
       this.OpenDetailProduct(PRODUCT);
       this.toastr.warning("Este producto tiene variaciones, por favor selecciona una variación antes de agregar al carrito", "Aviso");
@@ -498,28 +584,34 @@ export class LandingProductComponent {
       currency: this.currency,
     }
 
-    this.authService.validarToken(this.authService.tokenSubject.value).subscribe((response: any) => {
-      if (response) {
-        this.cartService.registerCart(data).subscribe((resp: any) => {
-          console.log(resp);
-
-          if (resp.message == 403) {
+    this.authService.validarToken(this.authService.tokenSubject.value)
+      .pipe(
+        switchMap((response: any) => {
+          if (response) {
+            return this.cartService.registerCart(data);
+          } if (response != undefined) {
+            this.cartService.clearCart();
+            this.authService.tokenSubject.next(this.authService.tokenSubject.value);
+            this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
+            this.router.navigateByUrl("/login");
+          }
+          return [];
+        }),
+        finalize(() => this.isProcessing.next(false))
+      )
+      .subscribe({
+        next: (resp: any) => {
+          if (resp && resp.message == 403) {
             this.toastr.error(resp.message_text, "Validación");
-          } else {
+          } else if (resp) {
             this.cartService.changeCart(resp.cart);
             this.toastr.success("Éxito", "Producto agregado al carrito");
           }
-        }, (error) => {
+        },
+        error: (error) => {
           console.log(error);
           this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-        });
-      } else {
-        this.cartService.clearCart();
-        this.authService.tokenSubject.next(this.authService.tokenSubject.value); // Sincroniza el token
-        this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
-        this.router.navigateByUrl("/login");
-        return;
-      }
-    });
+        }
+      });
   }
 }
