@@ -157,6 +157,10 @@ export class AuthService {
 
     return this.http.post(this.apiUrl, {}, { headers }).pipe(
       catchError((err) => {
+        if (err.status === 429) {
+          this.toastr.warning('Por favor espera un momento', 'Demasiadas solicitudes');
+          return of(undefined);  // Retornamos undefined para no disparar el cierre de sesión
+        }
         return of(null); // Retornar un Observable con valor `null` en caso de error
       })
     );
@@ -165,7 +169,7 @@ export class AuthService {
   validarToken(token: any): Observable<any> {
     return this.me().pipe(
       tap((response: any) => {
-        if (!response) {
+        if (response === null) {
           if (token) {
             localStorage.removeItem('user');
             localStorage.removeItem('token');
