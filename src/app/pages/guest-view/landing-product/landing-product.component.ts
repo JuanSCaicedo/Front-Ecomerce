@@ -108,6 +108,9 @@ export class LandingProductComponent {
       } else {
         this.is_flash = false;
       }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 
@@ -117,6 +120,9 @@ export class LandingProductComponent {
       this.PRODUCT_SLUG = resp.slug; // Actualiza el slug
       this.homeService.homeView().subscribe();
       this.loadProductDetails(); // Llama a la función para cargar los datos del 
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 
