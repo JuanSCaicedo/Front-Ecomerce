@@ -109,7 +109,7 @@
                                 </div>
                                 <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
-                                    @if(PRODUCT.discount_g) {
+                                    @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
                                     <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
                                         }} {{ currency }} </span>
                                     }
@@ -169,7 +169,7 @@
                                 </div>
                                 <!-- Precio -->
                                 <div class="tp-product-price-wrapper">
-                                    @if(PRODUCT.discount_g) {
+                                    @if(PRODUCT.discount_g && PRODUCT.discount_g.type_campaing != 2) {
                                     <span class="tp-product-price old-price mx-1">${{ getTotalCurrency(PRODUCT)
                                         }} {{ currency }} </span>
                                     }
