@@ -22842,12 +22842,12 @@ only screen and (min-width: 576px) and (max-width: 767px),
 
 .tp-cart-img img {
   width: 78px;
-  height: 100px;
+  /* height: 100px; */
+  margin-right: 20px;
   object-fit: cover;
 }
 
 .tp-cart-title a {
-  margin-left: 20px;
   font-weight: 400;
   font-size: 16px;
   color: var(--tp-common-black);
