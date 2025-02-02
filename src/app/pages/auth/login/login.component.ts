@@ -44,10 +44,11 @@ export class LoginComponent {
 
     this.homeService.homeView().subscribe();
 
-    if (this.authService.token && this.authService.user) {
-      window.location.href = "/";
+    if (this.authService.token || this.authService.tokenSubject.value) {
+      this.router.navigateByUrl("/");
       return;
     }
+
     this.activatedRoute.queryParams.subscribe((resp: any) => {
       this.code_user = resp.code;
     })

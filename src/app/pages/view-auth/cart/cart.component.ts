@@ -123,7 +123,7 @@ export class CartComponent {
             );
           } else {
             this.cartService.clearCart();
-            this.authService.tokenSubject.next(this.authService.tokenSubject.value);
+            this.authService.tokenSubject.next(null);
             this.toastr.error("Validación", "Debes iniciar sesión para eliminar productos del carrito");
             this.router.navigateByUrl("/login");
             return [];

@@ -157,33 +157,41 @@ export class AuthService {
 
     return this.http.post(this.apiUrl, {}, { headers }).pipe(
       catchError((err) => {
-        if (err.status === 429 || err.message?.includes('too many requests')) {
-          this.toastr.warning('Por favor espera un momento', 'Demasiadas solicitudes');
-          return of({ tooManyRequests: true });
+        if (err) {
+          if (err.status === 429) {
+            this.toastr.warning('Por favor espera un momento', 'Demasiadas solicitudes');
+            return of({ tooManyRequests: true });
+          }
+
+          if (err.status === 401) {
+            return of(null);
+          }
         }
-        if (err.status === 0 || err.name === 'HttpErrorResponse') {
-          return of({ networkError: true });
-        }
-        return throwError(() => err);
+        return of(true);
       })
     );
+
   }
 
   validarToken(token: any): Observable<any> {
     return this.me().pipe(
       tap((response: any) => {
-        if (response?.tooManyRequests || response?.networkError || response) {
-          return;
+        if (response?.tooManyRequests) {
+          // Si es demasiadas solicitudes, no haces nada, pero retornamos un observable vacío
+          return; // O simplemente, podrías retornar un observable vacío aquí
         }
 
+        // Si no hay respuesta válida y hay token, cerramos sesión
         if (response === null && token) {
           localStorage.removeItem('user');
           localStorage.removeItem('token');
           this.tokenSubject.next(null);
           this.toastr.warning('Por favor, inicia sesión de nuevo', 'Sesión expirada');
         }
+      }, (error) => {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }),
-      catchError((err) => throwError(() => err))
     );
   }
 }

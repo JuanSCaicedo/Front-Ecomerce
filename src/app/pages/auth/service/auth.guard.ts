@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class PermisionAuth {
@@ -8,11 +9,13 @@ export class PermisionAuth {
   constructor(
     public authService: AuthService,
     public router: Router,
+    private toastr: ToastrService,
   ) { }
 
   canActivate(): boolean {
     if (!this.authService.tokenSubject.value) {
       this.router.navigateByUrl("/login");
+      this.toastr.error("Por favor inicie sesión", "Error");
       return false;
     }
 
