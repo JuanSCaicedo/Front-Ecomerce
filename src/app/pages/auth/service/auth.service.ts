@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { URL_SERVICIOS } from '../../../config/config';
-import { catchError, BehaviorSubject, Observable, finalize, map, of, tap } from 'rxjs';
+import { catchError, BehaviorSubject, Observable, finalize, map, of, tap, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -146,7 +146,7 @@ export class AuthService {
   me(): Observable<any> {
     const token = localStorage.getItem('token');
     if (!token) {
-      return of(null); // Devolver un Observable vacío
+      return of(null);
     }
 
     const headers = new HttpHeaders({
@@ -157,11 +157,14 @@ export class AuthService {
 
     return this.http.post(this.apiUrl, {}, { headers }).pipe(
       catchError((err) => {
-        if (err.status === 429) {
+        if (err.status === 429 || err.message?.includes('too many requests')) {
           this.toastr.warning('Por favor espera un momento', 'Demasiadas solicitudes');
-          return of(undefined);  // Retornamos undefined para no disparar el cierre de sesión
+          return of({ tooManyRequests: true });
         }
-        return of(null); // Retornar un Observable con valor `null` en caso de error
+        if (err.status === 0 || err.name === 'HttpErrorResponse') {
+          return of({ networkError: true });
+        }
+        return throwError(() => err);
       })
     );
   }
@@ -169,20 +172,18 @@ export class AuthService {
   validarToken(token: any): Observable<any> {
     return this.me().pipe(
       tap((response: any) => {
-        if (response === null) {
-          if (token) {
-            localStorage.removeItem('user');
-            localStorage.removeItem('token');
-            this.tokenSubject.next(null);
-            this.toastr.warning('Por favor, inicia sesión de nuevo', 'Sesión expirada');
-          }
+        if (response?.tooManyRequests || response?.networkError || response) {
+          return;
+        }
+
+        if (response === null && token) {
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          this.tokenSubject.next(null);
+          this.toastr.warning('Por favor, inicia sesión de nuevo', 'Sesión expirada');
         }
       }),
-      catchError((err) => {
-        console.error('Error al validar el token:', err);
-        return of(null);
-      })
+      catchError((err) => throwError(() => err))
     );
   }
-
 }

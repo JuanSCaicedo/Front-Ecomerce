@@ -11,13 +11,12 @@ export class PermisionAuth {
   ) { }
 
   canActivate(): boolean {
-
-    if (!this.authService.user || !this.authService.token) {
+    if (!this.authService.tokenSubject.value) {
       this.router.navigateByUrl("/login");
       return false;
     }
 
-    let token = this.authService.token;
+    let token = this.authService.tokenSubject.value;
 
     let expiration = (JSON.parse(atob(token.split('.')[1]))).exp;
 
