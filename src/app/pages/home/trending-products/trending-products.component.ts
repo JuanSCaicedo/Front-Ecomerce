@@ -160,21 +160,7 @@ export class TrendingProductsComponent {
       currency: this.currency,
     }
 
-    this.homeService.homeView().subscribe((resp: any) => {
-      if (resp) {
-        const vista_mantenimiento = resp.home_views.find(
-          (view: any) => view.name === 'vista_mantenimiento'
-        );
-
-        console.log(vista_mantenimiento.state);
-        if (vista_mantenimiento.state === 2) {
-          this.registrarCarro(data);
-        }
-      }
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
+    this.registrarCarro(data);
   }
 
   registrarCarro(data: any) {
@@ -193,11 +179,13 @@ export class TrendingProductsComponent {
             }
           },
           error: (error) => {
-            console.log(error);
             if (error.status == 401) {
               this.authService.sessionExpired();
               this.cartService.clearCart();
+            } else if (error.status == 503) {
+              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
             } else {
+              console.log(error);
               this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
             }
           }

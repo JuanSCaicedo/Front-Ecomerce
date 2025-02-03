@@ -188,7 +188,10 @@ export class ElectronicProductsComponent {
             if (error.status == 401) {
               this.authService.sessionExpired();
               this.cartService.clearCart();
+            } else if (error.status == 503) {
+              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
             } else {
+              console.log(error);
               this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
             }
           }
