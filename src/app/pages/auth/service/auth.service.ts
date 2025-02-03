@@ -68,7 +68,7 @@ export class AuthService {
     if (resp && resp.access_token) {
       localStorage.setItem("token", resp.access_token);
       localStorage.setItem("user", JSON.stringify(resp.user));
-      this.tokenSubject.next(resp.token); // Notifica cambios
+      this.tokenSubject.next(resp.access_token); // Notifica cambios
       return true;
     }
     return false;
@@ -133,14 +133,52 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    // Obtener el token del almacenamiento local
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.log('No se encontró el token'); // Para debug
+      return; // Si no hay token, no hacer nada
+    } else {
+      // URL de la API de logout
+      const api = URL_SERVICIOS + "/auth/logout";
+
+      // Crear los encabezados para la solicitud HTTP
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      });
+
+      // Realizar la solicitud POST para hacer logout
+      this.isLoadingSubject.next(true); // Activar estado de carga
+
+      this.http.post(api, {}, { headers: headers }).subscribe({
+        next: () => {
+          this.isLoadingSubject.next(false); // Desactivar estado de carga
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          this.tokenSubject.next(null);
+          this.user = null;
+          this.token = '';
+
+          setTimeout(() => {
+            this.router.navigateByUrl("/login");
+          }, 500);
+        },
+      });
+    }
+  }
+
+  sessionExpired() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    this.tokenSubject.next(null);
     this.user = null;
     this.token = '';
 
     setTimeout(() => {
-      this.router.navigateByUrl("/login");
-    }, 500);
+      this.toastr.warning('Por favor, inicia sesión de nuevo', 'Sesión expirada');
+    }, 50);
   }
 
   me(): Observable<any> {

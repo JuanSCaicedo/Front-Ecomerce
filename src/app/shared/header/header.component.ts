@@ -83,7 +83,7 @@ export class HeaderComponent {
         }, 50);
       }, 50);
 
-      this.validarAuthToken();
+      this.cambioVista();
     }
   }
 
@@ -91,21 +91,54 @@ export class HeaderComponent {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
   }
 
-  validarAuthToken() {
+  cambioVista() {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe(() => {
       let token = localStorage.getItem('token');
+      this.listadoCarrito(token);
+    });
+  }
 
-      this.authService.validarToken(token).subscribe((response: any) => {
-        if (response) {
-          this.listadoCarrito(token);
+  listadoCarrito(token: any) {
+    this.authService.tokenSubject.next(token); // Sincroniza el token
+
+    if (this.authService.tokenSubject.value) {
+
+      this.cartService.listCart().subscribe((resp: any) => {
+        if (resp.carts.data.length > 0) {
+          resp.carts.data.forEach((cart: any) => {
+            this.cartService.changeCart(cart);
+          });
         } else {
           this.cartService.clearCart();
-          this.authService.tokenSubject.next(token); // Sincroniza el token
+        }
+      }, (error) => {
+        console.log(error);
+        if (error.status == 401) {
+          this.authService.sessionExpired();
+          this.cartService.clearCart();
+        } else {
+          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
         }
       });
-    });
+
+
+      this.cartService.currentDataCart$.subscribe((resp: any) => {
+        this.listCart = resp;
+        this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
+      }, (error) => {
+        console.log(error);
+        if (error.status == 401) {
+          this.authService.sessionExpired();
+          this.cartService.clearCart();
+        } else {
+          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+        }
+      });
+    } else {
+      this.cartService.clearCart();
+    }
   }
 
   deleteCart(CART: any) {
@@ -132,25 +165,11 @@ export class HeaderComponent {
 
     this.toastr.info("Eliminando producto del carrito, espere...", "Eliminando producto");
 
-    let token = localStorage.getItem('token');
-
-    this.authService.validarToken(this.authService.tokenSubject.value)
+    this.cartService.deleteCart(CART.id)
       .pipe(
-        switchMap((response: any) => {
-          if (response) {
-            return this.cartService.deleteCart(CART.id).pipe(
-              tap(() => {
-                this.cartService.removeCart(CART);
-                this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
-              })
-            );
-          } else {
-            this.cartService.clearCart();
-            this.authService.tokenSubject.next(null);
-            this.toastr.error("Validación", "Debes iniciar sesión para eliminar productos del carrito");
-            this.router.navigateByUrl("/login");
-            return [];
-          }
+        tap(() => {
+          this.cartService.removeCart(CART);
+          this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
         }),
         finalize(() => this.isProcessing.next(false))
       )
@@ -158,35 +177,14 @@ export class HeaderComponent {
         next: () => { },
         error: (error) => {
           console.log(error);
-          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error?.message || error.message);
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else {
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
         }
       });
-  }
-
-  listadoCarrito(token: any) {
-    this.authService.tokenSubject.next(token); // Sincroniza el token
-
-    this.cartService.listCart().subscribe((resp: any) => {
-      if (resp.carts.data.length > 0) {
-        resp.carts.data.forEach((cart: any) => {
-          this.cartService.changeCart(cart);
-        });
-      } else {
-        this.cartService.clearCart();
-      }
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
-
-
-    this.cartService.currentDataCart$.subscribe((resp: any) => {
-      this.listCart = resp;
-      this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
   }
 
   navigateToHome() {
@@ -204,5 +202,14 @@ export class HeaderComponent {
     setTimeout(() => {
       window.location.reload();
     }, 50);
+  }
+
+  logout() {
+    let token = localStorage.getItem('token');
+
+    if (token) {
+      this.authService.logout();
+      this.toastr.success("Éxito", "Sesión cerrada");
+    }
   }
 }

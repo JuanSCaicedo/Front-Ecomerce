@@ -70,8 +70,12 @@ export class CartComponent {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
-      this.listCart = resp;
-      this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
+      if (resp.length > 0) {
+        this.listCart = resp;
+        this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
+      } else {
+        this.router.navigateByUrl('/login');
+      }
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
@@ -111,23 +115,11 @@ export class CartComponent {
 
     let token = localStorage.getItem('token');
 
-    this.authService.validarToken(this.authService.tokenSubject.value)
+    this.cartService.deleteCart(CART.id)
       .pipe(
-        switchMap((response: any) => {
-          if (response) {
-            return this.cartService.deleteCart(CART.id).pipe(
-              tap(() => {
-                this.cartService.removeCart(CART);
-                this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
-              })
-            );
-          } else {
-            this.cartService.clearCart();
-            this.authService.tokenSubject.next(null);
-            this.toastr.error("Validación", "Debes iniciar sesión para eliminar productos del carrito");
-            this.router.navigateByUrl("/login");
-            return [];
-          }
+        tap(() => {
+          this.cartService.removeCart(CART);
+          this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
         }),
         finalize(() => this.isProcessing.next(false))
       )
@@ -135,7 +127,12 @@ export class CartComponent {
         next: () => { },
         error: (error) => {
           console.log(error);
-          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error?.message || error.message);
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else {
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
         }
       });
   }

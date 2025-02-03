@@ -171,35 +171,31 @@ export class CaruselProductsComponent {
       currency: this.currency,
     }
 
-    this.authService.validarToken(this.authService.tokenSubject.value)
-      .pipe(
-        switchMap((response: any) => {
-          if (response) {
-            return this.cartService.registerCart(data);
-          } if (response != undefined) {
-            this.cartService.clearCart();
-            this.authService.tokenSubject.next(this.authService.tokenSubject.value);
-            this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
-            this.router.navigateByUrl("/login");
+    if (this.authService.tokenSubject.value) {
+      this.cartService.registerCart(data)
+        .pipe(
+          finalize(() => this.isProcessing.next(false))
+        )
+        .subscribe({
+          next: (resp: any) => {
+            if (resp && resp.message == 403) {
+              this.toastr.error(resp.message_text, "Validación");
+            } else if (resp) {
+              this.cartService.changeCart(resp.cart);
+              this.toastr.success("Éxito", "Producto agregado al carrito");
+            }
+          },
+          error: (error) => {
+            console.log(error);
+            if (error.status == 401) {
+              this.authService.sessionExpired();
+              this.cartService.clearCart();
+            } else {
+              this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+            }
           }
-          return [];
-        }),
-        finalize(() => this.isProcessing.next(false))
-      )
-      .subscribe({
-        next: (resp: any) => {
-          if (resp && resp.message == 403) {
-            this.toastr.error(resp.message_text, "Validación");
-          } else if (resp) {
-            this.cartService.changeCart(resp.cart);
-            this.toastr.success("Éxito", "Producto agregado al carrito");
-          }
-        },
-        error: (error) => {
-          console.log(error);
-          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-        }
-      });
+        });
+    }
   }
 
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
