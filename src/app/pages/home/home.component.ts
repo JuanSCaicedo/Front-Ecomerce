@@ -98,7 +98,7 @@ export class HomeComponent {
     private toastr: ToastrService,
   ) {
     if (isPlatformBrowser(this.platformId)) {
-      this.checkMaintenance();
+      this.dataHome();
     }
   }
 
@@ -149,8 +149,12 @@ export class HomeComponent {
         this.callPlugin();
       }
     }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+      if (error.status === 503) {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+      } else {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+      }
     });
   }
 
@@ -211,24 +215,5 @@ export class HomeComponent {
       const view = HOME_VIEWS.find((view: HomeView) => view.name === key);
       this[statesMap[key]] = view?.state === 1;
     });
-  }
-
-  checkMaintenance() {
-    this.homeService.homeView().subscribe(
-      (resp: any) => {
-        // Assuming the maintenance status is in resp.status
-        const vista_mantenimiento = resp.home_views.find(
-          (view: any) => view.name === 'vista_mantenimiento'
-        );
-
-        if (vista_mantenimiento.state === 2) {
-          // Only call dataHome if not in maintenance
-          this.dataHome();
-        }
-      },
-      (error) => {
-        this.toastr.error('Error checking maintenance status', error.message);
-      }
-    );
   }
 }

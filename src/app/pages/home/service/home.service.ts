@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
 import { URL_SERVICIOS } from '../../../config/config';
@@ -16,19 +16,20 @@ export class HomeService {
   constructor(
     public http: HttpClient,
     public authService: AuthService,
-  ) {}
+  ) { }
 
-  // Método original de homeView con integración de BehaviorSubject
-  homeView(): Observable<any> {
-    const URL = `${URL_SERVICIOS}/ecommerce/homeView`;
-    return this.http.get(URL).pipe(
-      tap((data: any) => {
-        this.homeViewSubject.next(data); // Actualiza el BehaviorSubject con los datos obtenidos
-      })
-    );
+  homeView(mode?: string): Observable<string | null> {
+    // Si se envía un modo específico, lo establece
+    if (mode) {
+      this.homeViewSubject.next(mode);
+      return of(mode);
+    }
+
+    // Si no se envía modo, establece a null
+    this.homeViewSubject.next(null);
+    return of(null);
   }
 
-  // Permite obtener el valor actual de los datos (sin suscripción)
   getHomeViewData(): any {
     return this.homeViewSubject.value;
   }
