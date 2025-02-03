@@ -68,7 +68,6 @@ export class CartComponent {
   ) { }
 
   ngOnInit() {
-    this.checkMantinance();
 
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
 
@@ -86,10 +85,6 @@ export class CartComponent {
         window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
       }
     }, 0);
-  }
-
-  checkMantinance() {
-    this.homeService.homeView().subscribe();
   }
 
   deleteCart(CART: any) {
@@ -116,24 +111,11 @@ export class CartComponent {
 
     this.toastr.info("Eliminando producto del carrito, espere...", "Eliminando producto");
 
-    this.homeService.homeView().subscribe((resp: any) => {
-      if (resp) {
-        const vista_mantenimiento = resp.home_views.find(
-          (view: any) => view.name === 'vista_mantenimiento'
-        );
+    let token = localStorage.getItem('token');
 
-        if (vista_mantenimiento.state === 2) {
-          let token = localStorage.getItem('token');
-
-          if (token) {
-            this.borrarCarrito(CART);
-          }
-        }
-      }
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
+    if (token) {
+      this.borrarCarrito(CART);
+    }
   }
 
   borrarCarrito(CART: any) {
@@ -148,11 +130,13 @@ export class CartComponent {
       .subscribe({
         next: () => { },
         error: (error) => {
-          console.log(error);
           if (error.status == 401) {
             this.authService.sessionExpired();
             this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
           } else {
+            console.log(error);
             this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
           }
         }
