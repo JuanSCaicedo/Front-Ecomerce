@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppLayoutComponent } from './pages/app-layout/app-layout.component';
 import { HomeService } from './pages/home/service/home.service';
 import { MaintenanceComponent } from './pages/maintenance/maintenance.component';
-import { ToastrService } from 'ngx-toastr';
 
 declare var $: any;
 declare function HOMEINIT([]): any;
@@ -33,7 +32,6 @@ export class AppComponent {
   constructor(
     public router: Router,
     private homeService: HomeService,
-    private toastr: ToastrService,
   ) {
     afterNextRender(() => {
       setTimeout(() => {

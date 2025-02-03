@@ -19,24 +19,7 @@ export class MenuCategoriesComponent {
     private homeService: HomeService,
     private toastr: ToastrService,
   ) {
-    this.checkMaintenance();
-  }
-
-  checkMaintenance() {
-    this.homeService.homeViewData$.subscribe((data) => {
-      if (data) {
-        const vista_mantenimiento = data.home_views.find(
-          (view: any) => view.name === 'vista_mantenimiento'
-        );
-
-        if (vista_mantenimiento.state === 2) {
-          this.callMenu();
-        }
-      }
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
+    this.callMenu();
   }
 
   callMenu() {
@@ -47,11 +30,12 @@ export class MenuCategoriesComponent {
         this.categories_menus = resp.categories_menus;
       },
       (error) => {
-        console.error(error);
-        this.toastr.error(
-          'API Response - Comuniquese con el desarrollador',
-          error.error.message || error.message
-        );
+        if (error.status === 503) {
+          this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+        } else {
+          console.log(error);
+          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+        }
       }
     );
   }

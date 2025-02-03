@@ -118,11 +118,13 @@ export class HeaderComponent {
           this.cartService.clearCart();
         }
       }, (error) => {
-        console.log(error);
         if (error.status == 401) {
           this.authService.sessionExpired();
           this.cartService.clearCart();
+        } else if (error.status == 503) {
+          this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
         } else {
+          console.log(error);
           this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
         }
       });
@@ -169,44 +171,32 @@ export class HeaderComponent {
 
     this.toastr.info("Eliminando producto del carrito, espere...", "Eliminando producto");
 
-    this.homeService.homeView().subscribe((resp: any) => {
-      if (resp) {
-        const vista_mantenimiento = resp.home_views.find(
-          (view: any) => view.name === 'vista_mantenimiento'
-        );
+    let token = localStorage.getItem('token');
 
-        console.log(vista_mantenimiento.state);
-        if (vista_mantenimiento.state === 2) {
-          let token = localStorage.getItem('token');
-
-          if (token) {
-            this.cartService.deleteCart(CART.id)
-              .pipe(
-                tap(() => {
-                  this.cartService.removeCart(CART);
-                  this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
-                }),
-                finalize(() => this.isProcessing.next(false))
-              )
-              .subscribe({
-                next: () => { },
-                error: (error) => {
-                  console.log(error);
-                  if (error.status == 401) {
-                    this.authService.sessionExpired();
-                    this.cartService.clearCart();
-                  } else {
-                    this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-                  }
-                }
-              });
+    if (token) {
+      this.cartService.deleteCart(CART.id)
+        .pipe(
+          tap(() => {
+            this.cartService.removeCart(CART);
+            this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
+          }),
+          finalize(() => this.isProcessing.next(false))
+        )
+        .subscribe({
+          next: () => { },
+          error: (error) => {
+            if (error.status == 401) {
+              this.authService.sessionExpired();
+              this.cartService.clearCart();
+            } else if (error.status == 503) {
+              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+            } else {
+              console.log(error);
+              this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+            }
           }
-        }
-      }
-    }, (error) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    });
+        });
+    }
   }
 
   navigateToHome() {
