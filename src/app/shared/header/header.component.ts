@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs';
 import { BehaviorSubject, timer } from 'rxjs';
 import { finalize, switchMap, tap } from 'rxjs/operators';
+import { HomeService } from '../../pages/home/service/home.service';
 
 declare function CurrecyChange([]): any;
 declare var $: any;
@@ -74,6 +75,7 @@ export class HeaderComponent {
     public cartService: CartService,
     public authService: AuthService,
     private toastr: ToastrService,
+    private homeService: HomeService,
   ) {
     if (!isPlatformServer(this.platformId)) {
       setTimeout(() => {
@@ -167,26 +169,44 @@ export class HeaderComponent {
 
     this.toastr.info("Eliminando producto del carrito, espere...", "Eliminando producto");
 
-    this.cartService.deleteCart(CART.id)
-      .pipe(
-        tap(() => {
-          this.cartService.removeCart(CART);
-          this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
-        }),
-        finalize(() => this.isProcessing.next(false))
-      )
-      .subscribe({
-        next: () => { },
-        error: (error) => {
-          console.log(error);
-          if (error.status == 401) {
-            this.authService.sessionExpired();
-            this.cartService.clearCart();
-          } else {
-            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    this.homeService.homeView().subscribe((resp: any) => {
+      if (resp) {
+        const vista_mantenimiento = resp.home_views.find(
+          (view: any) => view.name === 'vista_mantenimiento'
+        );
+
+        console.log(vista_mantenimiento.state);
+        if (vista_mantenimiento.state === 2) {
+          let token = localStorage.getItem('token');
+
+          if (token) {
+            this.cartService.deleteCart(CART.id)
+              .pipe(
+                tap(() => {
+                  this.cartService.removeCart(CART);
+                  this.toastr.info(`El producto ${CART.product.title} fue eliminado del carrito`, "Producto eliminado");
+                }),
+                finalize(() => this.isProcessing.next(false))
+              )
+              .subscribe({
+                next: () => { },
+                error: (error) => {
+                  console.log(error);
+                  if (error.status == 401) {
+                    this.authService.sessionExpired();
+                    this.cartService.clearCart();
+                  } else {
+                    this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+                  }
+                }
+              });
           }
         }
-      });
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
   }
 
   navigateToHome() {

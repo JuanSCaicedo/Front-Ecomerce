@@ -6,8 +6,9 @@ import { CartService } from '../../home/service/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, timer } from 'rxjs';
-import { finalize, switchMap, tap } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
+import { HomeService } from '../../home/service/home.service';
 
 @Component({
   selector: 'app-cart',
@@ -63,9 +64,12 @@ export class CartComponent {
     private cookieService: CookieService,
     private toastr: ToastrService,
     private authService: AuthService,
+    private homeService: HomeService,
   ) { }
 
   ngOnInit() {
+    this.checkMantinance();
+
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
@@ -82,6 +86,10 @@ export class CartComponent {
         window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
       }
     }, 0);
+  }
+
+  checkMantinance() {
+    this.homeService.homeView().subscribe();
   }
 
   deleteCart(CART: any) {
@@ -108,8 +116,27 @@ export class CartComponent {
 
     this.toastr.info("Eliminando producto del carrito, espere...", "Eliminando producto");
 
-    let token = localStorage.getItem('token');
+    this.homeService.homeView().subscribe((resp: any) => {
+      if (resp) {
+        const vista_mantenimiento = resp.home_views.find(
+          (view: any) => view.name === 'vista_mantenimiento'
+        );
 
+        if (vista_mantenimiento.state === 2) {
+          let token = localStorage.getItem('token');
+
+          if (token) {
+            this.borrarCarrito(CART);
+          }
+        }
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
+  }
+
+  borrarCarrito(CART: any) {
     this.cartService.deleteCart(CART.id)
       .pipe(
         tap(() => {

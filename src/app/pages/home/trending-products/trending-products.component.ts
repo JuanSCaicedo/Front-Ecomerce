@@ -106,7 +106,6 @@ export class TrendingProductsComponent {
       this.toastr.info("Agregando producto al carrito", "Procesando");
     }
 
-    this.homeService.homeView().subscribe();
     if (!this.authService.tokenSubject.value) {
       this.isProcessing.next(false);
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
@@ -161,6 +160,24 @@ export class TrendingProductsComponent {
       currency: this.currency,
     }
 
+    this.homeService.homeView().subscribe((resp: any) => {
+      if (resp) {
+        const vista_mantenimiento = resp.home_views.find(
+          (view: any) => view.name === 'vista_mantenimiento'
+        );
+
+        console.log(vista_mantenimiento.state);
+        if (vista_mantenimiento.state === 2) {
+          this.registrarCarro(data);
+        }
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
+  }
+
+  registrarCarro(data: any) {
     if (this.authService.tokenSubject.value) {
       this.cartService.registerCart(data)
         .pipe(

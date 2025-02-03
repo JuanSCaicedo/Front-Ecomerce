@@ -90,17 +90,15 @@ export class HomeComponent {
   IG_IMAGES_STATE: boolean = true;
   FEATURE_STATE: boolean = true;
   SUBSCRIBE_STATE: boolean = true;
-  MANTINANCE_STATUS: boolean = false;
   user: any;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     public homeService: HomeService,
     private toastr: ToastrService,
-  ) {    
+  ) {
     if (isPlatformBrowser(this.platformId)) {
-      this.mantinanceStatus();
-      this.dataHome();
+      this.checkMaintenance();
     }
   }
 
@@ -215,7 +213,22 @@ export class HomeComponent {
     });
   }
 
-  mantinanceStatus() {
-    this.homeService.homeView().subscribe();
+  checkMaintenance() {
+    this.homeService.homeView().subscribe(
+      (resp: any) => {
+        // Assuming the maintenance status is in resp.status
+        const vista_mantenimiento = resp.home_views.find(
+          (view: any) => view.name === 'vista_mantenimiento'
+        );
+
+        if (vista_mantenimiento.state === 2) {
+          // Only call dataHome if not in maintenance
+          this.dataHome();
+        }
+      },
+      (error) => {
+        this.toastr.error('Error checking maintenance status', error.message);
+      }
+    );
   }
 }

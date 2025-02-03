@@ -19,6 +19,27 @@ export class MenuCategoriesComponent {
     private homeService: HomeService,
     private toastr: ToastrService,
   ) {
+    this.checkMaintenance();
+  }
+
+  checkMaintenance() {
+    this.homeService.homeViewData$.subscribe((data) => {
+      if (data) {
+        const vista_mantenimiento = data.home_views.find(
+          (view: any) => view.name === 'vista_mantenimiento'
+        );
+
+        if (vista_mantenimiento.state === 2) {
+          this.callMenu();
+        }
+      }
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    });
+  }
+
+  callMenu() {
     //Para solucionar bug de no ver menu en mobile se elimino afterNextRender
     this.homeService.menu().subscribe(
       (resp: any) => {
