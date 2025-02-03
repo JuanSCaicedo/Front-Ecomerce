@@ -1,0 +1,9 @@
+.tp-cart-checkout-wrapper {
+    position: -webkit-sticky;
+    /* Para compatibilidad con Safari */
+    position: sticky;
+    top: 200px;
+    /* Ajusta este valor según lo que necesites (distancia desde la parte superior de la ventana) */
+    z-index: 10;
+    /* Asegura que el elemento quede encima de otros */
+}

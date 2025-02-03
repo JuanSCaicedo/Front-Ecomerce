@@ -34,7 +34,7 @@ export class HeaderComponent {
   private attemptCount = 0;
   private isBlocked = false;
   private lastAttemptTime = Date.now();
-  private readonly ATTEMPT_THRESHOLD = 10; // Número máximo de intentos
+  private readonly ATTEMPT_THRESHOLD = 20; // Número máximo de intentos
   private readonly ATTEMPT_WINDOW = 5000; // Ventana de tiempo para contar intentos (5 segundos)
   private readonly BLOCK_DURATION = 10000; // Duración del bloqueo (10 segundos)
 
