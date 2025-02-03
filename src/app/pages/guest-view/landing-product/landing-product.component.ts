@@ -118,7 +118,6 @@ export class LandingProductComponent {
     // Escuchar cambios en los parámetros de la ruta
     this.activatedRoute.params.subscribe((resp: any) => {
       this.PRODUCT_SLUG = resp.slug; // Actualiza el slug
-      this.homeService.homeView().subscribe();
       this.loadProductDetails(); // Llama a la función para cargar los datos del 
     }, (error) => {
       console.log(error);
@@ -195,8 +194,12 @@ export class LandingProductComponent {
         }
       }, 0);
     }, (err: any) => {
-      console.log(err);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.error.error || err.message);
+      if (err.status == 503) {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+      } else {
+        console.log(err);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', err.error.message || err.message);
+      }
     });
   }
 
@@ -383,8 +386,6 @@ export class LandingProductComponent {
       this.toastr.info("Agregando producto al carrito", "Procesando");
     }
 
-    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
-
     if (!this.authService.tokenSubject.value) {
       this.isProcessing.next(false);
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
@@ -499,7 +500,10 @@ export class LandingProductComponent {
             if (error.status == 401) {
               this.authService.sessionExpired();
               this.cartService.clearCart();
+            } else if (error.status == 503) {
+              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
             } else {
+              console.log(error);
               this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
             }
           }
@@ -531,8 +535,6 @@ export class LandingProductComponent {
     if (PRODUCT.variations.length == 0 && this.authService.tokenSubject.value) {
       this.toastr.info("Agregando producto al carrito", "Procesando");
     }
-
-    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
 
     if (!this.authService.tokenSubject.value) {
       this.isProcessing.next(false);
@@ -605,7 +607,10 @@ export class LandingProductComponent {
             if (error.status == 401) {
               this.authService.sessionExpired();
               this.cartService.clearCart();
+            } else if (error.status == 503) {
+              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
             } else {
+              console.log(error);
               this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
             }
           }

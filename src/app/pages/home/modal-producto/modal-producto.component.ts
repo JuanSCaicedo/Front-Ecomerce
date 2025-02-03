@@ -76,8 +76,6 @@ export class ModalProductoComponent {
   ) { }
 
   ngOnInit() {
-    this.homeService.homeView().subscribe();
-
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
 
     console.log(this.product_selected);
@@ -198,8 +196,6 @@ export class ModalProductoComponent {
       this.toastr.info("Agregando producto al carrito", "Procesando");
     }
 
-    this.homeService.homeView().subscribe(); // Para actualizar la vista mntto de la página principal
-
     if (!this.authService.tokenSubject.value) {
       this.isProcessing.next(false);
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
@@ -317,7 +313,11 @@ export class ModalProductoComponent {
             if (error.status == 401) {
               this.authService.sessionExpired();
               this.cartService.clearCart();
+            } else if (error.status == 503) {
+              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+              $("#producQuickViewModal").modal("hide"); // Oculta el modal
             } else {
+              console.log(error);
               this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
             }
           }
