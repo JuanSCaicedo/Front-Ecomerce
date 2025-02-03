@@ -9,13 +9,11 @@ export class PermisionAuth {
   constructor(
     public authService: AuthService,
     public router: Router,
-    private toastr: ToastrService,
   ) { }
 
   canActivate(): boolean {
     if (!this.authService.tokenSubject.value) {
       this.router.navigateByUrl("/login");
-      this.toastr.error("Por favor inicie sesión", "Error");
       return false;
     }
 

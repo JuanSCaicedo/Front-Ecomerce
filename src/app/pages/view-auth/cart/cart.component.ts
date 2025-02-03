@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CartService } from '../../home/service/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
@@ -63,19 +63,14 @@ export class CartComponent {
     private cookieService: CookieService,
     private toastr: ToastrService,
     private authService: AuthService,
-    private router: Router,
   ) { }
 
   ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
-      if (resp.length > 0) {
-        this.listCart = resp;
-        this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
-      } else {
-        this.router.navigateByUrl('/login');
-      }
+      this.listCart = resp;
+      this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);

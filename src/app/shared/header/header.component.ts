@@ -96,7 +96,9 @@ export class HeaderComponent {
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe(() => {
       let token = localStorage.getItem('token');
-      this.listadoCarrito(token);
+      if (token) {
+        this.listadoCarrito(token);
+      }
     });
   }
 
