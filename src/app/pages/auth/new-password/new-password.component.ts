@@ -41,8 +41,6 @@ export class NewPasswordComponent {
 
   ngOnInit() {
     this.isLoading$ = this.authService.isLoading$;
-
-    this.homeService.homeView().subscribe();
   }
 
   verifiedNewPassword() {
@@ -70,6 +68,15 @@ export class NewPasswordComponent {
       localStorage.removeItem('isLoadingCode');
       this.toastr.success("exito", "La contraseña se ha cambiado correctamente");
       this.router.navigateByUrl("/login");
+    }, (error) => {
+      if (error.status == 429) {
+        this.toastr.error("Validación", "Has excedido el límite de solicitudes. Por favor, intenta de nuevo en un minuto");
+      } else if (error.status == 503) {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+      } else {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+      }
     });
   }
 }

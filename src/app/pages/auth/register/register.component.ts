@@ -44,8 +44,6 @@ export class RegisterComponent {
   ngOnInit(): void {
     this.isLoading$ = this.authService.isLoading$;
 
-    this.homeService.homeView().subscribe();
-
     // Realiza scroll hacia la parte superior de la página
     setTimeout(() => {
       if (typeof window !== 'undefined') {
@@ -85,9 +83,15 @@ export class RegisterComponent {
       phone: this.phone
     }
     this.authService.register(data).subscribe((resp: any) => {
+      console.log(resp);
 
-      if (resp.message == 'Too Many Attempts. Please Wait 1 Minute') {
+      if (resp.message === 'Too Many Attempts. Please Wait 1 Minute') {
         this.toastr.error("Registro fallido", "Demasiados intentos. Por favor espera 1 minuto");
+        return;
+      }
+
+      if (resp.message === 'El sitio está en mantenimiento') {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
       } else {
         if (resp.error) {
           this.toastr.error("Registro fallido", "Usuario no disponible");
@@ -98,6 +102,9 @@ export class RegisterComponent {
           }, 500);
         }
       }
+    }, (error: any) => {
+      console.log(error);
+      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     });
   }
 }

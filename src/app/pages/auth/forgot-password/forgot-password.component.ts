@@ -33,10 +33,7 @@ export class ForgotPasswordComponent {
   ) { }
 
   ngOnInit() {
-
     this.isLoading$ = this.authService.isLoading$;
-
-    this.homeService.homeView().subscribe();
 
     if (typeof window !== 'undefined' && window.localStorage) {
       const storedData = localStorage.getItem('isLoadingMail');
@@ -95,6 +92,11 @@ export class ForgotPasswordComponent {
       if (error.status == 429) {
         this.toastr.error("Validación", "Has excedido el límite de solicitudes. Por favor, intenta de nuevo en un minuto");
         return;
+      } else if (error.status == 503) {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+      } else {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }
     })
   }

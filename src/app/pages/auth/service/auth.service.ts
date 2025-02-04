@@ -57,7 +57,9 @@ export class AuthService {
         return result;
       }),
       catchError((err: any) => {
-        console.log(err);
+        if (err.status != 503) {
+          console.log(err);
+        }
         return of(err);
       }),
 

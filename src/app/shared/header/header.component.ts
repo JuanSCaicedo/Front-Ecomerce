@@ -100,6 +100,8 @@ export class HeaderComponent {
       let token = localStorage.getItem('token');
       if (token) {
         this.listadoCarrito(token);
+      } else {
+        this.cartService.clearCart();
       }
     });
   }

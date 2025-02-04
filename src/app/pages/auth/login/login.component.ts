@@ -42,8 +42,6 @@ export class LoginComponent {
 
     this.isLoading$ = this.authService.isLoading$;
 
-    this.homeService.homeView().subscribe();
-
     if (this.authService.token || this.authService.tokenSubject.value) {
       this.router.navigateByUrl("/");
       return;
@@ -103,6 +101,10 @@ export class LoginComponent {
         setTimeout(() => {
           this.router.navigateByUrl("/")
         }, 500);
+      }
+
+      if (resp.status == 503) {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
       }
     }, (error) => {
       console.log(error);
