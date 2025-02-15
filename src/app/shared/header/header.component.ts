@@ -9,7 +9,7 @@ import { AuthService } from '../../pages/auth/service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs';
 import { BehaviorSubject, timer } from 'rxjs';
-import { finalize, switchMap, tap } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { HomeService } from '../../pages/home/service/home.service';
 
 declare function CurrecyChange([]): any;
@@ -120,12 +120,17 @@ export class HeaderComponent {
           this.cartService.clearCart();
         }
       }, (error) => {
+        // Manejo de errores según el código de estado
         if (error.status == 401) {
           this.authService.sessionExpired();
           this.cartService.clearCart();
         } else if (error.status == 503) {
           this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-        } else {
+        } else if (error.status == 429) {
+          this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+          return;
+        }
+        else {
           console.log(error);
           this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
         }
@@ -187,12 +192,17 @@ export class HeaderComponent {
         .subscribe({
           next: () => { },
           error: (error) => {
+            // Manejo de errores según el código de estado
             if (error.status == 401) {
               this.authService.sessionExpired();
               this.cartService.clearCart();
             } else if (error.status == 503) {
               this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-            } else {
+            } else if (error.status == 429) {
+              this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+              return;
+            }
+            else {
               console.log(error);
               this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
             }

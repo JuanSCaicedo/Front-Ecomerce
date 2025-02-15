@@ -162,12 +162,14 @@ export class CartComponent {
     // Marcar como procesando
     this.isProcessing.next(true);
 
-    this.toastr.info("Actualizando cantidad del producto, espere...", "Actualizando producto");
-
     if (cart.quantity == 1) {
       this.toastr.error("La cantidad mínima es 1", "Validación");
+      this.isProcessing.next(false);
       return;
     }
+
+    this.toastr.info("Actualizando cantidad del producto, espere...", "Actualizando producto");
+
     cart.quantity = cart.quantity - 1;
     cart.total = cart.subtotal * cart.quantity;
 
@@ -233,7 +235,11 @@ export class CartComponent {
               this.cartService.clearCart();
             } else if (error.status == 503) {
               this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-            } else {
+            } else if (error.status == 429) {
+              this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+              return;
+            }
+            else {
               console.log(error);
               this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
             }
