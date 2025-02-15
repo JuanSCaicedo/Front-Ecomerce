@@ -68,7 +68,6 @@ export class CartComponent {
   ) { }
 
   ngOnInit() {
-
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
@@ -88,7 +87,6 @@ export class CartComponent {
   }
 
   deleteCart(CART: any) {
-
     // Verificar si está bloqueado
     if (this.isBlocked) {
       this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Delete Products Cart");
@@ -141,5 +139,109 @@ export class CartComponent {
           }
         }
       });
+  }
+
+  minusQuantity(cart: any) {
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Update Products Cart");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
+
+    this.toastr.info("Actualizando cantidad del producto, espere...", "Actualizando producto");
+
+    if (cart.quantity == 1) {
+      this.toastr.error("La cantidad mínima es 1", "Validación");
+      return;
+    }
+    cart.quantity = cart.quantity - 1;
+    cart.total = cart.subtotal * cart.quantity;
+
+    this.actualizarCarro(cart);
+  }
+
+  plusQuantity(cart: any) {
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Update Products Cart");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
+
+    this.toastr.info("Actualizando cantidad del producto, espere...", "Actualizando producto");
+
+    cart.quantity = cart.quantity + 1;
+    cart.total = cart.subtotal * cart.quantity;
+
+    this.actualizarCarro(cart);
+  }
+
+  actualizarCarro(cart: any) {
+    let token = localStorage.getItem('token');
+
+    if (token) {
+      this.cartService.updateCart(cart.id, cart)
+        .pipe(
+          tap((resp: any) => {
+            if (resp.message == 403) {
+              // Si el stock no es suficiente, mostrar mensaje de error
+              this.toastr.error("La cantidad solicitada excede el stock disponible", "Validación");
+            } else {
+              // Si la actualización fue exitosa, actualizar el carrito y mostrar mensaje
+              this.cartService.changeCart(resp.cart);
+              this.toastr.info("La cantidad del producto fue actualizada", "Producto actualizado");
+            }
+          }),
+          finalize(() => {
+            // Marcar como no procesando al finalizar
+            this.isProcessing.next(false);
+          })
+        )
+        .subscribe({
+          next: () => { },
+          error: (error) => {
+            // Manejo de errores según el código de estado
+            if (error.status == 401) {
+              this.authService.sessionExpired();
+              this.cartService.clearCart();
+            } else if (error.status == 503) {
+              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+            } else {
+              console.log(error);
+              this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+            }
+          }
+        });
+    } else {
+      // Si no hay token, mostrar mensaje de error
+      this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+    }
   }
 }
