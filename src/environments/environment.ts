@@ -1,5 +1,5 @@
 export const environment = {
-    URL_BACKEND: 'http://api-ecommerce.juandevops.com',
-    URL_SERVICIOS: 'http://api-ecommerce.juandevops.com/api',
-    URL_FRONTEND: 'https://front-ecomerce.pages.dev',
+    URL_BACKEND: 'http://10.8.0.2:8000',
+    URL_SERVICIOS: 'http://10.8.0.2:8000/api',
+    URL_FRONTEND: 'http://10.8.0.2:5000',
 };
