@@ -91,6 +91,7 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+    this.user = this.cartService.authService.user;
   }
 
   cambioVista() {
@@ -222,10 +223,33 @@ export class HeaderComponent {
   }
 
   changeCurrency(val: string) {
-    this.cookieService.set('currency', val);
-    setTimeout(() => {
-      window.location.reload();
-    }, 50);
+    if (this.user) {
+      this.cartService.deleteCartsAll().subscribe((resp: any) => {
+        this.cookieService.set('currency', val);
+        console.log(resp);
+        window.location.reload();
+      }, (error) => {
+        // Manejo de errores según el código de estado
+        if (error.status == 401) {
+          this.authService.sessionExpired();
+          this.cartService.clearCart();
+        } else if (error.status == 503) {
+          this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+        } else if (error.status == 429) {
+          this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+          return;
+        }
+        else {
+          console.log(error);
+          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+        }
+      });
+    } else {
+      this.cookieService.set('currency', val);
+      setTimeout(() => {
+        window.location.reload();
+      }, 50);
+    }
   }
 
   logout() {
