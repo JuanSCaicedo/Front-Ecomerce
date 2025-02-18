@@ -253,9 +253,77 @@ export class CartComponent {
   }
 
   appyCupon() {
-    if (!this.code_cupon) {
-      this.toastr.error("El código del cupón no puede estar vacío", "Validación");
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+      this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
       return;
     }
+
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Aplicar Cupón");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
+
+    if (!this.code_cupon) {
+      this.toastr.error("El código del cupón no puede estar vacío", "Validación");
+      this.isProcessing.next(false);
+      return;
+    }
+
+    let data = {
+      code_cupon: this.code_cupon
+    };
+
+    this.cartService.applyCupon(data)
+      .pipe(
+        tap((resp: any) => {
+          console.log(resp);
+          if (resp.message == 404) {
+            this.toastr.error("El cupón no existe", "Validación");
+          } else if (resp.message == 403) {
+            this.toastr.error("El cupón no es válido", "Validación");
+          } else {
+            this.toastr.info("El cupón fue aplicado correctamente", "Cupón aplicado");
+            this.cartService.changeCart(resp.cart);
+          }
+        }),
+        finalize(() => {
+          // Marcar como no procesando al finalizar
+          this.isProcessing.next(false);
+        })
+      )
+      .subscribe({
+        next: () => { },
+        error: (error) => {
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+          } else if (error.status == 429) {
+            this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+            return;
+          } else {
+            console.log(error);
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
+        }
+      });
   }
 }
