@@ -115,6 +115,13 @@ export class HeaderComponent {
       this.cartService.listCart().subscribe((resp: any) => {
         if (resp.carts.data.length > 0) {
           resp.carts.data.forEach((cart: any) => {
+            if (cart.currency != this.currency) {
+              this.cookieService.set('currency', cart.currency);
+
+              setTimeout(() => {
+                window.location.reload();
+              }, 25);
+            }
             this.cartService.changeCart(cart);
           });
         } else {
@@ -226,7 +233,6 @@ export class HeaderComponent {
     if (this.user) {
       this.cartService.deleteCartsAll().subscribe((resp: any) => {
         this.cookieService.set('currency', val);
-        console.log(resp);
         window.location.reload();
       }, (error) => {
         // Manejo de errores según el código de estado

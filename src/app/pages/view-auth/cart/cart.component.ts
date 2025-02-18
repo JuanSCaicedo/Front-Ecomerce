@@ -21,6 +21,7 @@ export class CartComponent {
   currency: string = 'COP';
   listCart: any = [];
   totalCarts: number = 0;
+  code_cupon: string = '';
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -248,6 +249,13 @@ export class CartComponent {
     } else {
       // Si no hay token, mostrar mensaje de error
       this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+    }
+  }
+
+  appyCupon() {
+    if (!this.code_cupon) {
+      this.toastr.error("El código del cupón no puede estar vacío", "Validación");
+      return;
     }
   }
 }
