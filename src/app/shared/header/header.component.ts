@@ -144,7 +144,6 @@ export class HeaderComponent {
         }
       });
 
-
       this.cartService.currentDataCart$.subscribe((resp: any) => {
         this.listCart = resp;
         this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);

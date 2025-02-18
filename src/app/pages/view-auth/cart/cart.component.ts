@@ -45,13 +45,13 @@ export class CartComponent {
     // Si excede el límite de intentos, activar bloqueo
     if (this.attemptCount >= this.ATTEMPT_THRESHOLD) {
       this.isBlocked = true;
-      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Delete Products Cart");
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Rate Limit");
 
       // Programar el desbloqueo
       timer(this.BLOCK_DURATION).subscribe(() => {
         this.isBlocked = false;
         this.attemptCount = 0;
-        this.toastr.info("Ya puedes volver a agregar productos al carrito", "Desbloqueo Delete Products Cart");
+        this.toastr.info("Se ha desbloqueado el sistema", "Desbloqueado - Rate Limit");
       });
 
       return true;
@@ -294,13 +294,36 @@ export class CartComponent {
       .pipe(
         tap((resp: any) => {
           console.log(resp);
-          if (resp.message == 404) {
-            this.toastr.error("El cupón no existe", "Validación");
-          } else if (resp.message == 403) {
-            this.toastr.error("El cupón no es válido", "Validación");
+          if (resp.message == 403) {
+            this.toastr.error(resp.message_text, "Validación");
+            return;
           } else {
-            this.toastr.info("El cupón fue aplicado correctamente", "Cupón aplicado");
-            this.cartService.changeCart(resp.cart);
+            this.toastr.info(resp.message_text, "Cupón aplicado correctamente");
+            this.cartService.resetCart();
+            this.cartService.listCart().subscribe((resp: any) => {
+              if (resp.carts.data.length > 0) {
+                resp.carts.data.forEach((cart: any) => {
+                  this.cartService.changeCart(cart);
+                });
+              } else {
+                this.cartService.clearCart();
+              }
+            }, (error) => {
+              // Manejo de errores según el código de estado
+              if (error.status == 401) {
+                this.authService.sessionExpired();
+                this.cartService.clearCart();
+              } else if (error.status == 503) {
+                this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+              } else if (error.status == 429) {
+                this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+                return;
+              }
+              else {
+                console.log(error);
+                this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+              }
+            });
           }
         }),
         finalize(() => {
