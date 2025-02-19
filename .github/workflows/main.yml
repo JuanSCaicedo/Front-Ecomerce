@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            rm -rf /home/ecommerce.juandevops.com/public_html/*
+            sudo rm -rf /home/ecommerce.juandevops.com/public_html/*
 
       - name: Ajustar permisos en servidor
         uses: appleboy/ssh-action@v1.0.3
