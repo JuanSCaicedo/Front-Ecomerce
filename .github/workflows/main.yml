@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             sudo chown -R $USER:$USER /home/ecommerce.juandevops.com/public_html
-            sudo chmod -R 755 /home/ecommerce.juandevops.com/public_html
+            sudo chmod -R 777 /home/ecommerce.juandevops.com/public_html
 
       - name: Subir archivos al servidor
         uses: appleboy/scp-action@v0.1.7
