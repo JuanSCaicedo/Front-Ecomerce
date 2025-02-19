@@ -25,7 +25,7 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Construir proyecto Angular
-        run: npm run build --prod
+        run: npm run build
 
       - name: Limpiar directorio destino en servidor
         uses: appleboy/ssh-action@v1.0.3
@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             sudo chown -R $USER:$USER /home/ecommerce.juandevops.com/public_html
-            sudo chmod -R 777 /home/ecommerce.juandevops.com/public_html
+            sudo chmod -R 755 /home/ecommerce.juandevops.com/public_html
 
       - name: Subir archivos al servidor
         uses: appleboy/scp-action@v0.1.7
@@ -54,4 +54,3 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "dist/ecommerce/browser/*"
           target: "/home/ecommerce.juandevops.com/public_html/"
-          strip_components: 3
