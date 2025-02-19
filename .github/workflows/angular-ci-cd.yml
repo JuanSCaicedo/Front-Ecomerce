@@ -1,11 +1,11 @@
-name: Angular CI/CD with CyberPanel
+name: Angular CI/CD with SSH
 
 on:
   push:
     branches:
-      - "*"  # Ejecuta en cualquier rama
+      - "*" # Cualquier rama
   pull_request:
-    types: [closed]  # Ejecuta cuando se hace merge
+    types: [closed] # Al hacer merge
 
 concurrency:
   group: angular-deploy
@@ -16,26 +16,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Clona el repositorio
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Configura Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 3️⃣ Instala dependencias
       - name: Install Dependencies
         run: npm install
 
-      # 4️⃣ Genera build de producción
       - name: Build Angular App
         run: npm run build --prod
 
-      # 5️⃣ Sube solo dist/ecommerce/browser al servidor
-      - name: Deploy to CyberPanel Server
+      - name: Deploy using SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            rm -rf /home/ecommerce.juandevops.com/public_html/*
+            mkdir -p /home/ecommerce.juandevops.com/public_html
+            exit
+      - name: Upload Build Files
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -45,6 +51,12 @@ jobs:
           source: "dist/ecommerce/browser/*"
           target: "/home/ecommerce.juandevops.com/public_html"
 
-      # 6️⃣ Reinicia LiteSpeed para limpiar caché
       - name: Reload LiteSpeed
-        run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'sudo systemctl restart lsws'
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            sudo systemctl restart lsws
