@@ -12,39 +12,58 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      # 1️⃣ Clonar el repositorio
       - name: Clonar repositorio
         uses: actions/checkout@v3
 
-      # 2️⃣ Instalar dependencias
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
       - name: Instalar dependencias
         run: npm install
 
-      # 3️⃣ Generar build de producción
       - name: Construir proyecto Angular
         run: npm run build --prod
 
-      # 4️⃣ Subir archivos generados al servidor
-      - name: Subir archivos al servidor
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: dist/ecommerce/browser/*
-          target: /home/ecommerce.juandevops.com/public_html
+      - name: Verificar carpeta dist
+        run: ls -l dist/ecommerce/browser
 
-      # 5️⃣ Ejecutar comandos en el servidor (limpieza y reinicio)
-      - name: Ejecutar comando en servidor
+      - name: Limpiar directorio destino en servidor
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo "🚀 Despliegue completado en el servidor ✅"
-            cd /home/ecommerce.juandevops.com/public_html
-            ls -l  # Verifica los archivos
-            sudo systemctl restart lsws  # Reiniciar LiteSpeed para aplicar cambios
+            rm -rf /home/ecommerce.juandevops.com/public_html/*
+
+      - name: Ajustar permisos en servidor
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo chown -R $USER:$USER /home/ecommerce.juandevops.com/public_html
+            sudo chmod -R 755 /home/ecommerce.juandevops.com/public_html
+
+      - name: Subir archivos al servidor
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/ecommerce/browser/*"
+          target: "/home/ecommerce.juandevops.com/public_html/"
+          strip_components: 3
+
+      - name: Verificar archivos en el servidor
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            ls -l /home/ecommerce.juandevops.com/public_html
