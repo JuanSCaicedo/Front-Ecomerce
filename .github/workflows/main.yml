@@ -52,5 +52,5 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/ecommerce/browser/*"
-          target: "/home/ecommerce.juandevops.com/public_html/"
+          source: "dist/ecommerce/browser/."
+          target: "/home/ecommerce.juandevops.com/public_html/"          
