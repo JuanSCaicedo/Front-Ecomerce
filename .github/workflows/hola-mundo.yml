@@ -16,3 +16,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "¡Hola Mundo desde GitHub Actions!"
+            ls -l
