@@ -25,7 +25,7 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Construir proyecto Angular
-        run: npm run build
+        run: npm run build --prod
 
       - name: Limpiar directorio destino en servidor
         uses: appleboy/ssh-action@v1.0.3
@@ -52,5 +52,5 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/ecommerce/browser/."
-          target: "/home/ecommerce.juandevops.com/public_html/"          
+          source: "dist/ecommerce/browser/*"
+          target: "/home/ecommerce.juandevops.com/public_html/"        
