@@ -3,6 +3,11 @@ name: Hola Mundo
 on:
   push:
     branches: [ main ]  # o el nombre de tu rama principal
+  pull_request:
+    branches: [ main ]  # o el nombre de tu rama principal
+
+concurrency:
+  group: ci-${{ github.ref }}
 
 jobs:
   deploy:
