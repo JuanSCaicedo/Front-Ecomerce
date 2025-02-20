@@ -70,8 +70,8 @@ export class CartComponent {
   ) { }
 
   ngOnInit() {
-
-    if (!this.authService.token || !this.authService.tokenSubject.value) {
+    if (!this.authService.tokenSubject.value) {
+      console.log(this.authService.tokenSubject.value);
       this.router.navigateByUrl("/");
       this.toastr.warning("Por favor inicie sesión", "Sesión no iniciada");
       return;
