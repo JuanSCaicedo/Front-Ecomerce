@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../home/service/cart.service';
 import { CookieService } from 'ngx-cookie-service';
 import { ToastrService } from 'ngx-toastr';
@@ -66,9 +66,17 @@ export class CartComponent {
     private toastr: ToastrService,
     private authService: AuthService,
     private homeService: HomeService,
+    public router: Router,
   ) { }
 
   ngOnInit() {
+
+    if (!this.authService.token || !this.authService.tokenSubject.value) {
+      this.router.navigateByUrl("/");
+      this.toastr.warning("Por favor inicie sesión", "Sesión no iniciada");
+      return;
+    }
+
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
