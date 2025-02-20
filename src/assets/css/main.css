@@ -16951,7 +16951,7 @@ only screen and (min-width: 576px) and (max-width: 767px),
   line-height: 25px;
   text-align: center;
   color: var(--tp-common-black);
-  font-size: 14px;
+  font-size: 20px;
 }
 
 .cartmini__del:hover {
