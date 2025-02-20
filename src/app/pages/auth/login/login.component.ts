@@ -18,7 +18,7 @@ declare function password_show_toggle(): any;
 })
 export class LoginComponent {
 
-  isLoading$: any;
+  isLoading$: any = false;
 
   email!: string;
   password!: string;
