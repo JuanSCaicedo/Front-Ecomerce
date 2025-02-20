@@ -73,7 +73,8 @@ export class CartComponent {
 
     this.cartService.currentDataCart$.subscribe((resp: any) => {
       this.listCart = resp;
-      this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0);
+      //Que solo se vean dos decimales
+      this.totalCarts = this.listCart.reduce((sum: number, item: any) => sum + item.total, 0).toFixed(2);
     }, (error) => {
       console.log(error);
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
