@@ -229,7 +229,7 @@
             </div>
             <div class="cartmini__checkout-btn">
                 <a [routerLink]="'/carrito-de-compra'" class="tp-btn mb-10 w-100 cartmini-close-btn"> view cart</a>
-                <a href="checkout.html" class="tp-btn tp-btn-border w-100"> checkout</a>
+                <a [routerLink]="'/compra'" class="tp-btn tp-btn-border w-100 cartmini-close-btn"> checkout</a>
             </div>
         </div>
     </div>
@@ -656,7 +656,7 @@
                                                 <li><a href="order.html">Track Your Order</a></li>
                                                 <li><a href="compare.html">Compare</a></li>
                                                 <li><a href="wishlist.html">Wishlist</a></li>
-                                                <li><a href="checkout.html">Checkout</a></li>
+                                                <li><a [routerLink]="'/compra'">Checkout</a></li>
                                                 <li><a href="profile.html">My account</a></li>
                                             </ul>
                                         </li>

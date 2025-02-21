@@ -7,6 +7,7 @@ import { LandingProductComponent } from './pages/guest-view/landing-product/land
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { authGuard } from './pages/auth/service/auth.guard';
 import { CartComponent } from './pages/view-auth/cart/cart.component';
+import { CheckoutComponent } from './pages/view-auth/checkout/checkout.component';
 
 export const routes: Routes = [
     {
@@ -34,6 +35,11 @@ export const routes: Routes = [
         canActivate: [authGuard],
         path: 'carrito-de-compra',
         component: CartComponent
+    },
+    {
+        canActivate: [authGuard],
+        path: 'compra',
+        component: CheckoutComponent
     },
     {
         path: '**', // Ruta comodín

@@ -73,7 +73,8 @@
 
                                         @if(cart.code_discount || cart.code_cupon){
                                         <br>
-                                        <span class="text-primary">Descuento: - {{ cart.discount }} {{ cart.type_discount
+                                        <span class="text-primary">Descuento: - {{ cart.discount }} {{
+                                            cart.type_discount
                                             == 1 ? '%' : cart.currency }}</span>
                                         <br>
                                         <span class="text-danger">Precio original: <del>{{ cart.price_unit }}</del>
@@ -186,7 +187,7 @@
                             <span>${{ totalCarts }} {{ currency }}</span>
                         </div>
                         <div class="tp-cart-checkout-proceed">
-                            <a href="checkout.html" class="tp-cart-checkout-btn w-100">Proceed to Checkout</a>
+                            <a [routerLink]="'/compra'" class="tp-cart-checkout-btn w-100">Proceed to Checkout</a>
                         </div>
                     </div>
                 </div>

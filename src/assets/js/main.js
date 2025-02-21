@@ -1800,10 +1800,10 @@ function HOMEINIT($) {
 
 
 
-		$('.tp-checkout-payment-item label').on('click', function () {
-			$(this).siblings('.tp-checkout-payment-desc').slideToggle(400);
+		// $('.tp-checkout-payment-item label').on('click', function () {
+		// 	$(this).siblings('.tp-checkout-payment-desc').slideToggle(400);
 
-		});
+		// });
 
 
 		// $('.tp-color-variation-btn').on('click', function () {
@@ -1816,16 +1816,16 @@ function HOMEINIT($) {
 		// });
 
 		////////////////////////////////////////////////////
-		// 17. Show Login Toggle Js
-		$('.tp-checkout-login-form-reveal-btn').on('click', function () {
-			$('#tpReturnCustomerLoginForm').slideToggle(400);
-		});
+		// // 17. Show Login Toggle Js
+		// $('.tp-checkout-login-form-reveal-btn').on('click', function () {
+		// 	$('#tpReturnCustomerLoginForm').slideToggle(400);
+		// });
 
-		////////////////////////////////////////////////////
-		// 18. Show Coupon Toggle Js
-		$('.tp-checkout-coupon-form-reveal-btn').on('click', function () {
-			$('#tpCheckoutCouponForm').slideToggle(400);
-		});
+		// ////////////////////////////////////////////////////
+		// // 18. Show Coupon Toggle Js
+		// $('.tp-checkout-coupon-form-reveal-btn').on('click', function () {
+		// 	$('#tpCheckoutCouponForm').slideToggle(400);
+		// });
 
 		////////////////////////////////////////////////////
 		// 19. Create An Account Toggle Js
@@ -2523,4 +2523,28 @@ function CurrecyChange($) {
 			}
 		});
 	}
+}
+
+function checkout($) {
+	// 17. Show Login Toggle Js
+	$('.tp-checkout-login-form-reveal-btn').on('click', function () {
+		$('#tpReturnCustomerLoginForm').slideToggle(400);
+	});
+
+	////////////////////////////////////////////////////
+	// 18. Show Coupon Toggle Js
+	$('.tp-checkout-coupon-form-reveal-btn').on('click', function () {
+		$('#tpCheckoutCouponForm').slideToggle(400);
+	});
+
+	////////////////////////////////////////////////////
+	// Backrground Color
+	$("[data-bg-color]").each(function () {
+		$(this).css("background-color", $(this).attr("data-bg-color"));
+	});
+
+	$('.tp-checkout-payment-item label').on('click', function () {
+		$(this).siblings('.tp-checkout-payment-desc').slideToggle(400);
+
+	});
 }

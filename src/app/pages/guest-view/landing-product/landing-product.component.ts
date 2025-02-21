@@ -353,38 +353,22 @@ export class LandingProductComponent {
     }
   }
 
-  addCart() {
-    // Verificar si está bloqueado
+  handleCartAction(redirectToCheckout: boolean) {
     if (this.isBlocked) {
       this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Landing Products");
       return;
     }
 
-    // Verificar límite de intentos
     if (this.checkRateLimit()) {
       return;
     }
 
-    // Si ya hay una petición en proceso, no permitir otra
     if (this.isProcessing.value) {
       this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
       return;
     }
 
-    // Marcar como procesando
     this.isProcessing.next(true);
-
-    if (this.authService.tokenSubject.value && this.PRODUCT_SELECTED.variations.length == 0) {
-      this.toastr.info("Agregando producto al carrito", "Procesando");
-    }
-
-    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected && this.sub_variation_selected) {
-      this.toastr.info("Agregando producto al carrito", "Procesando");
-    }
-
-    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected && this.variation_selected.subvariations.length == 0) {
-      this.toastr.info("Agregando producto al carrito", "Procesando");
-    }
 
     if (!this.authService.tokenSubject.value) {
       this.isProcessing.next(false);
@@ -394,79 +378,32 @@ export class LandingProductComponent {
     }
 
     if (this.PRODUCT_SELECTED.variations.length > 0) {
-      this.isProcessing.next(false);
       if (!this.variation_selected) {
+        this.isProcessing.next(false);
         this.toastr.error("Validación", "Debes seleccionar una variación");
         return;
       }
 
-      if (this.variation_selected && this.variation_selected.subvariations.length > 0) {
-        if (!this.sub_variation_selected) {
-          this.toastr.error("Validación", "Debes seleccionar una sub-variación");
-          return;
-        }
+      if (this.variation_selected.subvariations.length > 0 && !this.sub_variation_selected) {
+        this.isProcessing.next(false);
+        this.toastr.error("Validación", "Debes seleccionar una sub-variación");
+        return;
       }
     }
 
-    let product_variation_id = null;
+    const product_variation_id = this.sub_variation_selected?.id || this.variation_selected?.id || null;
+    const discount_g = this.PRODUCT_SELECTED.discount_g || null;
 
-    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected.subvariations.length == 0 && this.variation_selected) {
-      product_variation_id = this.variation_selected.id;
-    }
+    const subtotal_v = discount_g && discount_g.type_campaing == 2 && this.is_flash
+      ? this.getTotalPriceProductFlash(this.PRODUCT_SELECTED)
+      : this.getTotalPriceProduct(this.PRODUCT_SELECTED);
 
-    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected.subvariations.length > 0 && this.variation_selected) {
-      product_variation_id = this.sub_variation_selected.id;
-    }
+    const code_discount_v = discount_g?.code || null;
+    const type_campaing_v = discount_g?.type_campaing || null;
+    const discount_v = discount_g?.discount || null;
+    const type_discount_v = discount_g?.type_discount || null;
 
-    let discount_g = null;
-
-    if (this.PRODUCT_SELECTED.discount_g) {
-      discount_g = this.PRODUCT_SELECTED.discount_g;
-    }
-
-    let subtotal_v = null;
-    let code_discount_v = null;
-    let type_campaing_v = null;
-    let type_discount_v = null;
-    let discount_v = null;
-
-    // Primera validación para subtotal
-    if (discount_g) {
-      if (discount_g.type_campaing == 2 && this.is_flash) {
-        subtotal_v = this.getTotalPriceProductFlash(this.PRODUCT_SELECTED);
-      } else {
-        subtotal_v = this.getTotalPriceProduct(this.PRODUCT_SELECTED);
-      }
-    } else {
-      subtotal_v = this.getTotalPriceProduct(this.PRODUCT_SELECTED);
-    }
-
-    // Segunda validación para code_discount
-    if (discount_g) {
-      if (discount_g.type_campaing == 2 && this.is_flash) {
-        code_discount_v = discount_g.code;
-        type_campaing_v = discount_g.type_campaing;
-        discount_v = discount_g.discount;
-        type_discount_v = discount_g.type_discount;
-      } else if (discount_g.type_campaing == 1) {
-        code_discount_v = discount_g.code;
-        type_campaing_v = discount_g.type_campaing;
-        discount_v = discount_g.discount;
-        type_discount_v = discount_g.type_discount;
-      } else {
-        code_discount_v = null;
-        type_campaing_v = null;
-        discount_v = null;
-        type_discount_v = null;
-      }
-    } else {
-      code_discount_v = null;
-      type_campaing_v = null;
-      discount_v = null;
-      type_discount_v = null;
-    }
-
-    let data = {
+    const data = {
       product_id: this.PRODUCT_SELECTED.id,
       type_discount: type_discount_v,
       discount: discount_v,
@@ -479,35 +416,43 @@ export class LandingProductComponent {
       subtotal: subtotal_v,
       total: subtotal_v * $("#tp-cart-input-val").val(),
       currency: this.currency,
-    }
+    };
 
-    if (this.authService.tokenSubject.value) {
-      this.cartService.registerCart(data)
-        .pipe(
-          finalize(() => this.isProcessing.next(false))
-        )
-        .subscribe({
-          next: (resp: any) => {
-            if (resp && resp.message == 403) {
-              this.toastr.error(resp.message_text, "Validación");
-            } else if (resp) {
-              this.cartService.changeCart(resp.cart);
-              this.toastr.success("Éxito", "Producto agregado al carrito");
-            }
-          },
-          error: (error) => {
-            if (error.status == 401) {
-              this.authService.sessionExpired();
-              this.cartService.clearCart();
-            } else if (error.status == 503) {
-              this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-            } else {
-              console.log(error);
-              this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    this.cartService.registerCart(data)
+      .pipe(finalize(() => this.isProcessing.next(false)))
+      .subscribe({
+        next: (resp: any) => {
+          if (resp?.message == 403) {
+            this.toastr.error(resp.message_text, "Validación");
+          } else if (resp) {
+            this.cartService.changeCart(resp.cart);
+            this.toastr.success("Éxito", "Producto agregado al carrito");
+            if (redirectToCheckout) {
+              this.router.navigateByUrl("/compra");
             }
           }
-        });
-    }
+        },
+        error: (error) => {
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+          } else {
+            console.log(error);
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
+        }
+      });
+  }
+
+  // Llama la función según el flujo deseado
+  addCart() {
+    this.handleCartAction(false); // Solo agrega al carrito
+  }
+
+  buyNow() {
+    this.handleCartAction(true); // Agrega y redirige a compra
   }
 
   addCartRelated(PRODUCT: any) {

@@ -262,6 +262,9 @@ export class CartComponent {
   }
 
   appyCupon() {
+
+    this.toastr.info("Aplicando cupón, espere...", "Aplicando cupón");
+
     let token = localStorage.getItem('token');
 
     if (!token) {
