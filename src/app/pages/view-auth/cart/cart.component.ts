@@ -263,8 +263,6 @@ export class CartComponent {
 
   appyCupon() {
 
-    this.toastr.info("Aplicando cupón, espere...", "Aplicando cupón");
-
     let token = localStorage.getItem('token');
 
     if (!token) {
@@ -296,6 +294,8 @@ export class CartComponent {
       this.toastr.error("El código del cupón no puede estar vacío", "Validación");
       this.isProcessing.next(false);
       return;
+    } else {
+      this.toastr.info("Aplicando cupón, espere...", "Aplicando cupón");
     }
 
     let data = {

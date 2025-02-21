@@ -105,9 +105,7 @@ export class CheckoutComponent {
     });
   }
 
-  appyCupon() {
-
-    this.toastr.info("Aplicando cupón, espere...", "Aplicando cupón");
+  appyCupon() {    
     
     let token = localStorage.getItem('token');
 
@@ -140,6 +138,8 @@ export class CheckoutComponent {
       this.toastr.error("El código del cupón no puede estar vacío", "Validación");
       this.isProcessing.next(false);
       return;
+    } else {
+      this.toastr.info("Aplicando cupón, espere...", "Aplicando cupón");
     }
 
     let data = {
