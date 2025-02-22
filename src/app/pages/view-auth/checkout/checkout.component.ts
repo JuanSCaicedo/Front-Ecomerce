@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../../home/service/cart.service';
 import { AuthService } from '../../auth/service/auth.service';
@@ -20,6 +20,8 @@ declare var $: any;
   styleUrl: './checkout.component.css'
 })
 export class CheckoutComponent {
+
+  @ViewChild('billingDetails') billingDetails: ElementRef | undefined;
 
   selectedPayment: string = '';
 
@@ -110,6 +112,12 @@ export class CheckoutComponent {
       }
     }, 0);
 
+  }
+
+  scrolltoBillingDetails() {
+    if (this.billingDetails) {
+      this.billingDetails.nativeElement.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   carritoCompra() {
@@ -332,6 +340,8 @@ export class CheckoutComponent {
   }
 
   selectedAddress(addres: any) {
+    this.scrolltoBillingDetails();
+
     this.address_selected = addres;
 
     this.name = this.address_selected.name;
@@ -347,6 +357,7 @@ export class CheckoutComponent {
   }
 
   resetAddress() {
+    this.scrolltoBillingDetails();
     this.address_selected = null;
     this.name = '';
     this.surname = '';
@@ -415,7 +426,7 @@ export class CheckoutComponent {
         tap((resp: any) => {
           console.log(resp);
           this.toastr.success("Dirección actualizada correctamente", "Éxito");
-          this.scrollToUp();
+          this.scrolltoBillingDetails();
 
           let INDEX = this.address_list.findIndex((item: any) => item.id == resp.addres.id);
 
