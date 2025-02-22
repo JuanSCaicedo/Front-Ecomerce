@@ -11,6 +11,7 @@ import { UserAddressService } from '../service/user-address.service';
 import { CommonModule } from '@angular/common';
 declare function checkout([]): any;
 declare var $: any;
+declare var paypal: any;
 
 @Component({
   selector: 'app-checkout',
@@ -21,7 +22,8 @@ declare var $: any;
 })
 export class CheckoutComponent {
 
-  @ViewChild('billingDetails') billingDetails: ElementRef | undefined;
+  @ViewChild('billingDetails') billingDetails?: ElementRef;
+  @ViewChild('paypal', { static: true }) paypalElement?: ElementRef;
 
   selectedPayment: string = '';
 
@@ -95,6 +97,7 @@ export class CheckoutComponent {
   ngOnInit() {
     this.iniciarProyecto();
     this.carritoCompra();
+    this.paypalPayment();
   }
 
   iniciarProyecto() {
@@ -456,5 +459,50 @@ export class CheckoutComponent {
           }
         }
       });
+  }
+
+  paypalPayment() {
+    paypal.Buttons({
+      // optional styling for buttons
+      // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+      style: {
+        color: "gold",
+        shape: "rect",
+        layout: "vertical"
+      },
+
+      // set up the transaction
+      createOrder: (data: any, actions: any) => {
+        // pass in any options from the v2 orders create call:
+        // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+
+        const createOrderPayload = {
+          purchase_units: [
+            {
+              amount: {
+                description: "COMPRAR POR EL ECOMMERCE",
+                value: this.totalCarts,
+              }
+            }
+          ]
+        };
+
+        return actions.order.create(createOrderPayload);
+      },
+
+      // finalize the transaction
+      onApprove: async (data: any, actions: any) => {
+
+        let Order = await actions.order.capture();
+        // Order.purchase_units[0].payments.captures[0].id
+
+        // return actions.order.capture().then(captureOrderHandler);
+      },
+
+      // handle unrecoverable errors
+      onError: (err: any) => {
+        console.error('An error prevented the buyer from checking out with PayPal');
+      }
+    }).render(this.paypalElement?.nativeElement);
   }
 }
