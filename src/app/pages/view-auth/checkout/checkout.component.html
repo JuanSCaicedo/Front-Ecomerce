@@ -48,7 +48,8 @@
                                 </span>
                             </div>
                             <div class="profile__address-content">
-                                <h3 class="profile__address-title">+ Nueva Dirección</h3>
+                                <h3 class="profile__address-title"><a href="" onclick="return false;"
+                                        (click)="resetAddress()">+ Nueva Dirección</a></h3>
                             </div>
                         </div>
                     </div>
@@ -77,8 +78,10 @@
                                 </span>
                             </div>
                             <div class="profile__address-content">
-                                <h3 class="profile__address-title">Shipping Address</h3>
-                                <p><span>Full Name:</span>{{ addres.name + ' ' + addres.surnmae }}</p>
+                                <h3 class="profile__address-title"><a href="/" onclick="return false;"
+                                        (click)="selectedAddress(addres)"> Shipping Address
+                                    </a></h3>
+                                <p><span>Full Name:</span>{{ addres.name + ' '+ addres.surname }}</p>
                                 <p><span>Street:</span>{{ addres.street }}</p>
                                 <p><span>City:</span>{{ addres.city }}</p>
                                 <p><span>Phone number:</span>{{ addres.phone }}</p>
@@ -134,7 +137,7 @@
                                         <div class="col-md-12">
                                             <div class="tp-checkout-input">
                                                 <label>Street address</label>
-                                                <input type="text" name="addres" [(ngModel)]="name"
+                                                <input type="text" name="address" [(ngModel)]="address"
                                                     placeholder="House number and street name">
                                             </div>
 
@@ -190,8 +193,14 @@
                                         </div>
 
                                         <div class="col-md-12">
-                                            <button class="tp-checkout-btn w-100">
+                                            <button type="button" *ngIf="!address_selected" (click)="registerAddress()"
+                                                class="tp-checkout-btn w-100">
                                                 Registrar dirección
+                                            </button>
+
+                                            <button type="button" *ngIf="address_selected" (click)="editAddress()"
+                                                class="tp-checkout-btn w-100">
+                                                Editar dirección
                                             </button>
                                         </div>
                                     </div>

@@ -35,19 +35,19 @@ export class UserAddressService {
     return this.http.post(URL, data, { headers: headers });
   }
 
-  updateAddress(address_id: string, data: any) {
+  updateAddress(addres_id: string, data: any) {
     let headers = new HttpHeaders({
       "Authorization": `Bearer ${this.token}` // Usa el token actualizado
     });
-    let URL = URL_SERVICIOS + "/ecommerce/user_address/" + address_id;
+    let URL = URL_SERVICIOS + "/ecommerce/user_address/" + addres_id;
     return this.http.put(URL, data, { headers: headers });
   }
 
-  deleteAddress(address_id: string) {
+  deleteAddress(addres_id: string) {
     let headers = new HttpHeaders({
       "Authorization": `Bearer ${this.token}` // Usa el token actualizado
     });
-    let URL = URL_SERVICIOS + "/ecommerce/user_address/" + address_id;
+    let URL = URL_SERVICIOS + "/ecommerce/user_address/" + addres_id;
     return this.http.delete(URL, { headers: headers });
   }
 }

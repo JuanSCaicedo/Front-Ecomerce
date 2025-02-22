@@ -29,6 +29,7 @@ export class CheckoutComponent {
   code_cupon: string = '';
 
   address_list: any = [];
+  address_selected: any;
 
   name: string = '';
   surname: string = '';
@@ -96,7 +97,12 @@ export class CheckoutComponent {
 
   iniciarProyecto() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+    this.scrollToUp();
+    // Inicializa el script de checkout
+    checkout($);
+  }
 
+  scrollToUp() {
     // Realiza scroll hacia la parte superior de la página
     setTimeout(() => {
       if (typeof window !== 'undefined') {
@@ -104,8 +110,6 @@ export class CheckoutComponent {
       }
     }, 0);
 
-    // Inicializa el script de checkout
-    checkout($);
   }
 
   carritoCompra() {
@@ -242,5 +246,204 @@ export class CheckoutComponent {
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }
     });
+  }
+
+  registerAddress() {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+      this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      return;
+    }
+
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Registrar Dirección");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
+
+
+    if (!this.name || !this.surname || !this.company || !this.country_region || !this.city || !this.address || !this.street || !this.postcode_zip || !this.phone || !this.email) {
+      this.toastr.error('Todos los campos son obligatorios', 'Validación');
+      this.isProcessing.next(false);
+      return;
+    } else {
+      this.toastr.info("Registrando dirección, espere...", "Registrando dirección");
+    }
+
+    let data = {
+      name: this.name,
+      surname: this.surname,
+      company: this.company,
+      country_region: this.country_region,
+      city: this.city,
+      address: this.address,
+      street: this.street,
+      postcode_zip: this.postcode_zip,
+      phone: this.phone,
+      email: this.email
+    }
+
+    this.addressService.registerAddress(data)
+      .pipe(
+        tap((resp: any) => {
+          console.log(resp);
+          this.toastr.success("Dirección registrada correctamente", "Éxito");
+          this.resetAddress();
+          this.scrollToUp();
+          this.address_list.unshift(resp.addres);
+        }),
+        finalize(() => {
+          // Finaliza el estado de procesamiento
+          this.isProcessing.next(false);
+        })
+      )
+      .subscribe({
+        next: () => { },
+        error: (error) => {
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+          } else if (error.status == 429) {
+            this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+            return;
+          } else {
+            console.log(error);
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
+        }
+      });
+  }
+
+  selectedAddress(addres: any) {
+    this.address_selected = addres;
+
+    this.name = this.address_selected.name;
+    this.surname = this.address_selected.surname;
+    this.company = this.address_selected.company;
+    this.country_region = this.address_selected.country_region;
+    this.city = this.address_selected.city;
+    this.address = this.address_selected.address;
+    this.street = this.address_selected.street;
+    this.postcode_zip = this.address_selected.postcode_zip;
+    this.phone = this.address_selected.phone;
+    this.email = this.address_selected.email;
+  }
+
+  resetAddress() {
+    this.address_selected = null;
+    this.name = '';
+    this.surname = '';
+    this.company = '';
+    this.country_region = '';
+    this.city = '';
+    this.address = '';
+    this.street = '';
+    this.postcode_zip = '';
+    this.phone = '';
+    this.email = '';
+  }
+
+  editAddress() {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+      this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      return;
+    }
+
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Registrar Dirección");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
+
+
+    if (!this.name || !this.surname || !this.company || !this.country_region || !this.city || !this.address || !this.street || !this.postcode_zip || !this.phone || !this.email) {
+      this.toastr.error('Todos los campos son obligatorios', 'Validación');
+      this.isProcessing.next(false);
+      return;
+    } else {
+      this.toastr.info("Actualizando dirección, espere...", "Actualizando dirección");
+    }
+
+    let data = {
+      name: this.name,
+      surname: this.surname,
+      company: this.company,
+      country_region: this.country_region,
+      city: this.city,
+      address: this.address,
+      street: this.street,
+      postcode_zip: this.postcode_zip,
+      phone: this.phone,
+      email: this.email
+    }
+
+    this.addressService.updateAddress(this.address_selected.id, data)
+      .pipe(
+        tap((resp: any) => {
+          console.log(resp);
+          this.toastr.success("Dirección actualizada correctamente", "Éxito");
+          this.scrollToUp();
+
+          let INDEX = this.address_list.findIndex((item: any) => item.id == resp.addres.id);
+
+          if (INDEX != -1) {
+            this.address_list[INDEX] = resp.addres;
+          }
+        }),
+        finalize(() => {
+          // Finaliza el estado de procesamiento
+          this.isProcessing.next(false);
+        })
+      )
+      .subscribe({
+        next: () => { },
+        error: (error) => {
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+          } else if (error.status == 429) {
+            this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+            return;
+          } else {
+            console.log(error);
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
+        }
+      });
   }
 }
