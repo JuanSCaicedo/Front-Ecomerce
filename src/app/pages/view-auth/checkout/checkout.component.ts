@@ -7,13 +7,15 @@ import { CookieService } from 'ngx-cookie-service';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, finalize, tap, timer } from 'rxjs';
 import { HomeService } from '../../home/service/home.service';
+import { UserAddressService } from '../service/user-address.service';
+import { CommonModule } from '@angular/common';
 declare function checkout([]): any;
 declare var $: any;
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [RouterModule, FormsModule],
+  imports: [RouterModule, FormsModule, CommonModule],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.css'
 })
@@ -25,6 +27,19 @@ export class CheckoutComponent {
   totalCarts: number = 0;
   currency: string = 'COP';
   code_cupon: string = '';
+
+  address_list: any = [];
+
+  name: string = '';
+  surname: string = '';
+  company: string = '';
+  country_region: string = '';
+  city: string = '';
+  address: string = '';
+  street: string = '';
+  postcode_zip: string = '';
+  phone: string = '';
+  email: string = '';
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -66,10 +81,13 @@ export class CheckoutComponent {
   constructor(
     public cartService: CartService,
     public authService: AuthService,
+    public addressService: UserAddressService,
     private toastr: ToastrService,
     private cookieService: CookieService,
     private homeService: HomeService,
-  ) { }
+  ) {
+    this.listarDirecciones();
+  }
 
   ngOnInit() {
     this.iniciarProyecto();
@@ -105,8 +123,8 @@ export class CheckoutComponent {
     });
   }
 
-  appyCupon() {    
-    
+  appyCupon() {
+
     let token = localStorage.getItem('token');
 
     if (!token) {
@@ -204,5 +222,25 @@ export class CheckoutComponent {
           }
         }
       });
+  }
+
+  listarDirecciones() {
+    this.addressService.listAddress().subscribe((resp: any) => {
+      console.log(resp);
+      this.address_list = resp.address;
+    }, (error) => {
+      if (error.status == 401) {
+        this.authService.sessionExpired();
+        this.cartService.clearCart();
+      } else if (error.status == 503) {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+      } else if (error.status == 429) {
+        this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+        return;
+      } else {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+      }
+    });
   }
 }
