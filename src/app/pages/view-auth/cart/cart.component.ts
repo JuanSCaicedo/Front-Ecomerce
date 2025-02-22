@@ -228,7 +228,7 @@ export class CartComponent {
             } else {
               // Si la actualización fue exitosa, actualizar el carrito y mostrar mensaje
               this.cartService.changeCart(resp.cart);
-              this.toastr.info("La cantidad del producto fue actualizada", "Producto actualizado");
+              this.toastr.success("La cantidad del producto fue actualizada", "Producto actualizado");
             }
           }),
           finalize(() => {
