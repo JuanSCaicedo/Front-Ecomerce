@@ -464,19 +464,13 @@ export class CheckoutComponent {
 
   paypalPayment() {
     paypal.Buttons({
-      // optional styling for buttons
-      // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
       style: {
         color: "gold",
         shape: "rect",
         layout: "vertical"
       },
 
-      // set up the transaction
       createOrder: (data: any, actions: any) => {
-        // pass in any options from the v2 orders create call:
-        // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
-
         if (this.totalCarts == 0 || this.listCart.length == 0) {
           this.toastr.error('No se puede realizar la compra con el carrito vacío', 'Error');
           return;
@@ -486,8 +480,6 @@ export class CheckoutComponent {
           this.toastr.error('Todos los campos de la dirección son obligatorios', 'Validación');
           this.isProcessing.next(false);
           return;
-        } else {
-          this.toastr.info("Procesando pago, espere...", "Procesando pago");
         }
 
         const createOrderPayload = {
@@ -504,11 +496,12 @@ export class CheckoutComponent {
         return actions.order.create(createOrderPayload);
       },
 
-      // finalize the transaction
       onApprove: async (data: any, actions: any) => {
+        // Activar el estado de procesamiento y mostrar la alerta inmediatamente después de cerrar PayPal
+        this.isProcessing.next(true);
+        this.toastr.info("Procesando pago, espere...", "Procesando pago");
 
         let Order = await actions.order.capture();
-        // Order.purchase_units[0].payments.captures[0].id
 
         let dataSale = {
           method_payment: 'PAYPAL',
@@ -541,7 +534,6 @@ export class CheckoutComponent {
               this.toastr.success("Compra realizada correctamente", "Éxito");
             }),
             finalize(() => {
-              // Finaliza el estado de procesamiento
               this.isProcessing.next(false);
             })
           )
@@ -562,12 +554,10 @@ export class CheckoutComponent {
               }
             }
           });
-
-        // return actions.order.capture().then(captureOrderHandler);
       },
 
-      // handle unrecoverable errors
       onError: (err: any) => {
+        this.isProcessing.next(false);
         console.error('An error prevented the buyer from checking out with PayPal');
       }
     }).render(this.paypalElement?.nativeElement);
