@@ -2548,3 +2548,10 @@ function checkout($) {
 
 	});
 }
+
+function background($) {
+	// Backrground Color
+	$("[data-bg-color]").each(function () {
+		$(this).css("background-color", $(this).attr("data-bg-color"));
+	});
+}
