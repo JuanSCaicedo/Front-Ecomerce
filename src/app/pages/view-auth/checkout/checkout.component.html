@@ -189,7 +189,7 @@
                                         <div class="col-md-12">
                                             <div class="tp-checkout-input">
                                                 <label>Order notes (optional)</label>
-                                                <textarea
+                                                <textarea [(ngModel)]="description" name="description"
                                                     placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                             </div>
                                         </div>
@@ -326,7 +326,7 @@
                                         target="_blank">What is PayPal?</a>
                                 </label>
                             </div>
-                            
+
                             <div #paypal></div>
                         </div>
 
