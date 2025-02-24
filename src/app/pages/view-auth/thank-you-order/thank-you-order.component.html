@@ -100,14 +100,15 @@
                                     @for(sale_detail of ORDER_SELECTED.sale_details;track sale_detail.id) {
                                     <li class="tp-order-info-list-desc">
                                         <p>{{ sale_detail.product.title }}<span> x {{ sale_detail.quantity }}</span></p>
-                                        <span>${{ sale_detail.total }} {{ sale_detail.currency }}</span>
+                                        <span style="display: flex; white-space: nowrap;">${{ sale_detail.total }} {{ sale_detail.currency }}</span>
                                     </li>
                                     }
 
                                     <!-- subtotal -->
-                                    <li class="tp-order-info-list-subtotal">
-                                        <span>Subtotal</span>
-                                        <span>${{ ORDER_SELECTED.total }} {{ ORDER_SELECTED.currency_payment }}</span>
+                                    <li class=" tp-order-info-list-subtotal">
+                                            <span>Subtotal</span>
+                                            <span>${{ ORDER_SELECTED.total }} {{ ORDER_SELECTED.currency_payment
+                                                }}</span>
                                     </li>
 
                                     <!-- shipping -->
