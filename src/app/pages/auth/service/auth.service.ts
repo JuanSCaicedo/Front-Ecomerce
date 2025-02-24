@@ -182,7 +182,6 @@ export class AuthService {
 
     setTimeout(() => {
       this.toastr.warning('Por favor, inicia sesión de nuevo', 'Sesión expirada');
-      this.router.navigateByUrl("/login");
     }, 50);
   }
 }

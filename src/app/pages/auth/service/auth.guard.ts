@@ -23,6 +23,7 @@ export class PermisionAuth {
 
     if (Math.floor(Date.now() / 1000) >= expiration) {
       this.authService.sessionExpired();
+      this.router.navigateByUrl("/login");
       return false;
     }
 
