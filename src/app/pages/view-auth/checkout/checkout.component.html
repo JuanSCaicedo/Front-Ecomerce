@@ -325,9 +325,14 @@
                                     <a href="https://www.paypal.com/co/digital-wallet/how-paypal-works"
                                         target="_blank">What is PayPal?</a>
                                 </label>
-                            </div>
 
-                            <div #paypal></div>
+                                <div class="tp-checkout-payment-desc" [class.hidden]="selectedPayment !== 'paypal'">
+                                    <p class="mb-3">Paga a través de PayPal; puedes pagar con tu tarjeta de crédito si no tienes una
+                                        cuenta de PayPal.</p>
+
+                                    <div #paypal></div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="tp-checkout-agree">

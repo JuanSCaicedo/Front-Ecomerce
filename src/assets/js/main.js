@@ -2544,8 +2544,20 @@ function checkout($) {
 	});
 
 	$('.tp-checkout-payment-item label').on('click', function () {
-		$(this).siblings('.tp-checkout-payment-desc').slideToggle(400);
+		// Obtenemos la descripción del elemento clickeado
+		var currentDesc = $(this).siblings('.tp-checkout-payment-desc');
 
+		// Verificamos si la descripción actual está visible
+		var isVisible = currentDesc.is(':visible');
+
+		// Ocultamos todas las descripciones
+		$('.tp-checkout-payment-desc').slideUp(400);
+
+		// Si la descripción no estaba visible, la mostramos
+		if (!isVisible) {
+			currentDesc.slideDown(400);
+		}
+		// Si ya estaba visible, quedará oculta por el slideUp anterior
 	});
 }
 
