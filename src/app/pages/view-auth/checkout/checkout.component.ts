@@ -498,69 +498,77 @@ export class CheckoutComponent {
       },
 
       onApprove: async (data: any, actions: any) => {
-        // Activar el estado de procesamiento y mostrar la alerta inmediatamente después de cerrar PayPal
+        // Mostrar la alerta de procesamiento y guardar su referencia
         this.isProcessing.next(true);
-        this.toastr.info("Procesando pago, espere...", "Procesando pago");
+        const processingToast = this.toastr.info("Procesando pago, espere...", "Procesando pago", { disableTimeOut: true });
 
-        let Order = await actions.order.capture();
+        try {
+          let Order = await actions.order.capture();
 
-        let dataSale = {
-          method_payment: 'PAYPAL',
-          currency_total: this.currency,
-          currency_payment: 'USD',
-          discount: 0,
-          subtotal: this.totalCarts,
-          total: this.totalCarts,
-          price_dolar: 0,
-          n_transaccion: Order.purchase_units[0].payments.captures[0].id,
-          description: this.description,
-          sale_address: {
-            name: this.name,
-            surname: this.surname,
-            company: this.company,
-            country_region: this.country_region,
-            city: this.city,
-            address: this.address,
-            street: this.street,
-            postcode_zip: this.postcode_zip,
-            phone: this.phone,
-            email: this.email,
-          }
-        }
-
-        this.cartService.checkout(dataSale)
-          .pipe(
-            tap((resp: any) => {
-              console.log(resp);
-              this.toastr.success("Compra realizada correctamente", "Éxito");
-              this.router.navigateByUrl("/gracias-por-tu-compra/" + Order.purchase_units[0].payments.captures[0].id);
-            }),
-            finalize(() => {
-              this.isProcessing.next(false);
-            })
-          )
-          .subscribe({
-            next: () => { },
-            error: (error) => {
-              if (error.status == 401) {
-                this.authService.sessionExpired();
-                this.cartService.clearCart();
-              } else if (error.status == 503) {
-                this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-              } else if (error.status == 429) {
-                this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
-                return;
-              } else {
-                console.log(error);
-                this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-              }
+          let dataSale = {
+            method_payment: 'PAYPAL',
+            currency_total: this.currency,
+            currency_payment: 'USD',
+            discount: 0,
+            subtotal: this.totalCarts,
+            total: this.totalCarts,
+            price_dolar: 0,
+            n_transaccion: Order.purchase_units[0].payments.captures[0].id,
+            description: this.description,
+            sale_address: {
+              name: this.name,
+              surname: this.surname,
+              company: this.company,
+              country_region: this.country_region,
+              city: this.city,
+              address: this.address,
+              street: this.street,
+              postcode_zip: this.postcode_zip,
+              phone: this.phone,
+              email: this.email,
             }
-          });
+          };
+
+          this.cartService.checkout(dataSale)
+            .pipe(
+              tap((resp: any) => {
+                console.log(resp);
+                this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento
+                this.toastr.success("Compra realizada correctamente", "Éxito");
+                this.router.navigateByUrl("/gracias-por-tu-compra/" + Order.purchase_units[0].payments.captures[0].id);
+              }),
+              finalize(() => {
+                this.isProcessing.next(false);
+              })
+            )
+            .subscribe({
+              next: () => { },
+              error: (error) => {
+                this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento en caso de error
+                if (error.status == 401) {
+                  this.authService.sessionExpired();
+                  this.cartService.clearCart();
+                } else if (error.status == 503) {
+                  this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+                } else if (error.status == 429) {
+                  this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+                  return;
+                } else {
+                  console.log(error);
+                  this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+                }
+              }
+            });
+        } catch (err) {
+          this.toastr.clear(processingToast.toastId); // Cerrar la alerta en caso de error general
+          this.isProcessing.next(false);
+          console.error('An error prevented the buyer from checking out with PayPal', err);
+        }
       },
 
       onError: (err: any) => {
         this.isProcessing.next(false);
-        console.error('An error prevented the buyer from checking out with PayPal');
+        console.error('An error prevented the buyer from checking out with PayPal', err);
       }
     }).render(this.paypalElement?.nativeElement);
   }

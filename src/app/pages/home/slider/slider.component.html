@@ -4,7 +4,8 @@
         <div class="swiper-wrapper">
             @for(SLIDER of SLIDERS;track SLIDER.id) {
             <ng-container>
-                <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide green-dark-bg">
+                <div class="tp-slider-item tp-slider-height d-flex align-items-center swiper-slide green-dark-bg"
+                    [ngStyle]="{'background-color': SLIDER.color ? SLIDER.color : 'var(--tp-green-dark)'}">
                     <div class="tp-slider-shape">
                         <img class="tp-slider-shape-1" src="assets/img/slider/shape/slider-shape-1.png"
                             alt="slider-shape">

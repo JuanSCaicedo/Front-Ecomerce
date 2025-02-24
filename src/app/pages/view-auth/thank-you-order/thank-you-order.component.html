@@ -6,10 +6,10 @@
             <div class="row">
                 <div class="col-xxl-12">
                     <div class="breadcrumb__content p-relative z-index-1">
-                        <h3 class="breadcrumb__title">Track your order</h3>
+                        <h3 class="breadcrumb__title">Gracias por tu compra</h3>
                         <div class="breadcrumb__list">
                             <span><a href="#">Home</a></span>
-                            <span>Track your order</span>
+                            <span>Gracias por tu compra</span>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Order Date:</h4>
-                                            <p>April 10, 2023</p>
+                                            <p>{{ ORDER_SELECTED.created_at }}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -70,13 +70,13 @@
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Order Number:</h4>
-                                            <p>#9641</p>
+                                            <p>#{{ ORDER_SELECTED.n_transaccion }}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Payment Method:</h4>
-                                            <p>Credit Card</p>
+                                            <p>{{ ORDER_SELECTED.method_payment }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -97,27 +97,17 @@
                                     </li>
 
                                     <!-- item list -->
+                                    @for(sale_detail of ORDER_SELECTED.sale_details;track sale_detail.id) {
                                     <li class="tp-order-info-list-desc">
-                                        <p>Xiaomi Redmi Note 9 Global V. <span> x 2</span></p>
-                                        <span>$274:00</span>
+                                        <p>{{ sale_detail.product.title }}<span> x {{ sale_detail.quantity }}</span></p>
+                                        <span>${{ sale_detail.total }} {{ sale_detail.currency }}</span>
                                     </li>
-                                    <li class="tp-order-info-list-desc">
-                                        <p>Office Chair Multifun <span> x 1</span></p>
-                                        <span>$74:00</span>
-                                    </li>
-                                    <li class="tp-order-info-list-desc">
-                                        <p>Apple Watch Series 6 Stainless <span> x 3</span></p>
-                                        <span>$362:00</span>
-                                    </li>
-                                    <li class="tp-order-info-list-desc">
-                                        <p>Body Works Mens Collection <span> x 1</span></p>
-                                        <span>$145:00</span>
-                                    </li>
+                                    }
 
                                     <!-- subtotal -->
                                     <li class="tp-order-info-list-subtotal">
                                         <span>Subtotal</span>
-                                        <span>$507.00</span>
+                                        <span>${{ ORDER_SELECTED.total }} {{ ORDER_SELECTED.currency_payment }}</span>
                                     </li>
 
                                     <!-- shipping -->
@@ -128,7 +118,7 @@
                                             class="tp-order-info-list-shipping-item d-flex flex-column align-items-end">
                                             <span>
                                                 <input id="shipping_info" type="checkbox">
-                                                <label for="shipping_info">Flat rate: <span>$20.00</span></label>
+                                                <label for="shipping_info">Flat rate: <span>$00.00</span></label>
                                             </span>
                                         </div>
                                     </li>
@@ -136,7 +126,7 @@
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">
                                         <span>Total</span>
-                                        <span>$1,476.00</span>
+                                        <span>${{ ORDER_SELECTED.total }} {{ ORDER_SELECTED.currency_payment }}</span>
                                     </li>
                                 </ul>
                             </div>

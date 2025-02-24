@@ -53,6 +53,7 @@ export class ThankYouOrderComponent {
   showOrder() {
     this.cartService.showOrder(this.ORDER_SELECTED_ID).subscribe((resp: any) => {
       console.log(resp);
+      this.ORDER_SELECTED = resp.sale;
     }, error => {
       if (error.status == 401) {
         this.authService.sessionExpired();
