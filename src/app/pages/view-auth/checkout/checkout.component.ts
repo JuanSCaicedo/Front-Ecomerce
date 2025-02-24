@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartService } from '../../home/service/cart.service';
 import { AuthService } from '../../auth/service/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -91,6 +91,7 @@ export class CheckoutComponent {
     private toastr: ToastrService,
     private cookieService: CookieService,
     private homeService: HomeService,
+    public router: Router,
   ) {
     this.listarDirecciones();
   }
@@ -532,6 +533,7 @@ export class CheckoutComponent {
             tap((resp: any) => {
               console.log(resp);
               this.toastr.success("Compra realizada correctamente", "Éxito");
+              this.router.navigateByUrl("/gracias-por-tu-compra/" + Order.purchase_units[0].payments.captures[0].id);
             }),
             finalize(() => {
               this.isProcessing.next(false);

@@ -41,10 +41,13 @@ export class ThankYouOrderComponent {
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }
     });
+
+    this.showOrder();
   }
 
   ngOnInit() {
     background($);
+    this.scrollToUp();
   }
 
   showOrder() {
@@ -64,5 +67,15 @@ export class ThankYouOrderComponent {
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }
     });
+  }
+
+  scrollToUp() {
+    // Realiza scroll hacia la parte superior de la página
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }
+    }, 0);
+
   }
 }
