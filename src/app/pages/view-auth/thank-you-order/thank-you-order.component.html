@@ -58,7 +58,7 @@
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Order Date:</h4>
-                                            <p>{{ ORDER_SELECTED.created_at }}</p>
+                                            <p>{{ ORDER_SELECTED?.created_at }}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -70,13 +70,13 @@
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Order Number:</h4>
-                                            <p>#{{ ORDER_SELECTED.n_transaccion }}</p>
+                                            <p>#{{ ORDER_SELECTED?.n_transaccion }}</p>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="tp-order-details-item">
                                             <h4>Payment Method:</h4>
-                                            <p>{{ ORDER_SELECTED.method_payment }}</p>
+                                            <p>{{ ORDER_SELECTED?.method_payment }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -97,18 +97,19 @@
                                     </li>
 
                                     <!-- item list -->
-                                    @for(sale_detail of ORDER_SELECTED.sale_details;track sale_detail.id) {
+                                    @for(sale_detail of ORDER_SELECTED?.sale_details;track sale_detail.id) {
                                     <li class="tp-order-info-list-desc">
                                         <p>{{ sale_detail.product.title }}<span> x {{ sale_detail.quantity }}</span></p>
-                                        <span style="display: flex; white-space: nowrap;">${{ sale_detail.total }} {{ sale_detail.currency }}</span>
+                                        <span style="display: flex; white-space: nowrap;">${{ sale_detail.total }} {{
+                                            sale_detail.currency }}</span>
                                     </li>
                                     }
 
                                     <!-- subtotal -->
                                     <li class=" tp-order-info-list-subtotal">
-                                            <span>Subtotal</span>
-                                            <span>${{ ORDER_SELECTED.total }} {{ ORDER_SELECTED.currency_payment
-                                                }}</span>
+                                        <span>Subtotal</span>
+                                        <span>${{ ORDER_SELECTED?.total }} {{ ORDER_SELECTED?.currency_payment
+                                            }}</span>
                                     </li>
 
                                     <!-- shipping -->
@@ -127,7 +128,7 @@
                                     <!-- total -->
                                     <li class="tp-order-info-list-total">
                                         <span>Total</span>
-                                        <span>${{ ORDER_SELECTED.total }} {{ ORDER_SELECTED.currency_payment }}</span>
+                                        <span>${{ ORDER_SELECTED?.total }} {{ ORDER_SELECTED?.currency_payment }}</span>
                                     </li>
                                 </ul>
                             </div>
