@@ -577,26 +577,19 @@ export class CheckoutComponent {
   }
 
   mercadoPagoInit(resp: any) {
-    const mp = new MercadoPago('TEST-b28066a1-3cc1-4e2b-ba1b-f3b111bf32b7');
+    const mp = new MercadoPago('TEST-b28066a1-3cc1-4e2b-ba1b-f3b111bf32b7', { locale: 'es_CO' });
     const bricksBuilder = mp.bricks();
 
     this.PREFERENCE_ID = resp.preference.id;
 
-    mp.checkout({
-      preference: {
-        id: this.PREFERENCE_ID,
+    mp.bricks().create("wallet", "wallet_container", {
+      initialization: {
+        preferenceId: this.PREFERENCE_ID,
       },
-      render: {
-        container: "#wallet_container",
-        label: "Pagar",
-      },
-      callback: (response: any) => {
-        console.log(response);
-        if (response.status === 'approved') {
-          console.log('Pago aprobado. Detalles:', response);
-        } else {
-          console.log('Pago no aprobado o cancelado. Detalles:', response);
-        }
+      customization: {
+        texts: {
+          valueProp: 'smart_option',
+        },
       },
     });
   }
