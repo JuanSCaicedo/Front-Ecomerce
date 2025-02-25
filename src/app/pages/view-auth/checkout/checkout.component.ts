@@ -582,14 +582,21 @@ export class CheckoutComponent {
 
     this.PREFERENCE_ID = resp.preference.id;
 
-    mp.bricks().create("wallet", "wallet_container", {
-      initialization: {
-        preferenceId: this.PREFERENCE_ID,
+    mp.checkout({
+      preference: {
+        id: this.PREFERENCE_ID,
       },
-      customization: {
-        texts: {
-          valueProp: 'smart_option',
-        },
+      render: {
+        container: "#wallet_container",
+        label: "Pagar",
+      },
+      callback: (response: any) => {
+        console.log(response);
+        if (response.status === 'approved') {
+          console.log('Pago aprobado. Detalles:', response);
+        } else {
+          console.log('Pago no aprobado o cancelado. Detalles:', response);
+        }
       },
     });
   }
