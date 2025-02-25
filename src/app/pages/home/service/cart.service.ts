@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthService } from '../../auth/service/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { URL_SERVICIOS } from '../../../config/config';
+import { PRODUCTION, URL_SERVICIOS } from '../../../config/config';
 
 @Injectable({
   providedIn: 'root'
@@ -118,6 +118,22 @@ export class CartService {
       "Authorization": `Bearer ${this.token}` // Usa el token actualizado
     });
     let URL = URL_SERVICIOS + "/ecommerce/sale/" + sale_id;
+    return this.http.get(URL, { headers: headers });
+  }
+
+  mercadopago() {
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${this.token}` // Usa el token actualizado
+    });
+
+    let URL = "";
+
+    if (PRODUCTION) {
+      URL = URL_SERVICIOS + "/ecommerce/mercadopago";
+    } else {
+      URL = "https://api-ecommerce.juandevops.com/api/ecommerce/mercadopago";
+    }
+
     return this.http.get(URL, { headers: headers });
   }
 }

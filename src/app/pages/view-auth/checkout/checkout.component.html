@@ -311,9 +311,12 @@
                                 <label for="payment_mercadopago">Mercadopago</label>
                                 <div class="tp-checkout-payment-desc"
                                     [class.hidden]="selectedPayment !== 'mercadopago'">
-                                    <p>Paga de forma segura a través de Mercadopago. Podrás usar tarjetas de crédito,
+                                    <p class="mb-3">Paga de forma segura a través de Mercadopago. Podrás usar tarjetas
+                                        de crédito,
                                         débito o dinero en tu cuenta de Mercadopago. El pedido se procesará una vez
                                         confirmado el pago.</p>
+
+                                    <div class="mb-3" id="wallet_container"></div>
                                 </div>
                             </div>
                             <!-- Opción de pago con PayPal -->
@@ -327,7 +330,8 @@
                                 </label>
 
                                 <div class="tp-checkout-payment-desc" [class.hidden]="selectedPayment !== 'paypal'">
-                                    <p class="mb-3">Paga a través de PayPal; puedes pagar con tu tarjeta de crédito si no tienes una
+                                    <p class="mb-3">Paga a través de PayPal; puedes pagar con tu tarjeta de crédito si
+                                        no tienes una
                                         cuenta de PayPal.</p>
 
                                     <div #paypal></div>

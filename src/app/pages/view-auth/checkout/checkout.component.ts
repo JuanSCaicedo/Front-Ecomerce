@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 declare function checkout([]): any;
 declare var $: any;
 declare var paypal: any;
+declare var MercadoPago: any;
 
 @Component({
   selector: 'app-checkout',
@@ -26,6 +27,7 @@ export class CheckoutComponent {
   @ViewChild('paypal', { static: true }) paypalElement?: ElementRef;
 
   selectedPayment: string = '';
+  PREFERENCE_ID: string = '';
 
   listCart: any = [];
   totalCarts: number = 0;
@@ -107,6 +109,7 @@ export class CheckoutComponent {
     this.scrollToUp();
     // Inicializa el script de checkout
     checkout($);
+    this.mercadoPagoPayment();
   }
 
   scrollToUp() {
@@ -571,5 +574,58 @@ export class CheckoutComponent {
         console.error('An error prevented the buyer from checking out with PayPal', err);
       }
     }).render(this.paypalElement?.nativeElement);
+  }
+
+  mercadoPagoInit(resp: any) {
+    const mp = new MercadoPago('TEST-b28066a1-3cc1-4e2b-ba1b-f3b111bf32b7');
+    const bricksBuilder = mp.bricks();
+
+    this.PREFERENCE_ID = resp.preference.id;
+
+    mp.checkout({
+      preference: {
+        id: this.PREFERENCE_ID,
+      },
+      render: {
+        container: "#wallet_container",
+        label: "Pagar",
+      },
+      callback: (response: any) => {
+        console.log(response);
+        if (response.status === 'approved') {
+          console.log('Pago aprobado. Detalles:', response);
+        } else {
+          console.log('Pago no aprobado o cancelado. Detalles:', response);
+        }
+      },
+    });
+  }
+
+  mercadoPagoPayment() {
+    this.cartService.mercadopago().pipe(
+      tap((resp: any) => {
+        console.log(resp);
+        this.mercadoPagoInit(resp);
+      }),
+      finalize(() => {
+        this.isProcessing.next(false);
+      })
+    ).subscribe({
+      next: () => { },
+      error: (error) => {
+        if (error.status == 401) {
+          this.authService.sessionExpired();
+          this.cartService.clearCart();
+        } else if (error.status == 503) {
+          this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+        } else if (error.status == 429) {
+          this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+          return;
+        } else {
+          console.log(error);
+          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+        }
+      }
+    });
   }
 }
