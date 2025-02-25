@@ -9,6 +9,9 @@ import { authGuard } from './pages/auth/service/auth.guard';
 import { CartComponent } from './pages/view-auth/cart/cart.component';
 import { CheckoutComponent } from './pages/view-auth/checkout/checkout.component';
 import { ThankYouOrderComponent } from './pages/view-auth/thank-you-order/thank-you-order.component';
+import { CheckoutFailureComponent } from './pages/view-auth/checkout/checkout-failure/checkout-failure.component';
+import { CheckoutSuccessComponent } from './pages/view-auth/checkout/checkout-success/checkout-success.component';
+import { CheckoutPendingComponent } from './pages/view-auth/checkout/checkout-pending/checkout-pending.component';
 
 export const routes: Routes = [
     {
@@ -46,6 +49,21 @@ export const routes: Routes = [
         canActivate: [authGuard],
         path: 'gracias-por-tu-compra/:order',
         component: ThankYouOrderComponent
+    },
+    {
+        canActivate: [authGuard],
+        path: 'mercado-pago-success',
+        component: CheckoutFailureComponent
+    },
+    {
+        canActivate: [authGuard],
+        path: 'mercado-pago-failure',
+        component: CheckoutSuccessComponent
+    },
+    {
+        canActivate: [authGuard],
+        path: 'mercado-pago-pending',
+        component: CheckoutPendingComponent
     },
     {
         path: '**', // Ruta comodín
