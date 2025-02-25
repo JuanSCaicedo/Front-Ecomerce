@@ -577,7 +577,7 @@ export class CheckoutComponent {
   }
 
   mercadoPagoInit(resp: any) {
-    const mp = new MercadoPago('TEST-b28066a1-3cc1-4e2b-ba1b-f3b111bf32b7', { locale: 'es_CO' });
+    const mp = new MercadoPago('APP_USR-d09b523c-9e16-4a66-ad35-3f9484da10e0', { locale: 'es_CO' });
     const bricksBuilder = mp.bricks();
 
     this.PREFERENCE_ID = resp.preference.id;
