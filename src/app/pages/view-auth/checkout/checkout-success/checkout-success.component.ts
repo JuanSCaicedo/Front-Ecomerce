@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CartService } from '../../../home/service/cart.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../../../auth/service/auth.service';
@@ -25,6 +25,7 @@ export class CheckoutSuccessComponent {
     public cookieService: CookieService,
     public authService: AuthService,
     public homeService: HomeService,
+    public router: Router,
   ) { }
 
   ngOnInit() {
@@ -64,6 +65,8 @@ export class CheckoutSuccessComponent {
 
     this.cartService.checkoutMercadoPago(data).subscribe((resp: any) => {
       console.log(resp);
+      this.toastr.success("Compra realizada correctamente", "Éxito");
+      this.router.navigateByUrl("/gracias-por-tu-compra/" + this.payment_id);
     }, error => {
       if (error.status == 401) {
         this.authService.sessionExpired();
