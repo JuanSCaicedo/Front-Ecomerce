@@ -10,6 +10,7 @@ import { HomeService } from '../../home/service/home.service';
 import { UserAddressService } from '../service/user-address.service';
 import { CommonModule } from '@angular/common';
 declare function checkout([]): any;
+declare function payment([]): any;
 declare var $: any;
 declare var paypal: any;
 declare var MercadoPago: any;
@@ -48,6 +49,7 @@ export class CheckoutComponent {
   phone: string = '';
   email: string = '';
   description: string = '';
+  storeTempExecuted: boolean = false; // 🔹 Variable de control
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -107,9 +109,10 @@ export class CheckoutComponent {
   iniciarProyecto() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
     this.scrollToUp();
+    this.openMercadoPago();
     // Inicializa el script de checkout
     checkout($);
-    this.mercadoPagoPayment();
+    payment($);
   }
 
   scrollToUp() {
@@ -349,6 +352,8 @@ export class CheckoutComponent {
 
   selectedAddress(addres: any) {
     this.scrolltoBillingDetails();
+    this.selectedPayment = ''; // 🔹 Quita la selección
+    this.ocultarContenidoPago(); // ❌ Si falla la validación, oculta contenido
 
     this.address_selected = addres;
 
@@ -366,6 +371,8 @@ export class CheckoutComponent {
 
   resetAddress() {
     this.scrolltoBillingDetails();
+    this.ocultarContenidoPago(); // ❌ Si falla la validación, oculta contenido
+    this.selectedPayment = ''; // 🔹 Quita la selección
     this.address_selected = null;
     this.name = '';
     this.surname = '';
@@ -576,42 +583,25 @@ export class CheckoutComponent {
     }).render(this.paypalElement?.nativeElement);
   }
 
-  mercadoPagoInit(resp: any) {
-    const mp = new MercadoPago('APP_USR-d09b523c-9e16-4a66-ad35-3f9484da10e0', { locale: 'es_CO' });
-    const bricksBuilder = mp.bricks();
-
-    this.PREFERENCE_ID = resp.preference.id;
-
-    mp.bricks().create("wallet", "wallet_container", {
-      initialization: {
-        preferenceId: this.PREFERENCE_ID,
-      },
-    });
-
-    // mp.checkout({
-    //   preference: {
-    //     id: this.PREFERENCE_ID,
-    //   },
-    //   render: {
-    //     container: "#wallet_container",
-    //     label: "Pagar",
-    //   },
-    //   callback: (response: any) => {
-    //     console.log(response);
-    //     if (response.status === 'approved') {
-    //       console.log('Pago aprobado. Detalles:', response);
-    //     } else {
-    //       console.log('Pago no aprobado o cancelado. Detalles:', response);
-    //     }
-    //   },
-    // });
-  }
-
-  mercadoPagoPayment() {
+  openMercadoPago() {
     this.cartService.mercadopago().pipe(
       tap((resp: any) => {
         console.log(resp);
-        this.mercadoPagoInit(resp);
+        const mp = new MercadoPago('APP_USR-d09b523c-9e16-4a66-ad35-3f9484da10e0', { locale: 'es_CO' });
+
+        // Limpiar el contenedor antes de agregar uno nuevo
+        const walletContainer = document.getElementById("wallet_container");
+        if (walletContainer) {
+          walletContainer.innerHTML = '';
+        }
+
+        this.PREFERENCE_ID = resp.preference.id;
+
+        mp.bricks().create("wallet", "wallet_container", {
+          initialization: {
+            preferenceId: this.PREFERENCE_ID,
+          },
+        });
       }),
       finalize(() => {
         this.isProcessing.next(false);
@@ -633,5 +623,92 @@ export class CheckoutComponent {
         }
       }
     });
+  }
+
+  handlePaymentChange(paymentMethod: string, event: Event) {
+    if (this.totalCarts == 0 || this.listCart.length == 0) {
+      this.toastr.error('No se puede realizar la compra con el carrito vacío', 'Error');
+      this.ocultarContenidoPago(); // ❌ Si falla la validación, oculta contenido
+      // 🔹 Resetear la selección después de un pequeño delay
+      setTimeout(() => {
+        this.selectedPayment = '';
+      });
+      this.scrollToUp();
+      event.preventDefault(); // Evita selección
+      return;
+    }
+
+    if (!this.name || !this.surname || !this.company || !this.country_region || !this.city || !this.address || !this.street || !this.postcode_zip || !this.phone || !this.email) {
+      this.toastr.error('Todos los campos de la dirección son obligatorios para continuar con el pago, seleccione una dirección e intente de nuevo', 'Validación');
+      this.scrollToUp();
+      this.ocultarContenidoPago(); // ❌ Si falla la validación, oculta contenido
+      // 🔹 Resetear la selección después de un pequeño delay
+      setTimeout(() => {
+        this.selectedPayment = '';
+      });
+      event.preventDefault(); // Evita selección
+      return;
+    }
+
+    if (paymentMethod === 'mercadopago') {
+      // ✅ Si el usuario cambia de método de pago, permitir que storeTemp() se ejecute nuevamente
+      if (this.selectedPayment !== 'mercadopago') {
+        this.storeTempExecuted = false;
+      }
+
+      this.selectedPayment = paymentMethod;
+
+      // ✅ Ejecutar storeTemp() solo la primera vez
+      if (!this.storeTempExecuted) {
+        this.storeTemp();
+        this.storeTempExecuted = true; // Marcar como ejecutado
+      }
+    } else {
+      this.selectedPayment = paymentMethod;
+      this.storeTempExecuted = false; // 🔹 Si cambia de método, permitir que se ejecute de nuevo
+    }
+  }
+
+  ocultarContenidoPago() {
+    $('.tp-checkout-payment-desc').slideUp(400); // 🔹 Oculta las descripciones de pago
+  }
+
+  storeTemp() {
+    // let data = {
+    //   description: this.description,
+    //   sale_address: {
+    //     name: this.name,
+    //     surname: this.surname,
+    //     company: this.company,
+    //     country_region: this.country_region,
+    //     city: this.city,
+    //     address: this.address,
+    //     street: this.street,
+    //     postcode_zip: this.postcode_zip,
+    //     phone: this.phone,
+    //     email: this.email,
+    //   }
+    // };
+
+    // if (this.name && this.surname && this.company && this.country_region && this.city && this.address && this.street && this.postcode_zip && this.phone && this.email) {
+    //   this.cartService.storeTemp(data).subscribe((resp: any) => {
+    //     console.log(resp);
+    //   }, (error) => {
+    //     if (error.status == 401) {
+    //       this.authService.sessionExpired();
+    //       this.cartService.clearCart();
+    //     } else if (error.status == 503) {
+    //       this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+    //     } else if (error.status == 429) {
+    //       this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+    //       return;
+    //     } else {
+    //       console.log(error);
+    //       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+    //     }
+    //   });
+    // }
+
+    console.log('storeTemp');
   }
 }

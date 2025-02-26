@@ -78,18 +78,20 @@
                                 </span>
                             </div>
                             <div class="profile__address-content">
-                                <h3 class="profile__address-title"><a href="/" onclick="return false;"
-                                        title="Seleccionar Dirección" (click)="selectedAddress(addres)"> Shipping
+                                <a href="/" onclick="return false;" title="Seleccionar Dirección"
+                                    (click)="selectedAddress(addres)">
+                                    <h3 class="profile__address-title"> Shipping
                                         Address
-                                    </a></h3>
-                                <p><span>Full Name:</span>{{ addres.name + ' '+ addres.surname }}</p>
-                                <p><span>Street:</span>{{ addres.street }}</p>
-                                <p><span>Address:</span>{{ addres.address }}</p>
-                                <p><span>City:</span>{{ addres.city }}</p>
-                                <p><span>Phone number:</span>{{ addres.phone }}</p>
-                                <p><span>Zip code:</span> {{ addres.postcode_zip }}</p>
-                                <p><span>Company:</span>{{ addres.company }}</p>
-                                <p><span>Country:</span>{{ addres.country_region }}</p>
+                                    </h3>
+                                    <p><span>Full Name:</span>{{ addres.name + ' '+ addres.surname }}</p>
+                                    <p><span>Street:</span>{{ addres.street }}</p>
+                                    <p><span>Address:</span>{{ addres.address }}</p>
+                                    <p><span>City:</span>{{ addres.city }}</p>
+                                    <p><span>Phone number:</span>{{ addres.phone }}</p>
+                                    <p><span>Zip code:</span> {{ addres.postcode_zip }}</p>
+                                    <p><span>Company:</span>{{ addres.company }}</p>
+                                    <p><span>Country:</span>{{ addres.country_region }}</p>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -286,7 +288,7 @@
                             <!-- Opción de pago en efectivo -->
                             <div class="tp-checkout-payment-item">
                                 <input type="radio" id="payment_cash" name="payment" [(ngModel)]="selectedPayment"
-                                    value="cash">
+                                    value="cash" (click)="handlePaymentChange('cash', $event)">
                                 <label for="payment_cash">Efectivo</label>
                                 <div class="tp-checkout-payment-desc" [class.hidden]="selectedPayment !== 'cash'">
                                     <p>Paga en efectivo en cualquiera de nuestros puntos físicos autorizados. Una vez
@@ -296,7 +298,7 @@
                             <!-- Opción de pago por transferencia -->
                             <div class="tp-checkout-payment-item">
                                 <input type="radio" id="payment_transfer" name="payment" [(ngModel)]="selectedPayment"
-                                    value="transfer">
+                                    value="transfer" (click)="handlePaymentChange('transfer', $event)">
                                 <label for="payment_transfer">Transferencia</label>
                                 <div class="tp-checkout-payment-desc" [class.hidden]="selectedPayment !== 'transfer'">
                                     <p>Realiza tu pago directamente en nuestra cuenta bancaria. Por favor, usa tu ID de
@@ -306,15 +308,16 @@
                             </div>
                             <!-- Opción de pago con Mercadopago -->
                             <div class="tp-checkout-payment-item">
-                                <input type="radio" id="payment_mercadopago" name="payment"
-                                    [(ngModel)]="selectedPayment" value="mercadopago">
+                                <input (click)="handlePaymentChange('mercadopago', $event)" type="radio"
+                                    id="payment_mercadopago" name="payment" [(ngModel)]="selectedPayment"
+                                    value="mercadopago">
                                 <label for="payment_mercadopago">Mercadopago</label>
+
                                 <div class="tp-checkout-payment-desc"
                                     [class.hidden]="selectedPayment !== 'mercadopago'">
                                     <p class="mb-3">Paga de forma segura a través de Mercadopago. Podrás usar tarjetas
-                                        de crédito,
-                                        débito o dinero en tu cuenta de Mercadopago. El pedido se procesará una vez
-                                        confirmado el pago.</p>
+                                        de crédito, débito o dinero en tu
+                                        cuenta de Mercadopago. El pedido se procesará una vez confirmado el pago.</p>
 
                                     <div class="mb-4 text-center" id="wallet_container"></div>
                                 </div>
@@ -322,7 +325,7 @@
                             <!-- Opción de pago con PayPal -->
                             <div class="tp-checkout-payment-item">
                                 <input type="radio" id="payment_paypal" name="payment" [(ngModel)]="selectedPayment"
-                                    value="paypal">
+                                    value="paypal" (click)="handlePaymentChange('paypal', $event)">
                                 <label for="payment_paypal">PayPal <img src="/assets/img/icon/payment-option.png"
                                         alt="">
                                     <a href="https://www.paypal.com/co/digital-wallet/how-paypal-works"

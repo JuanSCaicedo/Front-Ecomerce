@@ -2542,7 +2542,16 @@ function checkout($) {
 	$("[data-bg-color]").each(function () {
 		$(this).css("background-color", $(this).attr("data-bg-color"));
 	});
+}
 
+function background($) {
+	// Backrground Color
+	$("[data-bg-color]").each(function () {
+		$(this).css("background-color", $(this).attr("data-bg-color"));
+	});
+}
+
+function payment($) {
 	$('.tp-checkout-payment-item label').on('click', function () {
 		// Obtenemos la descripción del elemento clickeado
 		var currentDesc = $(this).siblings('.tp-checkout-payment-desc');
@@ -2558,12 +2567,5 @@ function checkout($) {
 			currentDesc.slideDown(400);
 		}
 		// Si ya estaba visible, quedará oculta por el slideUp anterior
-	});
-}
-
-function background($) {
-	// Backrground Color
-	$("[data-bg-color]").each(function () {
-		$(this).css("background-color", $(this).attr("data-bg-color"));
 	});
 }

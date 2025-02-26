@@ -136,4 +136,20 @@ export class CartService {
 
     return this.http.get(URL, { headers: headers });
   }
+
+  checkoutMercadoPago(data: any) {
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${this.token}` // Usa el token actualizado
+    });
+    let URL = URL_SERVICIOS + "/ecommerce/checkout-mercadopago";
+    return this.http.post(URL, data, { headers: headers });
+  }
+
+  storeTemp(data: any) {
+    let headers = new HttpHeaders({
+      "Authorization": `Bearer ${this.token}` // Usa el token actualizado
+    });
+    let URL = URL_SERVICIOS + "/ecommerce/checkout-temp";
+    return this.http.post(URL, data, { headers: headers });
+  }
 }

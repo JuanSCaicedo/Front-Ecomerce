@@ -53,12 +53,12 @@ export const routes: Routes = [
     {
         canActivate: [authGuard],
         path: 'mercado-pago-success',
-        component: CheckoutFailureComponent
+        component: CheckoutSuccessComponent
     },
     {
         canActivate: [authGuard],
         path: 'mercado-pago-failure',
-        component: CheckoutSuccessComponent
+        component: CheckoutFailureComponent
     },
     {
         canActivate: [authGuard],
