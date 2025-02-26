@@ -674,41 +674,37 @@ export class CheckoutComponent {
   }
 
   storeTemp() {
-    // let data = {
-    //   description: this.description,
-    //   sale_address: {
-    //     name: this.name,
-    //     surname: this.surname,
-    //     company: this.company,
-    //     country_region: this.country_region,
-    //     city: this.city,
-    //     address: this.address,
-    //     street: this.street,
-    //     postcode_zip: this.postcode_zip,
-    //     phone: this.phone,
-    //     email: this.email,
-    //   }
-    // };
+    let data = {
+      description: this.description,
+      sale_address: {
+        name: this.name,
+        surname: this.surname,
+        company: this.company,
+        country_region: this.country_region,
+        city: this.city,
+        address: this.address,
+        street: this.street,
+        postcode_zip: this.postcode_zip,
+        phone: this.phone,
+        email: this.email,
+      }
+    };
 
-    // if (this.name && this.surname && this.company && this.country_region && this.city && this.address && this.street && this.postcode_zip && this.phone && this.email) {
-    //   this.cartService.storeTemp(data).subscribe((resp: any) => {
-    //     console.log(resp);
-    //   }, (error) => {
-    //     if (error.status == 401) {
-    //       this.authService.sessionExpired();
-    //       this.cartService.clearCart();
-    //     } else if (error.status == 503) {
-    //       this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-    //     } else if (error.status == 429) {
-    //       this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
-    //       return;
-    //     } else {
-    //       console.log(error);
-    //       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    //     }
-    //   });
-    // }
-
-    console.log('storeTemp');
+    this.cartService.storeTemp(data).subscribe((resp: any) => {
+      console.log(resp);
+    }, (error) => {
+      if (error.status == 401) {
+        this.authService.sessionExpired();
+        this.cartService.clearCart();
+      } else if (error.status == 503) {
+        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+      } else if (error.status == 429) {
+        this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+        return;
+      } else {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+      }
+    });
   }
 }
