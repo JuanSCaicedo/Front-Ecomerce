@@ -9,6 +9,7 @@ import { BehaviorSubject, finalize, tap, timer } from 'rxjs';
 import { HomeService } from '../../home/service/home.service';
 import { UserAddressService } from '../service/user-address.service';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 declare function checkout([]): any;
 declare function payment([]): any;
 declare var $: any;
@@ -50,6 +51,7 @@ export class CheckoutComponent {
   email: string = '';
   description: string = '';
   storeTempExecuted: boolean = false; // 🔹 Variable de control
+  price_dolar: number = 0;
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -96,6 +98,7 @@ export class CheckoutComponent {
     private cookieService: CookieService,
     private homeService: HomeService,
     public router: Router,
+    private http: HttpClient,
   ) {
     this.listarDirecciones();
   }
@@ -104,6 +107,22 @@ export class CheckoutComponent {
     this.iniciarProyecto();
     this.carritoCompra();
     this.paypalPayment();
+    this.obtenerPrecioDolar();
+  }
+
+  obtenerPrecioDolar(): void {
+    // Usando una API de ejemplo - reemplaza con la API que prefieras
+    this.http.get<any>('https://www.datos.gov.co/resource/32sa-8pi3.json').subscribe({
+      next: (response) => {
+        if (response && response.length > 0) {
+          // Asumiendo que la API devuelve un array con el último registro primero
+          this.price_dolar = parseFloat(response[0].valor);
+        }
+      },
+      error: (error) => {
+        console.error('Error al obtener el precio del dólar:', error);
+      }
+    });
   }
 
   iniciarProyecto() {
@@ -498,7 +517,7 @@ export class CheckoutComponent {
             {
               amount: {
                 description: "COMPRAR POR EL ECOMMERCE 2025",
-                value: this.totalCarts,
+                value: this.totalPaypal(),
               }
             }
           ]
@@ -520,8 +539,8 @@ export class CheckoutComponent {
             currency_total: this.currency,
             currency_payment: 'USD',
             discount: 0,
-            subtotal: this.totalCarts,
-            total: this.totalCarts,
+            subtotal: this.totalPaypal(),
+            total: this.totalPaypal(),
             price_dolar: 0,
             n_transaccion: Order.purchase_units[0].payments.captures[0].id,
             description: this.description,
@@ -634,13 +653,12 @@ export class CheckoutComponent {
 
   handlePaymentChange(paymentMethod: string, event: Event) {
     if (this.totalCarts == 0 || this.listCart.length == 0) {
-      this.toastr.error('No se puede realizar la compra con el carrito vacío', 'Error');
+      this.toastr.error('No se puede realizar la compra con el carrito vacío', 'Validación');
       this.ocultarContenidoPago(); // ❌ Si falla la validación, oculta contenido
       // 🔹 Resetear la selección después de un pequeño delay
       setTimeout(() => {
         this.selectedPayment = '';
       });
-      this.scrollToUp();
       event.preventDefault(); // Evita selección
       return;
     }
@@ -713,5 +731,13 @@ export class CheckoutComponent {
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }
     });
+  }
+
+  totalPaypal() {
+    if (this.currency == 'USD') {
+      return this.totalCarts;
+    } else {
+      return (this.totalCarts / this.price_dolar).toFixed(2);
+    }
   }
 }
