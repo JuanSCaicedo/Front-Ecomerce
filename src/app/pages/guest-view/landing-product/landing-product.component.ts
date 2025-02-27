@@ -232,9 +232,9 @@ export class LandingProductComponent {
       return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
     }
     if (this.currency == 'COP') {
-      return PRODUCT.price_cop + this.plus;
+      return PRODUCT.price_cop;
     } else {
-      return PRODUCT.price_usd + this.plus;
+      return PRODUCT.price_usd;
     }
   }
 
@@ -375,6 +375,19 @@ export class LandingProductComponent {
 
     this.isProcessing.next(true);
 
+    // Mostrar mensajes de información al usuario
+    if (this.authService.tokenSubject.value && this.PRODUCT_SELECTED.variations.length == 0) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
+    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected && this.sub_variation_selected) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
+    if (this.PRODUCT_SELECTED.variations.length > 0 && this.variation_selected && this.variation_selected.subvariations.length == 0) {
+      this.toastr.info("Agregando producto al carrito", "Procesando");
+    }
+
     if (!this.authService.tokenSubject.value) {
       this.isProcessing.next(false);
       this.toastr.error("Validación", "Debes iniciar sesión para agregar productos al carrito");
@@ -399,14 +412,33 @@ export class LandingProductComponent {
     const product_variation_id = this.sub_variation_selected?.id || this.variation_selected?.id || null;
     const discount_g = this.PRODUCT_SELECTED.discount_g || null;
 
+    // Determinar los valores de descuento según type_campaing
+    let code_discount_v = null;
+    let type_campaing_v = null;
+    let discount_v = null;
+    let type_discount_v = null;
+
+    if (discount_g) {
+      if (discount_g.type_campaing == 2) {
+        // Solo aplicar descuento de campaña tipo 2 si es flash
+        if (this.is_flash) {
+          code_discount_v = discount_g.code;
+          type_campaing_v = discount_g.type_campaing;
+          discount_v = discount_g.discount;
+          type_discount_v = discount_g.type_discount;
+        }
+      } else {
+        // Para otros tipos de campaña, aplicar normalmente
+        code_discount_v = discount_g.code;
+        type_campaing_v = discount_g.type_campaing;
+        discount_v = discount_g.discount;
+        type_discount_v = discount_g.type_discount;
+      }
+    }
+
     const subtotal_v = discount_g && discount_g.type_campaing == 2 && this.is_flash
       ? this.getTotalPriceProductFlash(this.PRODUCT_SELECTED)
       : this.getTotalPriceProduct(this.PRODUCT_SELECTED);
-
-    const code_discount_v = discount_g?.code || null;
-    const type_campaing_v = discount_g?.type_campaing || null;
-    const discount_v = discount_g?.discount || null;
-    const type_discount_v = discount_g?.type_discount || null;
 
     const data = {
       product_id: this.PRODUCT_SELECTED.id,

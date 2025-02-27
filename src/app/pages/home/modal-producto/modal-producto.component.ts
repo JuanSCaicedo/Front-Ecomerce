@@ -7,7 +7,7 @@ import { CartService } from '../service/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, timer } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function COUNTER([]): any;
 declare var $: any;
