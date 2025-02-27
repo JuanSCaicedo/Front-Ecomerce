@@ -587,6 +587,11 @@ export class CheckoutComponent {
     this.cartService.mercadopago().pipe(
       tap((resp: any) => {
         console.log(resp);
+
+        if (!resp || !resp.preference || !resp.preference.id) {
+          return;
+        }
+
         const mp = new MercadoPago('APP_USR-d09b523c-9e16-4a66-ad35-3f9484da10e0', { locale: 'es_CO' });
 
         // Limpiar el contenedor antes de agregar uno nuevo
@@ -619,7 +624,9 @@ export class CheckoutComponent {
           return;
         } else {
           console.log(error);
-          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          if (error) {
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
         }
       }
     });
