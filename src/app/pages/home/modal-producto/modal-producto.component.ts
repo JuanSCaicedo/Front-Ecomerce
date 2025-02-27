@@ -28,6 +28,7 @@ export class ModalProductoComponent {
   variation_selected: any = null; // Lista de subvariaciones
   currency: string = 'COP';
   sub_variation_selected: any; // Subvariación seleccionada
+  plus: number = 0;
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -100,16 +101,16 @@ export class ModalProductoComponent {
     if (this.currency == 'COP') {
       if (DISCOUNT_FLASH_P.type_discount == 1) {//% DE DESCUENT0 50
         // 100 / 100*(50*0.01) 100*0.5=50
-        return ((PRODUCT.price_cop) - (PRODUCT.price_cop) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2)
+        return ((PRODUCT.price_cop + this.plus) - (PRODUCT.price_cop + this.plus) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2)
       } else {//-PEN/-USD 
-        return ((PRODUCT.price_cop) - DISCOUNT_FLASH_P.discount).toFixed(2);
+        return ((PRODUCT.price_cop + this.plus) - DISCOUNT_FLASH_P.discount).toFixed(2);
       }
     } else {
       if (DISCOUNT_FLASH_P.type_discount == 1) {//% DE DESCUENT0 50
         // 100 / 100*(50*0.01) 100*0.5=50
-        return ((PRODUCT.price_usd) - (PRODUCT.price_usd) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2)
+        return ((PRODUCT.price_usd + this.plus) - (PRODUCT.price_usd + this.plus) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2)
       } else {//-PEN/-USD 
-        return ((PRODUCT.price_usd) - DISCOUNT_FLASH_P.discount).toFixed(2);
+        return ((PRODUCT.price_usd + this.plus) - DISCOUNT_FLASH_P.discount).toFixed(2);
       }
     }
   }
@@ -119,9 +120,9 @@ export class ModalProductoComponent {
       return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
     }
     if (this.currency == 'COP') {
-      return PRODUCT.price_cop;
+      return PRODUCT.price_cop + this.plus;
     } else {
-      return PRODUCT.price_usd;
+      return PRODUCT.price_usd + this.plus;
     }
   }
 
@@ -147,8 +148,10 @@ export class ModalProductoComponent {
   selectedVariation(variation: any) {
     this.variation_selected = null;
     this.sub_variation_selected = null;
+    this.plus = 0;
 
     setTimeout(() => {
+      this.plus += variation.add_price;
       this.variation_selected = variation;
       MODAL_PRODUCT_DETAIL($);
     }, 50);
@@ -156,8 +159,10 @@ export class ModalProductoComponent {
 
   selectedSubVariation(subvariation: any) {
     this.sub_variation_selected = null;
+    this.plus = this.variation_selected.add_price;
 
     setTimeout(() => {
+      this.plus += subvariation.add_price;
       this.sub_variation_selected = subvariation;
       MODAL_PRODUCT_DETAIL($);
     }, 50);

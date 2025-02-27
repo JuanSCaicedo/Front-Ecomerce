@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from '../../auth/service/auth.service';
 import { CartService } from '../../home/service/cart.service';
 import { BehaviorSubject, timer } from 'rxjs';
-import { finalize, switchMap } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 declare function MODAL_PRODUCT_DETAIL([]): any;
 declare function LANDING_PRODUCT([]): any;
@@ -43,6 +43,7 @@ export class LandingProductComponent {
   currency: string = 'COP';
   MANTINANCE_STATUS: boolean = false;
   is_flash: boolean = false;
+  plus: number = 0;
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -213,15 +214,15 @@ export class LandingProductComponent {
   getNewTotal(PRODUCT: any, DISCOUNT_FLASH_P: any) {
     if (this.currency == 'COP') {
       if (DISCOUNT_FLASH_P.type_discount == 1) {
-        return (PRODUCT.price_cop - PRODUCT.price_cop * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+        return ((PRODUCT.price_cop + this.plus) - (PRODUCT.price_cop + this.plus) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
       } else {
-        return (PRODUCT.price_cop - DISCOUNT_FLASH_P.discount).toFixed(2);
+        return ((PRODUCT.price_cop + this.plus) - DISCOUNT_FLASH_P.discount).toFixed(2);
       }
     } else {
       if (DISCOUNT_FLASH_P.type_discount == 1) {
-        return (PRODUCT.price_usd - PRODUCT.price_usd * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
+        return ((PRODUCT.price_usd + this.plus) - (PRODUCT.price_usd + this.plus) * (DISCOUNT_FLASH_P.discount * 0.01)).toFixed(2);
       } else {
-        return (PRODUCT.price_usd - DISCOUNT_FLASH_P.discount).toFixed(2);
+        return ((PRODUCT.price_usd + this.plus) - DISCOUNT_FLASH_P.discount).toFixed(2);
       }
     }
   }
@@ -231,9 +232,9 @@ export class LandingProductComponent {
       return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
     }
     if (this.currency == 'COP') {
-      return PRODUCT.price_cop;
+      return PRODUCT.price_cop + this.plus;
     } else {
-      return PRODUCT.price_usd;
+      return PRODUCT.price_usd + this.plus;
     }
   }
 
@@ -259,8 +260,10 @@ export class LandingProductComponent {
   selectedVariation(variation: any) {
     this.variation_selected = null;
     this.sub_variation_selected = null;
+    this.plus = 0;
 
     setTimeout(() => {
+      this.plus += variation.add_price;
       this.variation_selected = variation;
       MODAL_PRODUCT_DETAIL($);
     }, 50);
@@ -268,8 +271,10 @@ export class LandingProductComponent {
 
   selectedSubVariation(subvariation: any) {
     this.sub_variation_selected = null;
+    this.plus = this.variation_selected.add_price;
 
     setTimeout(() => {
+      this.plus += subvariation.add_price;
       this.sub_variation_selected = subvariation;
       MODAL_PRODUCT_DETAIL($);
     }, 50);
