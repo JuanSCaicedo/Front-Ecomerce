@@ -66,6 +66,7 @@ export class CheckoutSuccessComponent {
     this.cartService.checkoutMercadoPago(data).subscribe((resp: any) => {
       console.log(resp);
       this.toastr.success("Compra realizada correctamente", "Éxito");
+      this.cartService.resetCart();
       this.router.navigateByUrl("/gracias-por-tu-compra/" + this.payment_id);
     }, error => {
       if (error.status == 401) {

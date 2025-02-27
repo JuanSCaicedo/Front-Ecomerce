@@ -564,6 +564,7 @@ export class CheckoutComponent {
                 console.log(resp);
                 this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento
                 this.toastr.success("Compra realizada correctamente", "Éxito");
+                this.cartService.resetCart();
                 this.router.navigateByUrl("/gracias-por-tu-compra/" + Order.purchase_units[0].payments.captures[0].id);
               }),
               finalize(() => {
