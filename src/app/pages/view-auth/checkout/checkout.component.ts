@@ -612,7 +612,7 @@ export class CheckoutComponent {
           return;
         }
 
-        const mp = new MercadoPago('APP_USR-d09b523c-9e16-4a66-ad35-3f9484da10e0', { locale: 'es_CO' });
+        const mp = new MercadoPago('APP_USR-d09b523c-9e16-4a66-ad35-3f9484da10e0');
 
         // Limpiar el contenedor antes de agregar uno nuevo
         const walletContainer = document.getElementById("wallet_container");
