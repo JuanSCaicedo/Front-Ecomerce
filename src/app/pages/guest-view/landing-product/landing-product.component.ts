@@ -232,9 +232,9 @@ export class LandingProductComponent {
       return this.getNewTotal(PRODUCT, PRODUCT.discount_g);
     }
     if (this.currency == 'COP') {
-      return PRODUCT.price_cop;
+      return (PRODUCT.price_cop + this.plus).toFixed(2);  // Añadir this.plus
     } else {
-      return PRODUCT.price_usd;
+      return (PRODUCT.price_usd + this.plus).toFixed(2);  // Añadir this.plus
     }
   }
 

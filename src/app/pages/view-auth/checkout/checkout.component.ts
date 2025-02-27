@@ -741,4 +741,127 @@ export class CheckoutComponent {
       return (this.totalCarts / this.price_dolar).toFixed(2);
     }
   }
+
+  placeOrder() {
+
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+      this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      return;
+    }
+
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Registrar Dirección");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
+
+
+    if (!this.name || !this.surname || !this.company || !this.country_region || !this.city || !this.address || !this.street || !this.postcode_zip || !this.phone || !this.email) {
+      this.toastr.error('Todos los campos de dirección son obligatorios', 'Validación');
+      this.isProcessing.next(false);
+      return;
+    } else if (this.totalCarts == 0 || this.listCart.length == 0) {
+      this.toastr.error('No se puede realizar la compra con el carrito vacío', 'Validación');
+      this.ocultarContenidoPago(); // ❌ Si falla la validación, oculta contenido
+      // 🔹 Resetear la selección después de un pequeño delay
+      setTimeout(() => {
+        this.selectedPayment = '';
+      });
+      return;
+    }
+    else {
+      this.toastr.info("Procesando pago, espere...", "Procesando pago");
+    }
+
+    console.log(this.selectedPayment);
+
+    if (this.selectedPayment == 'cash') {
+      this.cashPayment();
+    } else {
+      this.toastr.warning("Metodo de pago no disponible", "Información");
+      this.isProcessing.next(false);
+    }
+  }
+
+  cashPayment() {
+    const uniqueTransactionId = this.generateAlphanumericTransactionId(); // Genera el ID único
+
+    let dataSale = {
+      method_payment: 'CASH',
+      currency_total: this.currency,
+      currency_payment: this.currency,
+      discount: 0,
+      subtotal: this.totalCarts,
+      total: this.totalCarts,
+      n_transaccion: uniqueTransactionId, // Alfanumérico único
+      description: this.description,
+      sale_address: {
+        name: this.name,
+        surname: this.surname,
+        company: this.company,
+        country_region: this.country_region,
+        city: this.city,
+        address: this.address,
+        street: this.street,
+        postcode_zip: this.postcode_zip,
+        phone: this.phone,
+        email: this.email,
+      }
+    };
+
+    this.cartService.checkout(dataSale)
+      .pipe(
+        tap((resp: any) => {
+          console.log(resp);
+          this.toastr.success("Compra realizada correctamente", "Éxito");
+          this.cartService.resetCart();
+          this.router.navigateByUrl("/gracias-por-tu-compra/" + uniqueTransactionId);
+        }),
+        finalize(() => {
+          this.isProcessing.next(false);
+        })
+      )
+      .subscribe({
+        next: () => { },
+        error: (error) => {
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+          } else if (error.status == 429) {
+            this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+            return;
+          } else {
+            console.log(error);
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
+        }
+      });
+  }
+
+  // ✅ Función para generar un ID alfanumérico único
+  generateAlphanumericTransactionId(): string {
+    const timestamp = Date.now().toString().slice(0, -4); // Quitamos los últimos 4 dígitos del timestamp
+    const randomNum = Math.floor(100 + Math.random() * 900).toString(); // Reducimos a 3 dígitos
+    const randomLetters = Math.random().toString(36).substring(2, 6).toUpperCase(); // 4 letras aleatorias
+
+    return `${randomLetters}${timestamp}${randomNum}`; // Ejemplo: "ABCD17117765X34"
+  }
 }

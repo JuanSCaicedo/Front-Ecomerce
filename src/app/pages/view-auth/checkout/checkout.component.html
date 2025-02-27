@@ -342,15 +342,19 @@
                             </div>
                         </div>
 
-                        <div class="tp-checkout-agree">
+                        <div class="tp-checkout-agree mb-0">
                             <div class="tp-checkout-option">
                                 <input id="read_all" type="checkbox">
                                 <label for="read_all">I have read and agree to the website.</label>
                             </div>
                         </div>
-                        <div class="tp-checkout-btn-wrapper">
-                            <a href="#" class="tp-checkout-btn w-100">Place Order</a>
+
+                        @if(selectedPayment == 'cash' || selectedPayment == 'transfer') {
+                        <div class="tp-checkout-btn-wrapper mt-20">
+                            <a href="/" onclick="return false;" (click)="placeOrder()"
+                                class="tp-checkout-btn w-100">Place Order</a>
                         </div>
+                        }
                     </div>
 
                     <!-- Login and Coupon -->
