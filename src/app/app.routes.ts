@@ -58,13 +58,11 @@ export const routes: Routes = [
     {
         canActivate: [authGuard],
         path: 'mercado-pago-failure',
-        redirectTo: '/',
         component: CheckoutFailureComponent
     },
     {
         canActivate: [authGuard],
         path: 'mercado-pago-pending',
-        redirectTo: '/',
         component: CheckoutPendingComponent
     },
     {
