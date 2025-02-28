@@ -18,12 +18,12 @@
                             <nav>
                                 <div class="nav nav-tabs tp-tab-menu flex-column" id="profile-tab" role="tablist">
                                     <button class="nav-link active" id="nav-profile-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-profile" type="button" role="tab"
+                                        data-bs-target="#nav-profile" type="button" (click)="selectTab(0)" role="tab"
                                         aria-controls="nav-profile" aria-selected="false"><span><i
                                                 class="fa-regular fa-user-pen"></i></span>Profile</button>
                                     <button class="nav-link" id="nav-information-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-information" type="button" role="tab"
-                                        aria-controls="nav-information" aria-selected="false"><span><i
+                                        data-bs-target="#nav-information" type="button" (click)="selectTab(1)"
+                                        role="tab" aria-controls="nav-information" aria-selected="false"><span><i
                                                 class="fa-regular fa-circle-info"></i></span> Information</button>
                                     <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-address" type="button" role="tab"
@@ -187,7 +187,13 @@
 
                                 <div class="tab-pane fade" id="nav-information" role="tabpanel"
                                     aria-labelledby="nav-information-tab">
+                                    @defer (when selected_tab == 1) {
                                     <app-edit-profile-client></app-edit-profile-client>
+                                    } @placeholder {
+                                    <div>
+                                        Wait ...
+                                    </div>
+                                    }
                                 </div>
 
                                 <div class="tab-pane fade" id="nav-address" role="tabpanel"

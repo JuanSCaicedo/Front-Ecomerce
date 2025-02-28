@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../auth/service/auth.service';
 import { CartService } from '../../../home/service/cart.service';
 import { HomeService } from '../../../home/service/home.service';
+import { BehaviorSubject, finalize, tap, timer } from 'rxjs';
+declare var $: any;
 
 @Component({
   selector: 'app-edit-profile-client',
@@ -15,6 +17,43 @@ import { HomeService } from '../../../home/service/home.service';
   styleUrl: './edit-profile-client.component.css'
 })
 export class EditProfileClientComponent {
+
+  private isProcessing = new BehaviorSubject<boolean>(false);
+  private attemptCount = 0;
+  private isBlocked = false;
+  private lastAttemptTime = Date.now();
+  private readonly ATTEMPT_THRESHOLD = 10; // Número máximo de intentos
+  private readonly ATTEMPT_WINDOW = 5000; // Ventana de tiempo para contar intentos (5 segundos)
+  private readonly BLOCK_DURATION = 10000; // Duración del bloqueo (10 segundos)
+
+  private checkRateLimit(): boolean {
+    const now = Date.now();
+
+    // Resetear contador si ha pasado la ventana de tiempo
+    if (now - this.lastAttemptTime > this.ATTEMPT_WINDOW) {
+      this.attemptCount = 0;
+    }
+
+    this.lastAttemptTime = now;
+    this.attemptCount++;
+
+    // Si excede el límite de intentos, activar bloqueo
+    if (this.attemptCount >= this.ATTEMPT_THRESHOLD) {
+      this.isBlocked = true;
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Edit Profile");
+
+      // Programar el desbloqueo
+      timer(this.BLOCK_DURATION).subscribe(() => {
+        this.isBlocked = false;
+        this.attemptCount = 0;
+        this.toastr.info("Ya puedes volver a agregar productos al carrito", "Desbloqueo Edit Profile");
+      });
+
+      return true;
+    }
+
+    return false;
+  }
 
   name: string = '';
   surname: string = '';
@@ -39,8 +78,92 @@ export class EditProfileClientComponent {
     this.showUser();
   }
 
-  updateProfile() {
+  ngAfterViewInit() {
+    this.cargarEstilosSelected();
+  }
 
+  updateProfile() {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+      this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      return;
+    }
+
+    // Verificar si está bloqueado
+    if (this.isBlocked) {
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Registrar Dirección");
+      return;
+    }
+
+    // Verificar límite de intentos
+    if (this.checkRateLimit()) {
+      return;
+    }
+
+    // Si ya hay una petición en proceso, no permitir otra
+    if (this.isProcessing.value) {
+      this.toastr.warning("Por favor espera, procesando solicitud anterior", "Procesando");
+      return;
+    }
+
+    // Marcar como procesando
+    this.isProcessing.next(true);
+
+
+    if (!this.name || !this.email) {
+      this.toastr.error("Los campos de nombre y correo electrónico son obligatorios", "Validación");
+      this.isProcessing.next(false);
+      return;
+    } else {
+      this.toastr.info("Procesando solicitud", "Actualización de perfil");
+    }
+
+    let data = {
+      name: this.name,
+      surname: this.surname,
+      email: this.email,
+      phone: this.phone,
+      bio: this.bio,
+      fb: this.fb,
+      tw: this.tw,
+      sexo: this.sexo,
+      address_city: this.address_city,
+      avatar: this.file_imagen
+    }
+
+    this.profileClient.updateProfile(data)
+      .pipe(
+        tap((resp: any) => {
+          console.log(resp);
+          if (resp.message == 403) {
+            this.toastr.error(resp.message_text, "Validación");
+          } else {
+            this.toastr.success("Perfil actualizado correctamente", "Éxito");
+          }
+        }),
+        finalize(() => {
+          // Finaliza el estado de procesamiento
+          this.isProcessing.next(false);
+        })
+      )
+      .subscribe({
+        next: () => { },
+        error: (error) => {
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+          } else if (error.status == 429) {
+            this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+            return;
+          } else {
+            console.log(error);
+            this.toastr.error('API Response - Comuníquese con el desarrollador', error.error.message || error.message);
+          }
+        }
+      });
   }
 
   showUser() {
@@ -71,6 +194,34 @@ export class EditProfileClientComponent {
         console.log(error);
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }
+    });
+  }
+
+  cargarEstilosSelected() {
+    // Inicializar NiceSelect
+    $('.profile__area select').niceSelect();
+
+    // Agregar listener para clicks en las opciones
+    $(document).on('click', '.nice-select .option', () => {
+      setTimeout(() => {
+        const originalSelectValue = $('select[name="sexo"]').val();
+        this.sexo = originalSelectValue;
+        console.log("Actualizado desde NiceSelect click:", this.sexo);
+      }, 100);
+    });
+
+    // Actualizar la visualización de NiceSelect cuando los datos del usuario se carguen
+    this.profileClient.showUsers().subscribe((resp: any) => {
+      // Asignar los valores como lo haces normalmente
+      this.sexo = resp.sexo;
+      // ... otros campos ...
+
+      // Después de un breve retraso para asegurar que Angular ha actualizado el DOM
+      setTimeout(() => {
+        // Actualizamos NiceSelect para que refleje el nuevo valor
+        $('.profile__area select').niceSelect('update');
+        console.log("NiceSelect actualizado con valor:", this.sexo);
+      }, 100);
     });
   }
 }
