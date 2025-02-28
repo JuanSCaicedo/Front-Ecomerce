@@ -4,14 +4,6 @@
     <section class="profile__area pt-120 pb-120">
         <div class="container">
             <div class="profile__inner p-relative">
-                <div class="profile__shape">
-                    <img class="profile__shape-1" src="assets/img/login/laptop.png" alt="">
-                    <img class="profile__shape-2" src="assets/img/login/man.png" alt="">
-                    <img class="profile__shape-3" src="assets/img/login/shape-1.png" alt="">
-                    <img class="profile__shape-4" src="assets/img/login/shape-2.png" alt="">
-                    <img class="profile__shape-5" src="assets/img/login/shape-3.png" alt="">
-                    <img class="profile__shape-6" src="assets/img/login/shape-4.png" alt="">
-                </div>
                 <div class="row">
                     <div class="col-xxl-4 col-lg-4">
                         <div class="profile__tab mr-40">
@@ -26,12 +18,12 @@
                                         role="tab" aria-controls="nav-information" aria-selected="false"><span><i
                                                 class="fa-regular fa-circle-info"></i></span> Information</button>
                                     <button class="nav-link" id="nav-address-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-address" type="button" role="tab"
+                                        data-bs-target="#nav-address" type="button" (click)="selectTab(2)" role="tab"
                                         aria-controls="nav-address" aria-selected="false"><span><i
                                                 class="fa-light fa-location-dot"></i></span> Address </button>
                                     <button class="nav-link" id="nav-order-tab" data-bs-toggle="tab"
-                                        data-bs-target="#nav-order" type="button" role="tab" aria-controls="nav-order"
-                                        aria-selected="false"><span><i
+                                        data-bs-target="#nav-order" type="button" (click)="selectTab(3)" role="tab"
+                                        aria-controls="nav-order" aria-selected="false"><span><i
                                                 class="fa-light fa-clipboard-list-check"></i></span> My Orders </button>
                                     <button class="nav-link" id="nav-notification-tab" data-bs-toggle="tab"
                                         data-bs-target="#nav-notification" type="button" role="tab"
@@ -198,12 +190,24 @@
 
                                 <div class="tab-pane fade" id="nav-address" role="tabpanel"
                                     aria-labelledby="nav-address-tab">
+                                    @defer (when selected_tab == 2) {
                                     <app-address-profile-client></app-address-profile-client>
+                                    } @placeholder {
+                                    <div>
+                                        Wait ...
+                                    </div>
+                                    }
                                 </div>
 
                                 <div class="tab-pane fade" id="nav-order" role="tabpanel"
                                     aria-labelledby="nav-order-tab">
+                                    @defer (when selected_tab == 3) {
                                     <app-orders-profile-client></app-orders-profile-client>
+                                    } @placeholder {
+                                    <div>
+                                        Wait ...
+                                    </div>
+                                    }
                                 </div>
 
                                 <div class="tab-pane fade" id="nav-notification" role="tabpanel"

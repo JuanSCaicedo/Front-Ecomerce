@@ -114,7 +114,7 @@
             </div>
             <div class="col">
                 <div class="tp-mobile-item text-center">
-                    <a href="profile.html" class="tp-mobile-item-btn">
+                    <a [routerLink]="'/perfil-del-cliente'" class="tp-mobile-item-btn">
                         <i class="flaticon-user"></i>
                         <span>Account</span>
                     </a>
@@ -299,7 +299,7 @@
                                     <span class="tp-header-setting-toggle" id="tp-header-setting-toggle">Setting</span>
                                     <ul>
                                         <li>
-                                            <a href="profile.html">My Profile</a>
+                                            <a [routerLink]="'/perfil-del-cliente'">My Profile</a>
                                         </li>
                                         <li>
                                             <a href="wishlist.html">Wishlist</a>
@@ -366,7 +366,7 @@
                     <div class="col-xl-4 col-lg-3 col-md-8 col-6">
                         <div class="tp-header-main-right d-flex align-items-center justify-content-end">
                             <div class="tp-header-login d-none d-lg-block">
-                                <a href="profile.html" class="d-flex align-items-center">
+                                <a [routerLink]="'/perfil-del-cliente'" class="d-flex align-items-center">
                                     <div class="tp-header-login-icon">
                                         <span>
                                             <svg width="17" height="21" viewBox="0 0 17 21" fill="none"
@@ -657,7 +657,7 @@
                                                 <li><a href="compare.html">Compare</a></li>
                                                 <li><a href="wishlist.html">Wishlist</a></li>
                                                 <li><a [routerLink]="'/compra'">Checkout</a></li>
-                                                <li><a href="profile.html">My account</a></li>
+                                                <li><a [routerLink]="'/perfil-del-cliente'">My account</a></li>
                                             </ul>
                                         </li>
 

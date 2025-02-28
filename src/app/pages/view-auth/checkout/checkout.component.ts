@@ -341,8 +341,8 @@ export class CheckoutComponent {
         tap((resp: any) => {
           console.log(resp);
           this.toastr.success("Dirección registrada correctamente", "Éxito");
-          this.resetAddress();
           this.scrollToUp();
+          this.address_selected = resp.addres;
           this.address_list.unshift(resp.addres);
         }),
         finalize(() => {
