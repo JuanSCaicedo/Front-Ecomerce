@@ -1,0 +1,7 @@
+.highlight-detail {
+    background-color: #e3f2fd;
+    /* Azul claro */
+    border-left: 5px solid #2196F3;
+    /* Azul fuerte en el borde izquierdo */
+    transition: background-color 0.3s ease-in-out;
+}

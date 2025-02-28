@@ -18,41 +18,24 @@
                 <td>{{ sale.created_at }}</td>
                 <td>{{ sale.total }} {{ sale.currency_payment }}</td>
                 <td data-info="status pending">Pending </td>
-                <td><a href="/" onclick="return false;" (click)="detailShow(sale)" class="tp-logout-btn">Detalle</a>
+                <td>
+                    <a href="/" onclick="return false;" (click)="detailShow(sale)" class="tp-logout-btn">Detalle</a>
                 </td>
             </tr>
 
             @for(sale_detail of sale.sale_details;track sale_detail.id) {
-            <tr *ngIf="sale.sale_detail_show">
-                <!-- <th scope="row"> #{{ sale.n_transaccion }}</th> -->
-                <th>
-                    <img [src]="sale_detail.product.imagen" style="width: 25%; object-fit: contain;" alt="">
+            <tr *ngIf="selectedSaleId === sale.id" class="highlight-detail">
+                <th class="text-center"> <!-- Centra el contenido en la celda -->
+                    <img [src]="sale_detail.product.imagen" class="d-block mx-auto"
+                        style="width: 25%; object-fit: contain;" alt="">
                 </th>
-                <td>{{ sale_detail.product.title }}</td>
+                <td colspan="2">{{ sale_detail.product.title }}</td>
                 <td>{{ sale_detail.quantity }}</td>
                 <td>{{ sale_detail.subtotal }} {{ sale_detail.currency }}</td>
                 <td>{{ sale_detail.total }} {{ sale_detail.currency }}</td>
             </tr>
             }
             }
-            <!-- <tr>
-                <th scope="row"> #2220</th>
-                <td data-info="title">Send money, but not working</td>
-                <td data-info="status reply">Need your replay</td>
-                <td><a href="#" class="tp-logout-btn">Reply</a></td>
-            </tr>
-            <tr>
-                <th scope="row"> #2125</th>
-                <td data-info="title">Balance error</td>
-                <td data-info="status done">Resolved</td>
-                <td><a href="#" class="tp-logout-btn">Invoice</a></td>
-            </tr>
-            <tr>
-                <th scope="row"> #2124</th>
-                <td data-info="title">How to decline bid</td>
-                <td data-info="status hold">On Hold</td>
-                <td><a href="#" class="tp-logout-btn">Status</a></td>
-            </tr> -->
         </tbody>
     </table>
 </div>

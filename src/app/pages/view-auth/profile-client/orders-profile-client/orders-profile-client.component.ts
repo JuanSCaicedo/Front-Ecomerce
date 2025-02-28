@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class OrdersProfileClientComponent {
   sales: any = [];
+  selectedSaleId: number | null = null; // Variable para almacenar la venta activa
 
   constructor(
     public profileCliente: ProfileClientService,
@@ -44,9 +45,13 @@ export class OrdersProfileClientComponent {
         this.toastr.error('API Response - Comuníquese con el desarrollador', error.error.message || error.message);
       }
     });
-  }
+  }  
 
   detailShow(sale: any) {
-    sale.sale_detail_show = !sale.sale_detail_show;
+    if (this.selectedSaleId === sale.id) {
+      this.selectedSaleId = null; // Si es el mismo, lo oculta
+    } else {
+      this.selectedSaleId = sale.id; // Asigna el nuevo ID para mostrar su detalle
+    }
   }
 }
