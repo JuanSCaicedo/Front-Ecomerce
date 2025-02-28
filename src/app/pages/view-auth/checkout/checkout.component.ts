@@ -785,7 +785,10 @@ export class CheckoutComponent {
       });
       return;
     }
-    else {
+    else if (this.selectedPayment == 'transfer') {
+      this.toastr.warning("Metodo de pago no disponible", "Información");
+      this.isProcessing.next(false);
+    } else {
       this.toastr.info("Procesando pago, espere...", "Procesando pago");
     }
 
@@ -793,9 +796,6 @@ export class CheckoutComponent {
 
     if (this.selectedPayment == 'cash') {
       this.cashPayment();
-    } else {
-      this.toastr.warning("Metodo de pago no disponible", "Información");
-      this.isProcessing.next(false);
     }
   }
 
