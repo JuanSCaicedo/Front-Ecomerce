@@ -176,9 +176,16 @@ export class EditProfileClientComponent {
       this.bio = resp.bio
       this.fb = resp.fb
       this.tw = resp.tw
-      this.sexo = resp.sexo
+      this.sexo = resp.sexo || ""
       this.address_city = resp.address_city
-      this.imagen_previsualiza = resp.avatar;
+      this.imagen_previsualiza = resp.avatar
+
+      // Después de un breve retraso para asegurar que Angular ha actualizado el DOM
+      setTimeout(() => {
+        // Actualizamos NiceSelect para que refleje el nuevo valor
+        $('.profile__area select').niceSelect('update');
+        console.log("NiceSelect actualizado con valor:", this.sexo);
+      }, 100);
     }, (error) => {
       // Manejo de errores según el código de estado
       if (error.status == 401) {
@@ -206,21 +213,6 @@ export class EditProfileClientComponent {
       setTimeout(() => {
         const originalSelectValue = $('select[name="sexo"]').val();
         this.sexo = originalSelectValue;
-        console.log("Actualizado desde NiceSelect click:", this.sexo);
-      }, 100);
-    });
-
-    // Actualizar la visualización de NiceSelect cuando los datos del usuario se carguen
-    this.profileClient.showUsers().subscribe((resp: any) => {
-      // Asignar los valores como lo haces normalmente
-      this.sexo = resp.sexo;
-      // ... otros campos ...
-
-      // Después de un breve retraso para asegurar que Angular ha actualizado el DOM
-      setTimeout(() => {
-        // Actualizamos NiceSelect para que refleje el nuevo valor
-        $('.profile__area select').niceSelect('update');
-        console.log("NiceSelect actualizado con valor:", this.sexo);
       }, 100);
     });
   }
