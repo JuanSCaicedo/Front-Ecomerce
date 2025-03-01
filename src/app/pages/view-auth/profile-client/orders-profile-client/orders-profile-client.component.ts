@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ProfileClientService } from '../service/profile-client.service';
 import { AuthService } from '../../../auth/service/auth.service';
 import { CartService } from '../../../home/service/cart.service';
@@ -18,6 +18,8 @@ export class OrdersProfileClientComponent {
   selectedSaleId: number | null = null; // Variable para almacenar la venta activa
   currentPage: number = 1; // Página actual
   totalPages: number = 1; // Total de páginas
+  @Output() totalOrders = new EventEmitter<number>();
+  ordersTotal: number = 1;
 
   constructor(
     public profileCliente: ProfileClientService,
@@ -52,6 +54,10 @@ export class OrdersProfileClientComponent {
       this.scrollToUp(); // Realiza scroll hacia arriba apenas inicia la carga de la
       this.sales = resp.sales.data;
       this.totalPages = Math.ceil(resp.total / 10); // Calculamos el total de páginas
+
+      // Actualiza el total de órdenes y emite el valor
+      this.ordersTotal = resp.total; // O utiliza resp.sales.total dependiendo de tu API
+      this.totalOrders.emit(this.ordersTotal);
     }, (error) => {
       if (error.status == 401) {
         this.authService.sessionExpired();

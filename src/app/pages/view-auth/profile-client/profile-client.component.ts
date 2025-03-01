@@ -6,6 +6,7 @@ import { PasswordProfileClientComponent } from './password-profile-client/passwo
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/service/auth.service';
+import { CartService } from '../../home/service/cart.service';
 
 @Component({
   selector: 'app-profile-client',
@@ -17,14 +18,18 @@ import { AuthService } from '../../auth/service/auth.service';
 export class ProfileClientComponent {
 
   selected_tab: number = 0;
+  totalOrdersCount: number = 0;
+  listCart: any = [];
 
   constructor(
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public cartService: CartService,
   ) { }
 
   ngOnInit() {
     this.scrollToUp();
+    this.carrito();
   }
 
   scrollToUp() {
@@ -34,7 +39,6 @@ export class ProfileClientComponent {
         window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
       }
     }, 0);
-
   }
 
   selectTab(val: number) {
@@ -48,5 +52,23 @@ export class ProfileClientComponent {
       this.authService.logout();
       this.toastr.success("Éxito", "Sesión cerrada");
     }
+  }
+
+  updateTotalOrders(total: number) {
+    this.totalOrdersCount = total;
+  }
+
+  carrito() {
+    this.cartService.currentDataCart$.subscribe((resp: any) => {
+      this.listCart = resp;
+    }, (error) => {
+      console.log(error);
+      if (error.status == 401) {
+        this.authService.sessionExpired();
+        this.cartService.clearCart();
+      } else {
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+      }
+    });
   }
 }
