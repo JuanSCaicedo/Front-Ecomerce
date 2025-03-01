@@ -4,6 +4,8 @@ import { AddressProfileClientComponent } from './address-profile-client/address-
 import { OrdersProfileClientComponent } from './orders-profile-client/orders-profile-client.component';
 import { PasswordProfileClientComponent } from './password-profile-client/password-profile-client.component';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../auth/service/auth.service';
 
 @Component({
   selector: 'app-profile-client',
@@ -15,6 +17,11 @@ import { CommonModule } from '@angular/common';
 export class ProfileClientComponent {
 
   selected_tab: number = 0;
+
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
     this.scrollToUp();
@@ -32,6 +39,14 @@ export class ProfileClientComponent {
 
   selectTab(val: number) {
     this.selected_tab = val;
+  }
 
+  logout() {
+    let token = localStorage.getItem('token');
+
+    if (token) {
+      this.authService.logout();
+      this.toastr.success("Éxito", "Sesión cerrada");
+    }
   }
 }
