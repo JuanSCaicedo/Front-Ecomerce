@@ -5,3 +5,19 @@
     /* Azul fuerte en el borde izquierdo */
     transition: background-color 0.3s ease-in-out;
 }
+
+.star-large {
+    font-size: xx-large;
+}
+
+.star-gris {
+    color: #9e9e9e !important;
+}
+
+.boton {
+    @media screen and (max-width: 575px) {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+}

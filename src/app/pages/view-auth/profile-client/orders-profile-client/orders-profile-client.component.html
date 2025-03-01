@@ -1,5 +1,5 @@
 <div class="profile__ticket table-responsive">
-    <table class="table">
+    <table class="table" *ngIf="!sale_detail_review">
         <thead>
             <tr>
                 <th scope="col">N° Transacción</th>
@@ -28,6 +28,11 @@
                 <th class="text-center"> <!-- Centra el contenido en la celda -->
                     <img [src]="sale_detail.product.imagen" class="d-block mx-auto"
                         style="width: 25%; object-fit: contain;" alt="">
+
+                    <br>
+
+                    <a href="/" onclick="return false;" (click)="reviewShow(sale_detail)"
+                        class="tp-logout-btn">Review</a>
                 </th>
                 <td colspan="2">{{ sale_detail.product.title }}</td>
                 <td>{{ sale_detail.quantity }}</td>
@@ -44,6 +49,42 @@
             }
         </tbody>
     </table>
+
+    <div class="tp-product-details-review-form p-4" *ngIf="sale_detail_review">
+        <h3 class="tp-product-details-review-form-title mb-3">Review "{{ sale_detail_review.product.title }}"</h3>
+        <p class="mb-3">Your email address will not be published. Required fields are marked *</p>
+        <form action="/">
+            <div class="tp-product-details-review-form-rating d-flex align-items-center">
+                <p>Your Rating :</p>
+                <div class="tp-product-details-review-form-rating-icon d-flex align-items-center">
+                    <span class="star-large" [ngClass]="{'star-gris' : rating < 1}" (click)="selectedRating(1)"><i
+                            class="fa-solid fa-star"></i></span>
+                    <span class="star-large" [ngClass]="{'star-gris' : rating < 2}" (click)="selectedRating(2)"><i
+                            class="fa-solid fa-star"></i></span>
+                    <span class="star-large" [ngClass]="{'star-gris' : rating < 3}" (click)="selectedRating(3)"><i
+                            class="fa-solid fa-star"></i></span>
+                    <span class="star-large" [ngClass]="{'star-gris' : rating < 4}" (click)="selectedRating(4)"><i
+                            class="fa-solid fa-star"></i></span>
+                    <span class="star-large" [ngClass]="{'star-gris' : rating < 5}" (click)="selectedRating(5)"><i
+                            class="fa-solid fa-star"></i></span>
+                </div>
+            </div>
+            <div class="tp-product-details-review-input-wrapper">
+                <div class="tp-product-details-review-input-box">
+                    <div class="tp-product-details-review-input">
+                        <textarea id="message" name="message" [(ngModel)]="message"
+                            placeholder="Write your review here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="tp-product-details-review-btn-wrapper">
+                <button type="button" class="tp-product-details-review-btn boton">Registrar reseña</button>
+
+                <button type="button" class="ms-sm-3 tp-btn boton" style="height: 44px;"
+                    (click)="backList()">Salir</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <div class="tp-shop-pagination d-flex justify-content-center mt-20">

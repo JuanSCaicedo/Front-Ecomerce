@@ -5,11 +5,12 @@ import { CartService } from '../../../home/service/cart.service';
 import { HomeService } from '../../../home/service/home.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-orders-profile-client',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './orders-profile-client.component.html',
   styleUrl: './orders-profile-client.component.css'
 })
@@ -20,6 +21,9 @@ export class OrdersProfileClientComponent {
   totalPages: number = 1; // Total de páginas
   @Output() totalOrders = new EventEmitter<number>();
   ordersTotal: number = 1;
+  sale_detail_review: any;
+  rating: number = 0;
+  message: string = '';
 
   constructor(
     public profileCliente: ProfileClientService,
@@ -80,5 +84,20 @@ export class OrdersProfileClientComponent {
     } else {
       this.selectedSaleId = sale.id; // Asigna el nuevo ID para mostrar su detalle
     }
+  }
+
+  reviewShow(sale_detail:any) {
+    this.sale_detail_review = sale_detail;
+    this.scrollToUp();
+  }
+
+  selectedRating(val:number) {
+    this.rating = val;
+  }
+
+  backList() {
+    this.sale_detail_review = null;
+    this.rating = 0;
+    this.message = '';
   }
 }
