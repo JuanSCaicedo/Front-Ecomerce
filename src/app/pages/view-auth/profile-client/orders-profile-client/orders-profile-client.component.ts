@@ -16,6 +16,8 @@ import { CommonModule } from '@angular/common';
 export class OrdersProfileClientComponent {
   sales: any = [];
   selectedSaleId: number | null = null; // Variable para almacenar la venta activa
+  currentPage: number = 1; // Página actual
+  totalPages: number = 1; // Total de páginas
 
   constructor(
     public profileCliente: ProfileClientService,
@@ -27,10 +29,29 @@ export class OrdersProfileClientComponent {
     this.showOrders();
   }
 
-  showOrders() {
-    this.profileCliente.showOrders().subscribe((resp: any) => {
+
+  ngOnInit() {
+    this.scrollToUp(); // Realiza scroll hacia arriba apenas inicia la carga de la
+  }
+
+  scrollToUp() {
+    // Realiza scroll hacia la parte superior de la página
+    setTimeout(() => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll suave hacia arriba
+      }
+    }, 0);
+
+  }
+
+  showOrders(page: number = 1) {
+    this.currentPage = page; // Actualizar la página actual
+
+    this.profileCliente.showOrders(page).subscribe((resp: any) => {
       console.log(resp);
+      this.scrollToUp(); // Realiza scroll hacia arriba apenas inicia la carga de la
       this.sales = resp.sales.data;
+      this.totalPages = Math.ceil(resp.total / 10); // Calculamos el total de páginas
     }, (error) => {
       if (error.status == 401) {
         this.authService.sessionExpired();
@@ -45,7 +66,7 @@ export class OrdersProfileClientComponent {
         this.toastr.error('API Response - Comuníquese con el desarrollador', error.error.message || error.message);
       }
     });
-  }  
+  }
 
   detailShow(sale: any) {
     if (this.selectedSaleId === sale.id) {

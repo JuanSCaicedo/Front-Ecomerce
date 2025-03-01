@@ -43,11 +43,11 @@ export class ProfileClientService {
     return this.http.get(URL, { headers: headers });
   }
 
-  showOrders() {
+  showOrders(page: number = 1) {
     let headers = new HttpHeaders({
       "Authorization": `Bearer ${this.token}` // Usa el token actualizado
     });
-    let URL = URL_SERVICIOS + "/ecommerce/profile_client/orders";
+    let URL = `${URL_SERVICIOS}/ecommerce/profile_client/orders?page=${page}`;
     return this.http.get(URL, { headers: headers });
   }
 }
