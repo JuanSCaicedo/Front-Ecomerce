@@ -78,7 +78,9 @@
                 </div>
             </div>
             <div class="tp-product-details-review-btn-wrapper">
-                <button type="button" class="tp-product-details-review-btn boton">Registrar reseña</button>
+                <button type="button" class="tp-product-details-review-btn boton" (click)="saveReview()">
+                    {{ sale_detail_review.review ? 'Update Review' : 'Save Review' }}
+                </button>
 
                 <button type="button" class="ms-sm-3 tp-btn boton" style="height: 44px;"
                     (click)="backList()">Salir</button>

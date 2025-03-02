@@ -81,6 +81,7 @@ export class CheckoutSuccessComponent {
       this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
     } else if (error.status == 429) {
       this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+      return;
     } else {
       console.log(error);
       this.toastr.error('API Response - Comuníquese con el desarrollador', error.error.message || error.message);
