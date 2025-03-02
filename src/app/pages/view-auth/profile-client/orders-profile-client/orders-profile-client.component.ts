@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { ProfileClientService } from '../service/profile-client.service';
 import { AuthService } from '../../../auth/service/auth.service';
 import { CartService } from '../../../home/service/cart.service';
@@ -59,6 +59,8 @@ export class OrdersProfileClientComponent {
   currentPage: number = 1; // Página actual
   totalPages: number = 1; // Total de páginas
   @Output() totalOrders = new EventEmitter<number>();
+  // @ViewChild('productDetails') productDetails?: ElementRef;
+  @ViewChildren('productDetails') productDetails!: QueryList<ElementRef>;
   ordersTotal: number = 1;
   sale_detail_review: any;
   rating: number = 0;
@@ -107,10 +109,15 @@ export class OrdersProfileClientComponent {
 
   detailShow(sale: any) {
     if (this.selectedSaleId === sale.id) {
-      this.selectedSaleId = null; // Si es el mismo, lo oculta
+      this.selectedSaleId = null; // Ocultar detalles si es el mismo
     } else {
-      this.selectedSaleId = sale.id; // Asigna el nuevo ID para mostrar su detalle
+      this.selectedSaleId = sale.id; // Mostrar detalles
     }
+
+    // Esperar a que la vista se actualice antes de hacer scroll
+    setTimeout(() => {
+      this.scrolltoProductDetails();
+    }, 100);
   }
 
   reviewShow(sale_detail: any) {
@@ -231,6 +238,15 @@ export class OrdersProfileClientComponent {
     } else {
       console.log(error);
       this.toastr.error('API Response - Comuníquese con el desarrollador', error.error.message || error.message);
+    }
+  }
+
+  scrolltoProductDetails() {
+    const element = this.productDetails.first;
+    if (element) {
+      const yOffset = -200; // Ajusta este valor para desplazar más arriba o abajo
+      const y = element.nativeElement.getBoundingClientRect().top + window.scrollY + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
   }
 }

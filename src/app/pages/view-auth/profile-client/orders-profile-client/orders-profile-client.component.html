@@ -25,7 +25,7 @@
 
             @for(sale_detail of sale.sale_details;track sale_detail.id) {
             <tr *ngIf="selectedSaleId === sale.id" class="highlight-detail">
-                <th class="text-center"> <!-- Centra el contenido en la celda -->
+                <th class="text-center" #productDetails> <!-- Centra el contenido en la celda -->
                     <img [src]="sale_detail.product.imagen" class="d-block mx-auto"
                         style="width: 25%; object-fit: contain;" alt="">
 
