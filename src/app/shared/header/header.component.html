@@ -181,12 +181,13 @@
                 @for(cart of listCart;track cart.id) {
                 <div class="cartmini__widget-item">
                     <div class="cartmini__thumb" style="display: flex; align-items: center;">
-                        <a [routerLink]="'/producto/'+cart.product.slug">
+                        <a [routerLink]="'/producto/'+cart.product.slug" (click)="closeCart()">
                             <img [src]="cart.product.imagen" alt="">
                         </a>
                     </div>
                     <div class="cartmini__content pe-4">
-                        <h5 class="cartmini__title"><a [routerLink]="'/producto/'+cart.product.slug">{{
+                        <h5 class="cartmini__title"><a [routerLink]="'/producto/'+cart.product.slug"
+                                (click)="closeCart()">{{
                                 cart.product.title }}</a></h5>
                         <div class="cartmini__price-wrapper">
                             <span class="cartmini__price me-1">{{ cart.subtotal }} {{ currency }}</span>

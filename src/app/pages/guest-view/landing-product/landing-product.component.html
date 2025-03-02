@@ -15,7 +15,7 @@
                         </svg>
                      </span>
                      <span><a [routerLink]="'/'">Home</a></span>
-                     <span><a href="#" onclick="return false;">{{ PRODUCT_SELECTED.categorie_first?.name }}</a></span>
+                     <span><a href="#" onclick="return false;">{{ PRODUCT_SELECTED?.categorie_first?.name }}</a></span>
 
                      <span *ngIf="PRODUCT_SELECTED.categorie_second"><a href="#" onclick="return false;">{{
                            PRODUCT_SELECTED.categorie_second.name }}</a></span>

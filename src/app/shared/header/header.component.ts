@@ -265,4 +265,9 @@ export class HeaderComponent {
       this.toastr.success("Éxito", "Sesión cerrada");
     }
   }
+
+  closeCart() {
+    $(".cartmini__area").removeClass("cartmini-opened");
+    $(".body-overlay").removeClass("opened");
+  }
 }
