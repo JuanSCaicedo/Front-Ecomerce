@@ -17,6 +17,7 @@ export class CheckoutSuccessComponent {
   payment_id: string = '';
   preference_id: string = '';
   currency: string = 'COP';
+  processingToast: any; // Variable para almacenar la referencia del toast
 
   constructor(
     public cartService: CartService,
@@ -31,6 +32,9 @@ export class CheckoutSuccessComponent {
   ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
     this.inciarProyecto();
+
+    // Guardamos la referencia del toast para poder cerrarlo después
+    this.processingToast = this.toastr.info("Procesando pago, espere...", "Procesando pago", { disableTimeOut: true });
   }
 
   inciarProyecto() {
@@ -39,18 +43,7 @@ export class CheckoutSuccessComponent {
       this.payment_id = resp.payment_id;
       this.preference_id = resp.preference_id;
     }, error => {
-      if (error.status == 401) {
-        this.authService.sessionExpired();
-        this.cartService.clearCart();
-      } else if (error.status == 503) {
-        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-      } else if (error.status == 429) {
-        this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
-        return;
-      } else {
-        console.log(error);
-        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-      }
+      this.handleError(error);
     });
 
     let data = {
@@ -65,22 +58,32 @@ export class CheckoutSuccessComponent {
 
     this.cartService.checkoutMercadoPago(data).subscribe((resp: any) => {
       console.log(resp);
+
+      // Cerrar la alerta de "Procesando pago"
+      this.toastr.clear(this.processingToast.toastId);
+
       this.toastr.success("Compra realizada correctamente", "Éxito");
       this.cartService.resetCart();
       this.router.navigateByUrl("/gracias-por-tu-compra/" + this.payment_id);
     }, error => {
-      if (error.status == 401) {
-        this.authService.sessionExpired();
-        this.cartService.clearCart();
-      } else if (error.status == 503) {
-        this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
-      } else if (error.status == 429) {
-        this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
-        return;
-      } else {
-        console.log(error);
-        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-      }
+      // Cerrar la alerta de "Procesando pago" en caso de error
+      this.toastr.clear(this.processingToast.toastId);
+      this.handleError(error);
     });
+  }
+
+  // Manejo de errores reutilizable
+  handleError(error: any) {
+    if (error.status == 401) {
+      this.authService.sessionExpired();
+      this.cartService.clearCart();
+    } else if (error.status == 503) {
+      this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+    } else if (error.status == 429) {
+      this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+    } else {
+      console.log(error);
+      this.toastr.error('API Response - Comuníquese con el desarrollador', error.error.message || error.message);
+    }
   }
 }

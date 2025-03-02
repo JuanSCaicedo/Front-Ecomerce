@@ -788,8 +788,6 @@ export class CheckoutComponent {
     else if (this.selectedPayment == 'transfer') {
       this.toastr.warning("Metodo de pago no disponible", "Información");
       this.isProcessing.next(false);
-    } else {
-      this.toastr.info("Procesando pago, espere...", "Procesando pago");
     }
 
     console.log(this.selectedPayment);
@@ -800,6 +798,10 @@ export class CheckoutComponent {
   }
 
   cashPayment() {
+    // Mostrar la alerta de procesamiento y guardar su referencia
+    this.isProcessing.next(true);
+    const processingToast = this.toastr.info("Procesando pago, espere...", "Procesando pago", { disableTimeOut: true });
+
     const uniqueTransactionId = this.generateAlphanumericTransactionId(); // Genera el ID único
 
     let dataSale = {
@@ -829,6 +831,7 @@ export class CheckoutComponent {
       .pipe(
         tap((resp: any) => {
           console.log(resp);
+          this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento
           this.toastr.success("Compra realizada correctamente", "Éxito");
           this.cartService.resetCart();
           this.router.navigateByUrl("/gracias-por-tu-compra/" + uniqueTransactionId);
@@ -840,6 +843,9 @@ export class CheckoutComponent {
       .subscribe({
         next: () => { },
         error: (error) => {
+          this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento en caso de error
+          this.isProcessing.next(false);
+
           if (error.status == 401) {
             this.authService.sessionExpired();
             this.cartService.clearCart();
