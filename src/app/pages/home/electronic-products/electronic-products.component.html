@@ -180,14 +180,19 @@
                                     </h3>
                                     <div class="tp-product-rating d-flex align-items-center">
                                         <div class="tp-product-rating-icon">
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star"></i></span>
-                                            <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                                            <span><i class="fa-solid fa-star"
+                                                    [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 1}"></i></span>
+                                            <span><i class="fa-solid fa-star"
+                                                    [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 2}"></i></span>
+                                            <span><i class="fa-solid fa-star"
+                                                    [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 3}"></i></span>
+                                            <span><i class="fa-solid fa-star"
+                                                    [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 4}"></i></span>
+                                            <span><i class="fa-solid fa-star"
+                                                    [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 5}"></i></span>
                                         </div>
                                         <div class="tp-product-rating-text">
-                                            <span>(6 Review)</span>
+                                            <span>({{ PRODUCT.count_reviews }} Review)</span>
                                         </div>
                                     </div>
                                     <!-- Precio -->
