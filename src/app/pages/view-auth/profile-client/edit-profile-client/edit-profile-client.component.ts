@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ProfileClientService } from '../service/profile-client.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
@@ -19,6 +19,8 @@ declare var $: any;
 export class EditProfileClientComponent {
 
   private isProcessing = new BehaviorSubject<boolean>(false);
+  @Output() user = new EventEmitter<any[]>(); // Para un array de cualquier tipo de datos
+
   private attemptCount = 0;
   private isBlocked = false;
   private lastAttemptTime = Date.now();
@@ -74,7 +76,9 @@ export class EditProfileClientComponent {
     public authService: AuthService,
     public cartService: CartService,
     public homeService: HomeService,
-  ) {
+  ) { }
+
+  ngOnInit() {
     this.showUser();
   }
 
@@ -119,20 +123,34 @@ export class EditProfileClientComponent {
       this.toastr.info("Procesando solicitud", "Actualización de perfil");
     }
 
-    let data = {
-      name: this.name,
-      surname: this.surname,
-      email: this.email,
-      phone: this.phone,
-      bio: this.bio,
-      fb: this.fb,
-      tw: this.tw,
-      sexo: this.sexo,
-      address_city: this.address_city,
-      avatar: this.file_imagen
+    let formData = new FormData();
+    formData.append("name", this.name);
+    formData.append("surname", this.surname);
+    formData.append("email", this.email);
+    if (this.phone) {
+      formData.append("phone", this.phone);
+    }
+    if (this.bio) {
+      formData.append("bio", this.bio);
+    }
+    if (this.fb) {
+      formData.append("fb", this.fb);
+    }
+    if (this.tw) {
+      formData.append("tw", this.tw);
+    }
+    if (this.sexo) {
+      formData.append("sexo", this.sexo);
+    }
+    if (this.address_city) {
+      formData.append("address_city", this.address_city);
     }
 
-    this.profileClient.updateProfile(data)
+    if (this.file_imagen) {
+      formData.append("file_imagen", this.file_imagen);
+    }
+
+    this.profileClient.updateProfile(formData)
       .pipe(
         tap((resp: any) => {
           console.log(resp);
@@ -140,6 +158,7 @@ export class EditProfileClientComponent {
             this.toastr.error(resp.message_text, "Validación");
           } else {
             this.toastr.success("Perfil actualizado correctamente", "Éxito");
+            this.showUser();
           }
         }),
         finalize(() => {
@@ -179,12 +198,12 @@ export class EditProfileClientComponent {
       this.sexo = resp.sexo || ""
       this.address_city = resp.address_city
       this.imagen_previsualiza = resp.avatar
+      this.user.emit(resp);
 
       // Después de un breve retraso para asegurar que Angular ha actualizado el DOM
       setTimeout(() => {
         // Actualizamos NiceSelect para que refleje el nuevo valor
         $('.profile__area select').niceSelect('update');
-        console.log("NiceSelect actualizado con valor:", this.sexo);
       }, 100);
     }, (error) => {
       // Manejo de errores según el código de estado
@@ -215,5 +234,16 @@ export class EditProfileClientComponent {
         this.sexo = originalSelectValue;
       }, 100);
     });
+  }
+
+  processFile($event: any) {
+    if ($event.target.files[0].type.indexOf("image") < 0) {
+      this.toastr.error("El archivo seleccionado no es una imagen", "Error de archivo");
+      return;
+    }
+    this.file_imagen = $event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(this.file_imagen);
+    reader.onloadend = () => this.imagen_previsualiza = reader.result;
   }
 }

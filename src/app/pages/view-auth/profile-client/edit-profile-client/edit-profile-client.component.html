@@ -109,6 +109,34 @@
                 <div class="col-xxl-6 col-md-6">
                     <div class="profile__input-box">
                         <div class="profile__input">
+                            <select [(ngModel)]="sexo" name="sexo">
+                                <option disabled value="">--Seleccione--</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xxl-6 col-md-6">
+                    <div class="profile__input-box">
+                        <label class="form-label">Sube tu imagen: *</label>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="customFile"
+                                accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="processFile($event)">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                    </div>
+                    <div class="" *ngIf="imagen_previsualiza">
+                        <img class="img py-4" [src]="imagen_previsualiza"
+                            style="width: 100px; height: 200px; object-fit: contain;" alt="profile">
+                    </div>
+                </div>
+
+                <div class="col-xxl-12">
+                    <div class="profile__input-box">
+                        <div class="profile__input">
                             <input type="text" placeholder="Enter your address" [(ngModel)]="address_city"
                                 name="address_city">
                             <span>
@@ -122,19 +150,6 @@
                                         stroke="currentColor" stroke-width="1.5" />
                                 </svg>
                             </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xxl-6 col-md-6">
-                    <div class="profile__input-box">
-                        <div class="profile__input">
-                            <select [(ngModel)]="sexo" name="sexo">
-                                <option disabled value="">--Seleccione--</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Others">Others</option>
-                            </select>
                         </div>
                     </div>
                 </div>

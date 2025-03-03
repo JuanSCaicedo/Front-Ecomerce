@@ -18,6 +18,8 @@ export class AuthService {
 
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
+  private userSubject = new BehaviorSubject<any>(null);
+  user$ = this.userSubject.asObservable(); // Observable que otros componentes pueden suscribirse
 
   token!: string;
   user!: any;
@@ -54,6 +56,8 @@ export class AuthService {
       map((resp: any) => {
         console.log(resp);
         const result = this.saveLocalStorage(resp);
+        this.userSubject.next(resp.user); // Actualiza el usuario en el servicio
+        localStorage.setItem('user', JSON.stringify(resp.user)); // Guarda en localStorage si es necesario
         return result;
       }),
       catchError((err: any) => {
@@ -65,6 +69,10 @@ export class AuthService {
 
       finalize(() => this.isLoadingSubject.next(false))
     )
+  }
+
+  getUser() {
+    return this.userSubject.value; // Devuelve el usuario actual
   }
 
   saveLocalStorage(resp: any) {
@@ -162,6 +170,7 @@ export class AuthService {
           localStorage.removeItem('user');
           localStorage.removeItem('token');
           this.tokenSubject.next(null);
+          this.userSubject.next(null); // Importante para actualizar el header
           this.user = null;
           this.token = '';
 
@@ -177,6 +186,7 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     this.tokenSubject.next(null);
+    this.userSubject.next(null); // Importante para actualizar el header
     this.user = null;
     this.token = '';
 

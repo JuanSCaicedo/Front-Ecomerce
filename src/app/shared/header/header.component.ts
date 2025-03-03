@@ -11,6 +11,7 @@ import { filter } from 'rxjs';
 import { BehaviorSubject, timer } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { HomeService } from '../../pages/home/service/home.service';
+import { ProfileClientService } from '../../pages/view-auth/profile-client/service/profile-client.service';
 
 declare function CurrecyChange([]): any;
 declare var $: any;
@@ -28,6 +29,7 @@ export class HeaderComponent {
   isLoading: boolean = false;
 
   user: any;
+  userAuth: any;
   listCart: any = [];
   totalCarts: number = 0;
 
@@ -76,6 +78,7 @@ export class HeaderComponent {
     public authService: AuthService,
     private toastr: ToastrService,
     private homeService: HomeService,
+    public profileClient: ProfileClientService,
   ) {
     if (!isPlatformServer(this.platformId)) {
       setTimeout(() => {
@@ -91,7 +94,15 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
-    this.user = this.cartService.authService.user;
+    setTimeout(() => {
+      this.user = this.cartService.authService.user;
+      console.log(this.user);
+    }, 50);
+
+    this.authService.user$.subscribe(user => {
+      this.user = user; // Se actualiza automáticamente cuando el usuario inicia sesión
+      console.log(this.user);
+    });
   }
 
   cambioVista() {

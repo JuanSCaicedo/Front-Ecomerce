@@ -526,8 +526,7 @@
                                              @for(review of reviews;track review.id){
                                              <div class="tp-product-details-review-avater d-flex align-items-start">
                                                 <div class="tp-product-details-review-avater-thumb">
-                                                   <img src="https://cdn-icons-png.flaticon.com/512/18851/18851107.png"
-                                                      alt="perfil">
+                                                   <img [src]="review.user.avatar" alt="avatar">
                                                 </div>
                                                 <div class="tp-product-details-review-avater-content">
                                                    <div

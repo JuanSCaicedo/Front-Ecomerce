@@ -20,6 +20,9 @@ export class ProfileClientComponent {
   selected_tab: number = 0;
   totalOrdersCount: number = 0;
   listCart: any = [];
+  user: any = {};
+  file_imagen: any;
+  imagen_previsualiza: any;
 
   constructor(
     private authService: AuthService,
@@ -70,5 +73,9 @@ export class ProfileClientComponent {
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
       }
     });
+  }
+
+  viewUser(viewUser: any) {
+    this.user = viewUser;
   }
 }
