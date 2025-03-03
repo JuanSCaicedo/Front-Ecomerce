@@ -44,6 +44,7 @@ export class LandingProductComponent {
   MANTINANCE_STATUS: boolean = false;
   is_flash: boolean = false;
   plus: number = 0;
+  reviews: any = [];
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -154,6 +155,7 @@ export class LandingProductComponent {
         this.PRODUCT_RELATEDS = resp.product_relateds.data;
         this.product_relateds_count = this.PRODUCT_RELATEDS.length > 0;
         this.DISCOUNT_CAMPAING = resp.discount_campaing;
+        this.reviews = resp.reviews;
 
         // Agregar validación para DISCOUNT_CAMPAING
         if (this.CAMPAING_CODE && !this.DISCOUNT_CAMPAING) {

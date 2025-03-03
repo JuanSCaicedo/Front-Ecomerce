@@ -57,14 +57,19 @@
             </div>
             <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
                 <div class="tp-product-details-rating">
-                    <span><i class="fa-solid fa-star"></i></span>
-                    <span><i class="fa-solid fa-star"></i></span>
-                    <span><i class="fa-solid fa-star"></i></span>
-                    <span><i class="fa-solid fa-star"></i></span>
-                    <span><i class="fa-solid fa-star"></i></span>
+                    <span><i class="fa-solid fa-star"
+                            [ngClass]="{'fa-star-gris': product_selected.avg_reviews < 1}"></i></span>
+                    <span><i class="fa-solid fa-star"
+                            [ngClass]="{'fa-star-gris': product_selected.avg_reviews < 2}"></i></span>
+                    <span><i class="fa-solid fa-star"
+                            [ngClass]="{'fa-star-gris': product_selected.avg_reviews < 3}"></i></span>
+                    <span><i class="fa-solid fa-star"
+                            [ngClass]="{'fa-star-gris': product_selected.avg_reviews < 4}"></i></span>
+                    <span><i class="fa-solid fa-star"
+                            [ngClass]="{'fa-star-gris': product_selected.avg_reviews < 5}"></i></span>
                 </div>
                 <div class="tp-product-details-reviews">
-                    <span>(36 Reviews)</span>
+                    <span>({{ product_selected.count_reviews }} Review)</span>
                 </div>
             </div>
         </div>

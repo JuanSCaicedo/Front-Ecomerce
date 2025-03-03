@@ -97,14 +97,19 @@
                         </div>
                         <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
                            <div class="tp-product-details-rating">
-                              <span><i class="fa-solid fa-star"></i></span>
-                              <span><i class="fa-solid fa-star"></i></span>
-                              <span><i class="fa-solid fa-star"></i></span>
-                              <span><i class="fa-solid fa-star"></i></span>
-                              <span><i class="fa-solid fa-star"></i></span>
+                              <span><i class="fa-solid fa-star"
+                                    [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 1}"></i></span>
+                              <span><i class="fa-solid fa-star"
+                                    [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 2}"></i></span>
+                              <span><i class="fa-solid fa-star"
+                                    [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 3}"></i></span>
+                              <span><i class="fa-solid fa-star"
+                                    [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 4}"></i></span>
+                              <span><i class="fa-solid fa-star"
+                                    [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 5}"></i></span>
                            </div>
                            <div class="tp-product-details-reviews">
-                              <span>(36 Reviews)</span>
+                              <span>({{ PRODUCT_SELECTED.count_reviews }} Review)</span>
                            </div>
                         </div>
                      </div>
@@ -348,7 +353,7 @@
             </div>
          </div>
       </div>
-      <div class="tp-product-details-bottom pb-140">
+      <div class="tp-product-details-bottom pb-90">
          <div class="container">
             <div class="row">
                <div class="col-xl-12">
@@ -365,7 +370,7 @@
                               aria-selected="true">Additional information</button>
                            <button class="nav-link mb-3" id="nav-review-tab" data-bs-toggle="tab"
                               data-bs-target="#nav-review" type="button" role="tab" aria-controls="nav-review"
-                              aria-selected="false">Reviews (2)</button>
+                              aria-selected="false">Reviews ({{ PRODUCT_SELECTED.count_reviews }})</button>
 
                            <span id="productTabMarker" class="tp-product-details-tab-line"></span>
                         </div>
@@ -420,16 +425,21 @@
                                           <h3 class="tp-product-details-review-number-title">Customer reviews</h3>
                                           <div class="tp-product-details-review-summery d-flex align-items-center">
                                              <div class="tp-product-details-review-summery-value">
-                                                <span>4.5</span>
+                                                <span>{{ PRODUCT_SELECTED.avg_reviews }}</span>
                                              </div>
                                              <div
                                                 class="tp-product-details-review-summery-rating d-flex align-items-center">
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <p>(36 Reviews)</p>
+                                                <span><i class="fa-solid fa-star"
+                                                      [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 1}"></i></span>
+                                                <span><i class="fa-solid fa-star"
+                                                      [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 2}"></i></span>
+                                                <span><i class="fa-solid fa-star"
+                                                      [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 3}"></i></span>
+                                                <span><i class="fa-solid fa-star"
+                                                      [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 4}"></i></span>
+                                                <span><i class="fa-solid fa-star"
+                                                      [ngClass]="{'fa-star-gris': PRODUCT_SELECTED.avg_reviews < 5}"></i></span>
+                                                <p>({{ PRODUCT_SELECTED.count_reviews }} Reviews)</p>
                                              </div>
                                           </div>
                                           <div class="tp-product-details-review-rating-list">
@@ -499,119 +509,55 @@
                                              </div> <!-- end single item -->
                                           </div>
                                        </div>
-
-                                       <!-- reviews -->
-                                       <div class="tp-product-details-review-list pr-110">
-                                          <h3 class="tp-product-details-review-title">Rating & Review</h3>
-                                          <div class="tp-product-details-review-avater d-flex align-items-start">
-                                             <div class="tp-product-details-review-avater-thumb">
-                                                <a href="#">
-                                                   <img src="assets/img/users/user-3.jpg" alt="">
-                                                </a>
-                                             </div>
-                                             <div class="tp-product-details-review-avater-content">
-                                                <div
-                                                   class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                </div>
-                                                <h3 class="tp-product-details-review-avater-title">Eleanor Fant</h3>
-                                                <span class="tp-product-details-review-avater-meta">06 March, 2023
-                                                </span>
-
-                                                <div class="tp-product-details-review-avater-comment">
-                                                   <p>Designed very similarly to the nearly double priced Galaxy tab S6,
-                                                      with the only removal being.</p>
-                                                </div>
-                                             </div>
-                                          </div>
-                                          <div class="tp-product-details-review-avater d-flex align-items-start">
-                                             <div class="tp-product-details-review-avater-thumb">
-                                                <a href="#">
-                                                   <img src="assets/img/users/user-2.jpg" alt="">
-                                                </a>
-                                             </div>
-                                             <div class="tp-product-details-review-avater-content">
-                                                <div
-                                                   class="tp-product-details-review-avater-rating d-flex align-items-center">
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                   <span><i class="fa-solid fa-star"></i></span>
-                                                </div>
-                                                <h3 class="tp-product-details-review-avater-title">Shahnewaz Sakil</h3>
-                                                <span class="tp-product-details-review-avater-meta">06 March, 2023
-                                                </span>
-
-                                                <div class="tp-product-details-review-avater-comment">
-                                                   <p>This review is for the Samsung Tab S6 Lite, 64gb wifi in blue.
-                                                      purchased this product performed.</p>
-                                                </div>
-                                             </div>
-                                          </div>
-                                       </div>
                                     </div>
                                  </div> <!-- end col -->
+
                                  <div class="col-lg-6">
                                     <div class="tp-product-details-review-form">
-                                       <h3 class="tp-product-details-review-form-title">Review this product</h3>
-                                       <p>Your email address will not be published. Required fields are marked *</p>
-                                       <form action="#">
-                                          <div class="tp-product-details-review-form-rating d-flex align-items-center">
-                                             <p>Your Rating :</p>
-                                             <div
-                                                class="tp-product-details-review-form-rating-icon d-flex align-items-center">
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
-                                                <span><i class="fa-solid fa-star"></i></span>
+                                       <!-- reviews -->
+                                       <div class="tp-product-details-review-list">
+                                          <h3 class="tp-product-details-review-title">Rating & Review</h3>
+
+                                          @for(review of reviews;track review.id){
+                                          <div class="tp-product-details-review-avater d-flex align-items-start">
+                                             <div class="tp-product-details-review-avater-thumb">
+                                                <img src="https://cdn-icons-png.flaticon.com/512/18851/18851107.png"
+                                                   alt="perfil">
                                              </div>
-                                          </div>
-                                          <div class="tp-product-details-review-input-wrapper">
-                                             <div class="tp-product-details-review-input-box">
-                                                <div class="tp-product-details-review-input">
-                                                   <textarea id="msg" name="msg"
-                                                      placeholder="Write your review here..."></textarea>
+                                             <div class="tp-product-details-review-avater-content">
+                                                <div
+                                                   class="tp-product-details-review-avater-rating d-flex align-items-center">
+                                                   <span><i class="fa-solid fa-star"
+                                                         [ngClass]="{'fa-star-gris': review.rating < 1}"></i></span>
+                                                   <span><i class="fa-solid fa-star"
+                                                         [ngClass]="{'fa-star-gris': review.rating < 2}"></i></span>
+                                                   <span><i class="fa-solid fa-star"
+                                                         [ngClass]="{'fa-star-gris': review.rating < 3}"></i></span>
+                                                   <span><i class="fa-solid fa-star"
+                                                         [ngClass]="{'fa-star-gris': review.rating < 4}"></i></span>
+                                                   <span><i class="fa-solid fa-star"
+                                                         [ngClass]="{'fa-star-gris': review.rating < 5}"></i></span>
                                                 </div>
-                                                <div class="tp-product-details-review-input-title">
-                                                   <label for="msg">Your Name</label>
-                                                </div>
-                                             </div>
-                                             <div class="tp-product-details-review-input-box">
-                                                <div class="tp-product-details-review-input">
-                                                   <input name="name" id="name" type="text"
-                                                      placeholder="Shahnewaz Sakil">
-                                                </div>
-                                                <div class="tp-product-details-review-input-title">
-                                                   <label for="name">Your Name</label>
-                                                </div>
-                                             </div>
-                                             <div class="tp-product-details-review-input-box">
-                                                <div class="tp-product-details-review-input">
-                                                   <input name="email" id="email" type="email"
-                                                      placeholder="shofy@mail.com">
-                                                </div>
-                                                <div class="tp-product-details-review-input-title">
-                                                   <label for="email">Your Email</label>
+                                                <h3 class="tp-product-details-review-avater-title">{{
+                                                   review.user.full_name }}</h3>
+                                                <span class="tp-product-details-review-avater-meta">{{
+                                                   review.created_at }}
+                                                </span>
+
+                                                <div class="tp-product-details-review-avater-comment">
+                                                   <p>{{
+                                                      review.message }}</p>
                                                 </div>
                                              </div>
                                           </div>
-                                          <div class="tp-product-details-review-suggetions mb-20">
-                                             <div class="tp-product-details-review-remeber">
-                                                <input id="remeber" type="checkbox">
-                                                <label for="remeber">Save my name, email, and website in this browser
-                                                   for the next time I comment.</label>
-                                             </div>
-                                          </div>
-                                          <div class="tp-product-details-review-btn-wrapper">
-                                             <button class="tp-product-details-review-btn">Submit</button>
-                                          </div>
-                                       </form>
+                                          }
+
+                                          @if(reviews.length == 0) {
+                                          <span>
+                                             No hay reseñas registradas para este producto
+                                          </span>
+                                          }
+                                       </div>
                                     </div>
                                  </div>
                               </div>
@@ -677,30 +623,24 @@
                               <!-- product action -->
                               <div class="tp-product-action-3 has-shadow tp-product-action-primaryStyle">
                                  <div class="tp-product-action-item-3 d-flex flex-column">
-                                    <button (click)="addCartRelated(PRODUCT)" type="button"
-                                       class="tp-product-action-btn-3 tp-product-add-cart-btn">
-                                       <svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+                                    <button type="button" class="tp-product-action-btn-3 tp-product-add-cart-btn">
+                                       <svg width="17" height="21" viewBox="0 0 17 21" fill="none"
                                           xmlns="http://www.w3.org/2000/svg">
-                                          <path fill-rule="evenodd" clip-rule="evenodd"
-                                             d="M3.34706 4.53799L3.85961 10.6239C3.89701 11.0923 4.28036 11.4436 4.74871 11.4436H4.75212H14.0265H14.0282C14.4711 11.4436 14.8493 11.1144 14.9122 10.6774L15.7197 5.11162C15.7384 4.97924 15.7053 4.84687 15.6245 4.73995C15.5446 4.63218 15.4273 4.5626 15.2947 4.54393C15.1171 4.55072 7.74498 4.54054 3.34706 4.53799ZM4.74722 12.7162C3.62777 12.7162 2.68001 11.8438 2.58906 10.728L1.81046 1.4837L0.529505 1.26308C0.181854 1.20198 -0.0501969 0.873587 0.00930333 0.526523C0.0705036 0.17946 0.406255 -0.0462578 0.746256 0.00805037L2.51426 0.313534C2.79901 0.363599 3.01576 0.5995 3.04042 0.888012L3.24017 3.26484C15.3748 3.26993 15.4139 3.27587 15.4726 3.28266C15.946 3.3514 16.3625 3.59833 16.6464 3.97849C16.9303 4.35779 17.0493 4.82535 16.9813 5.29376L16.1747 10.8586C16.0225 11.9177 15.1011 12.7162 14.0301 12.7162H14.0259H4.75402H4.74722Z"
-                                             fill="currentColor" />
-                                          <path fill-rule="evenodd" clip-rule="evenodd"
-                                             d="M12.6629 7.67446H10.3067C9.95394 7.67446 9.66919 7.38934 9.66919 7.03804C9.66919 6.68673 9.95394 6.40161 10.3067 6.40161H12.6629C13.0148 6.40161 13.3004 6.68673 13.3004 7.03804C13.3004 7.38934 13.0148 7.67446 12.6629 7.67446Z"
-                                             fill="currentColor" />
-                                          <path fill-rule="evenodd" clip-rule="evenodd"
-                                             d="M4.38171 15.0212C4.63756 15.0212 4.84411 15.2278 4.84411 15.4836C4.84411 15.7395 4.63756 15.9469 4.38171 15.9469C4.12501 15.9469 3.91846 15.7395 3.91846 15.4836C3.91846 15.2278 4.12501 15.0212 4.38171 15.0212Z"
-                                             fill="currentColor" />
-                                          <path fill-rule="evenodd" clip-rule="evenodd"
-                                             d="M4.38082 15.3091C4.28477 15.3091 4.20657 15.3873 4.20657 15.4833C4.20657 15.6763 4.55592 15.6763 4.55592 15.4833C4.55592 15.3873 4.47687 15.3091 4.38082 15.3091ZM4.38067 16.5815C3.77376 16.5815 3.28076 16.0884 3.28076 15.4826C3.28076 14.8767 3.77376 14.3845 4.38067 14.3845C4.98757 14.3845 5.48142 14.8767 5.48142 15.4826C5.48142 16.0884 4.98757 16.5815 4.38067 16.5815Z"
-                                             fill="currentColor" />
-                                          <path fill-rule="evenodd" clip-rule="evenodd"
-                                             d="M13.9701 15.0212C14.2259 15.0212 14.4333 15.2278 14.4333 15.4836C14.4333 15.7395 14.2259 15.9469 13.9701 15.9469C13.7134 15.9469 13.5068 15.7395 13.5068 15.4836C13.5068 15.2278 13.7134 15.0212 13.9701 15.0212Z"
-                                             fill="currentColor" />
-                                          <path fill-rule="evenodd" clip-rule="evenodd"
-                                             d="M13.9692 15.3092C13.874 15.3092 13.7958 15.3874 13.7958 15.4835C13.7966 15.6781 14.1451 15.6764 14.1443 15.4835C14.1443 15.3874 14.0652 15.3092 13.9692 15.3092ZM13.969 16.5815C13.3621 16.5815 12.8691 16.0884 12.8691 15.4826C12.8691 14.8767 13.3621 14.3845 13.969 14.3845C14.5768 14.3845 15.0706 14.8767 15.0706 15.4826C15.0706 16.0884 14.5768 16.5815 13.969 16.5815Z"
-                                             fill="currentColor" />
+                                          <path d="M12.6666 1L16 4.33333L12.6666 7.66667" stroke="currentColor"
+                                             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                          <path
+                                             d="M1 9.3335V7.66683C1 6.78277 1.35119 5.93493 1.97631 5.30981C2.60143 4.68469 3.44928 4.3335 4.33333 4.3335H16"
+                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                             stroke-linejoin="round" />
+                                          <path d="M4.33333 19.3332L1 15.9998L4.33333 12.6665" stroke="currentColor"
+                                             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                          <path
+                                             d="M16 11V12.6667C16 13.5507 15.6488 14.3986 15.0237 15.0237C14.3986 15.6488 13.5507 16 12.6667 16H1"
+                                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                             stroke-linejoin="round" />
                                        </svg>
-                                       <span class="tp-product-tooltip">Add to Cart</span>
+
+                                       <span class="tp-product-tooltip">Compare</span>
                                     </button>
                                     <button type="button" (click)="OpenDetailProduct(PRODUCT)"
                                        class="tp-product-action-btn-3 tp-product-quick-view-btn" data-bs-toggle="modal"
@@ -752,14 +692,19 @@
 
                               <div class="tp-product-rating d-flex align-items-center">
                                  <div class="tp-product-rating-icon">
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star"></i></span>
-                                    <span><i class="fa-solid fa-star-half-stroke"></i></span>
+                                    <span><i class="fa-solid fa-star"
+                                          [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 1}"></i></span>
+                                    <span><i class="fa-solid fa-star"
+                                          [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 2}"></i></span>
+                                    <span><i class="fa-solid fa-star"
+                                          [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 3}"></i></span>
+                                    <span><i class="fa-solid fa-star"
+                                          [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 4}"></i></span>
+                                    <span><i class="fa-solid fa-star"
+                                          [ngClass]="{'fa-star-gris': PRODUCT.avg_reviews < 5}"></i></span>
                                  </div>
                                  <div class="tp-product-rating-text">
-                                    <span>(7 Review)</span>
+                                    <span>({{ PRODUCT.count_reviews }} Review)</span>
                                  </div>
                               </div>
 
