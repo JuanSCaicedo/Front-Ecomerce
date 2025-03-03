@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, finalize, tap, timer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-orders-profile-client',
@@ -72,6 +73,7 @@ export class OrdersProfileClientComponent {
     public cartService: CartService,
     public homeService: HomeService,
     public toastr: ToastrService,
+    public router: Router,
   ) {
     this.showOrders();
   }
@@ -145,6 +147,7 @@ export class OrdersProfileClientComponent {
 
     if (!token) {
       this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      this.router.navigateByUrl('/login');
       return;
     }
 
@@ -229,6 +232,7 @@ export class OrdersProfileClientComponent {
   handleError(error: any) {
     if (error.status == 401) {
       this.authService.sessionExpired();
+      this.router.navigateByUrl('/login');
       this.cartService.clearCart();
     } else if (error.status == 503) {
       this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();

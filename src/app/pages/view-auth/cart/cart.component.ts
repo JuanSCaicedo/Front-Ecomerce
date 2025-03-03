@@ -140,6 +140,7 @@ export class CartComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -242,6 +243,7 @@ export class CartComponent {
             // Manejo de errores según el código de estado
             if (error.status == 401) {
               this.authService.sessionExpired();
+              this.router.navigateByUrl('/login');
               this.cartService.clearCart();
             } else if (error.status == 503) {
               this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -324,6 +326,7 @@ export class CartComponent {
               // Manejo de errores según el código de estado
               if (error.status == 401) {
                 this.authService.sessionExpired();
+                this.router.navigateByUrl('/login');
                 this.cartService.clearCart();
               } else if (error.status == 503) {
                 this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -348,6 +351,7 @@ export class CartComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();

@@ -7,6 +7,7 @@ import { AuthService } from '../../../auth/service/auth.service';
 import { CartService } from '../../../home/service/cart.service';
 import { HomeService } from '../../../home/service/home.service';
 import { BehaviorSubject, finalize, tap, timer } from 'rxjs';
+import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -76,6 +77,7 @@ export class EditProfileClientComponent {
     public authService: AuthService,
     public cartService: CartService,
     public homeService: HomeService,
+    public router: Router,
   ) { }
 
   ngOnInit() {
@@ -91,6 +93,7 @@ export class EditProfileClientComponent {
 
     if (!token) {
       this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      this.router.navigateByUrl('/login');
       return;
     }
 
@@ -171,6 +174,7 @@ export class EditProfileClientComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -209,6 +213,7 @@ export class EditProfileClientComponent {
       // Manejo de errores según el código de estado
       if (error.status == 401) {
         this.authService.sessionExpired();
+        this.router.navigateByUrl('/login');
         this.cartService.clearCart();
       } else if (error.status == 503) {
         this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();

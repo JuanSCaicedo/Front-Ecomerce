@@ -7,6 +7,7 @@ import { HomeService } from '../../../home/service/home.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BehaviorSubject, finalize, tap, timer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-address-profile-client',
@@ -75,6 +76,7 @@ export class AddressProfileClientComponent {
     private authService: AuthService,
     private cartService: CartService,
     public homeService: HomeService,
+    public router: Router,
   ) {
     this.listarDirecciones();
   }
@@ -86,6 +88,7 @@ export class AddressProfileClientComponent {
     }, (error) => {
       if (error.status == 401) {
         this.authService.sessionExpired();
+        this.router.navigateByUrl('/login');
         this.cartService.clearCart();
       } else if (error.status == 503) {
         this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -198,6 +201,7 @@ export class AddressProfileClientComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -217,6 +221,7 @@ export class AddressProfileClientComponent {
 
     if (!token) {
       this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      this.router.navigateByUrl('/login');
       return;
     }
 
@@ -285,6 +290,7 @@ export class AddressProfileClientComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();

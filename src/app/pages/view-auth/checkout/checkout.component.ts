@@ -160,6 +160,7 @@ export class CheckoutComponent {
       console.log(error);
       if (error.status == 401) {
         this.authService.sessionExpired();
+        this.router.navigateByUrl('/login');
         this.cartService.clearCart();
       } else {
         this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
@@ -230,6 +231,7 @@ export class CheckoutComponent {
               // Manejo de errores según el código de estado
               if (error.status == 401) {
                 this.authService.sessionExpired();
+                this.router.navigateByUrl('/login');
                 this.cartService.clearCart();
               } else if (error.status == 503) {
                 this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -254,6 +256,7 @@ export class CheckoutComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -275,6 +278,7 @@ export class CheckoutComponent {
     }, (error) => {
       if (error.status == 401) {
         this.authService.sessionExpired();
+        this.router.navigateByUrl('/login');
         this.cartService.clearCart();
       } else if (error.status == 503) {
         this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -357,6 +361,7 @@ export class CheckoutComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -480,6 +485,7 @@ export class CheckoutComponent {
         error: (error) => {
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -579,6 +585,7 @@ export class CheckoutComponent {
                 this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento en caso de error
                 if (error.status == 401) {
                   this.authService.sessionExpired();
+                  this.router.navigateByUrl('/login');
                   this.cartService.clearCart();
                 } else if (error.status == 503) {
                   this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -638,6 +645,7 @@ export class CheckoutComponent {
       error: (error) => {
         if (error.status == 401) {
           this.authService.sessionExpired();
+          this.router.navigateByUrl('/login');
           this.cartService.clearCart();
         } else if (error.status == 503) {
           this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -723,6 +731,7 @@ export class CheckoutComponent {
     }, (error) => {
       if (error.status == 401) {
         this.authService.sessionExpired();
+        this.router.navigateByUrl('/login');
         this.cartService.clearCart();
       } else if (error.status == 503) {
         this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -750,6 +759,7 @@ export class CheckoutComponent {
 
     if (!token) {
       this.toastr.error('No se encuentra la sesión activa', 'Error de autenticación');
+      this.router.navigateByUrl('/login');
       return;
     }
 
@@ -849,6 +859,8 @@ export class CheckoutComponent {
 
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
@@ -875,29 +887,6 @@ export class CheckoutComponent {
     const processingToast = this.toastr.info("Procesando pago, espere...", "Procesando pago", { disableTimeOut: true });
 
     const uniqueTransactionId = this.generateAlphanumericTransactionId(); // Genera el ID único
-
-    // let dataSale = {
-    //   method_payment: 'TRANSFER',
-    //   currency_total: this.currency,
-    //   currency_payment: this.currency,
-    //   discount: 0,
-    //   subtotal: this.totalCarts,
-    //   total: this.totalCarts,
-    //   n_transaccion: uniqueTransactionId, // Alfanumérico único
-    //   description: this.description,
-    //   sale_address: {
-    //     name: this.name,
-    //     surname: this.surname,
-    //     company: this.company,
-    //     country_region: this.country_region,
-    //     city: this.city,
-    //     address: this.address,
-    //     street: this.street,
-    //     postcode_zip: this.postcode_zip,
-    //     phone: this.phone,
-    //     email: this.email,
-    //   }
-    // };
 
     let formData = new FormData();
 
@@ -949,6 +938,8 @@ export class CheckoutComponent {
 
           if (error.status == 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status == 503) {
             this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();

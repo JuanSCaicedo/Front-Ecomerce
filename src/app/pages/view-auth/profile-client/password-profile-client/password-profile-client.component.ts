@@ -134,6 +134,7 @@ export class PasswordProfileClientComponent {
         error: (error) => {
           if (error.status === 401) {
             this.authService.sessionExpired();
+            this.router.navigateByUrl('/login');
             this.cartService.clearCart();
           } else if (error.status === 403) {
             console.log(error);
