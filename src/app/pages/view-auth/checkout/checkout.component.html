@@ -306,6 +306,23 @@
                                         se hayan acreditado en nuestra cuenta.</p>
                                 </div>
                             </div>
+
+                            <!-- Input de archivo, separado de los radios -->
+                            <div class="col-12" *ngIf="selectedPayment === 'transfer'">
+                                <div class="profile__input-box">
+                                    <label class="form-label">Sube tu imagen: *</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile"
+                                            accept=".jpeg, .bmp, .jpg, .png, .gif, .webp"
+                                            (change)="processFile($event)">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="text-center" *ngIf="imagen_previsualiza">
+                                    <img class="img py-1" [src]="imagen_previsualiza"
+                                        style="width: 100px; height: 200px; object-fit: contain;" alt="profile">
+                                </div>
+                            </div>
                             <!-- Opción de pago con Mercadopago -->
                             <div class="tp-checkout-payment-item">
                                 <input (click)="handlePaymentChange('mercadopago', $event)" type="radio"

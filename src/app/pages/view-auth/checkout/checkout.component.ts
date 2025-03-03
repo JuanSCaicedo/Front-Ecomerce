@@ -52,6 +52,8 @@ export class CheckoutComponent {
   description: string = '';
   storeTempExecuted: boolean = false; // 🔹 Variable de control
   price_dolar: number = 0;
+  imagen_previsualiza: any = 'https://cdn-icons-png.flaticon.com/512/2922/2922982.png';
+  file_imagen: any;
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -753,7 +755,7 @@ export class CheckoutComponent {
 
     // Verificar si está bloqueado
     if (this.isBlocked) {
-      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Registrar Dirección");
+      this.toastr.error("Has realizado demasiados intentos. Por favor, espera 10 segundos.", "Bloqueado - Realizar Pedido");
       return;
     }
 
@@ -786,8 +788,7 @@ export class CheckoutComponent {
       return;
     }
     else if (this.selectedPayment == 'transfer') {
-      this.toastr.warning("Metodo de pago no disponible", "Información");
-      this.isProcessing.next(false);
+      this.transferPayment();
     }
 
     console.log(this.selectedPayment);
@@ -862,6 +863,106 @@ export class CheckoutComponent {
       });
   }
 
+  transferPayment() {
+    if (!this.file_imagen) {
+      this.toastr.error('Debe adjuntar el comprobante de pago', 'Validación');
+      this.isProcessing.next(false);
+      return;
+    }
+
+    // Mostrar la alerta de procesamiento y guardar su referencia
+    this.isProcessing.next(true);
+    const processingToast = this.toastr.info("Procesando pago, espere...", "Procesando pago", { disableTimeOut: true });
+
+    const uniqueTransactionId = this.generateAlphanumericTransactionId(); // Genera el ID único
+
+    // let dataSale = {
+    //   method_payment: 'TRANSFER',
+    //   currency_total: this.currency,
+    //   currency_payment: this.currency,
+    //   discount: 0,
+    //   subtotal: this.totalCarts,
+    //   total: this.totalCarts,
+    //   n_transaccion: uniqueTransactionId, // Alfanumérico único
+    //   description: this.description,
+    //   sale_address: {
+    //     name: this.name,
+    //     surname: this.surname,
+    //     company: this.company,
+    //     country_region: this.country_region,
+    //     city: this.city,
+    //     address: this.address,
+    //     street: this.street,
+    //     postcode_zip: this.postcode_zip,
+    //     phone: this.phone,
+    //     email: this.email,
+    //   }
+    // };
+
+    let formData = new FormData();
+
+    // Agregar datos principales de dataSale
+    formData.append("method_payment", 'TRANSFER');
+    formData.append("currency_total", this.currency);
+    formData.append("currency_payment", this.currency);
+    formData.append("discount", String(0)); // Convertimos a string
+    formData.append("subtotal", String(this.totalCarts));
+    formData.append("total", String(this.totalCarts));
+    formData.append("n_transaccion", uniqueTransactionId);
+    formData.append("description", this.description);
+
+    // Agregar datos de sale_address
+    formData.append("sale_address[name]", this.name);
+    formData.append("sale_address[surname]", this.surname);
+    formData.append("sale_address[company]", this.company);
+    formData.append("sale_address[country_region]", this.country_region);
+    formData.append("sale_address[city]", this.city);
+    formData.append("sale_address[address]", this.address);
+    formData.append("sale_address[street]", this.street);
+    formData.append("sale_address[postcode_zip]", this.postcode_zip);
+    formData.append("sale_address[phone]", this.phone);
+    formData.append("sale_address[email]", this.email);
+
+    // Agregar la imagen si existe
+    if (this.file_imagen) {
+      formData.append("file_imagen", this.file_imagen);
+    }
+
+    this.cartService.checkout(formData)
+      .pipe(
+        tap((resp: any) => {
+          console.log(resp);
+          this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento
+          this.toastr.success("Compra realizada correctamente", "Éxito");
+          this.cartService.resetCart();
+          this.router.navigateByUrl("/gracias-por-tu-compra/" + uniqueTransactionId);
+        }),
+        finalize(() => {
+          this.isProcessing.next(false);
+        })
+      )
+      .subscribe({
+        next: () => { },
+        error: (error) => {
+          this.toastr.clear(processingToast.toastId); // Cerrar la alerta de procesamiento en caso de error
+          this.isProcessing.next(false);
+
+          if (error.status == 401) {
+            this.authService.sessionExpired();
+            this.cartService.clearCart();
+          } else if (error.status == 503) {
+            this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+          } else if (error.status == 429) {
+            this.toastr.error("Demasiadas solicitudes. Por favor, espere unos segundos.", "Error de solicitud");
+            return;
+          } else {
+            console.log(error);
+            this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
+          }
+        }
+      });
+  }
+
   // ✅ Función para generar un ID alfanumérico único
   generateAlphanumericTransactionId(): string {
     const timestamp = Date.now().toString().slice(0, -4); // Quitamos los últimos 4 dígitos del timestamp
@@ -869,5 +970,16 @@ export class CheckoutComponent {
     const randomLetters = Math.random().toString(36).substring(2, 6).toUpperCase(); // 4 letras aleatorias
 
     return `${randomLetters}${timestamp}${randomNum}`; // Ejemplo: "ABCD17117765X34"
+  }
+
+  processFile($event: any) {
+    if ($event.target.files[0].type.indexOf("image") < 0) {
+      this.toastr.error("El archivo seleccionado no es una imagen", "Error de archivo");
+      return;
+    }
+    this.file_imagen = $event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(this.file_imagen);
+    reader.onloadend = () => this.imagen_previsualiza = reader.result;
   }
 }
