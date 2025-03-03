@@ -45,6 +45,12 @@ export class LandingProductComponent {
   is_flash: boolean = false;
   plus: number = 0;
   reviews: any = [];
+  rating_distribution: any = [];
+  one: number = 0;
+  two: number = 0;
+  three: number = 0;
+  four: number = 0;
+  five: number = 0;
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -172,6 +178,14 @@ export class LandingProductComponent {
         if (this.DISCOUNT_CAMPAING) {
           this.PRODUCT_SELECTED.discount_g = this.DISCOUNT_CAMPAING;
         }
+
+        this.rating_distribution = resp.rating_distribution;
+        // Accediendo a los valores y asignándolos a variables con nombres descriptivos
+        this.one = this.rating_distribution[1];
+        this.two = this.rating_distribution[2];
+        this.three = this.rating_distribution[3];
+        this.four = this.rating_distribution[4];
+        this.five = this.rating_distribution[5];
       }
 
       if (typeof $ !== 'undefined') {

@@ -442,6 +442,8 @@
                                                 <p>({{ PRODUCT_SELECTED.count_reviews }} Reviews)</p>
                                              </div>
                                           </div>
+
+                                          <!-- rating -->
                                           <div class="tp-product-details-review-rating-list">
                                              <!-- single item -->
                                              <div
@@ -449,10 +451,10 @@
                                                 <span>5 Start</span>
                                                 <div class="tp-product-details-review-rating-bar">
                                                    <span class="tp-product-details-review-rating-bar-inner"
-                                                      data-width="82%"></span>
+                                                      [attr.data-width]="five + '%'"></span>
                                                 </div>
                                                 <div class="tp-product-details-review-rating-percent">
-                                                   <span>82%</span>
+                                                   <span>{{ five }}%</span>
                                                 </div>
                                              </div> <!-- end single item -->
 
@@ -462,10 +464,10 @@
                                                 <span>4 Start</span>
                                                 <div class="tp-product-details-review-rating-bar">
                                                    <span class="tp-product-details-review-rating-bar-inner"
-                                                      data-width="30%"></span>
+                                                      [attr.data-width]="four + '%'"></span>
                                                 </div>
                                                 <div class="tp-product-details-review-rating-percent">
-                                                   <span>30%</span>
+                                                   <span>{{ four }}%</span>
                                                 </div>
                                              </div> <!-- end single item -->
 
@@ -475,10 +477,10 @@
                                                 <span>3 Start</span>
                                                 <div class="tp-product-details-review-rating-bar">
                                                    <span class="tp-product-details-review-rating-bar-inner"
-                                                      data-width="15%"></span>
+                                                      [attr.data-width]="three + '%'"></span>
                                                 </div>
                                                 <div class="tp-product-details-review-rating-percent">
-                                                   <span>15%</span>
+                                                   <span>{{ three }}%</span>
                                                 </div>
                                              </div> <!-- end single item -->
 
@@ -488,10 +490,10 @@
                                                 <span>2 Start</span>
                                                 <div class="tp-product-details-review-rating-bar">
                                                    <span class="tp-product-details-review-rating-bar-inner"
-                                                      data-width="6%"></span>
+                                                      [attr.data-width]="two + '%'"></span>
                                                 </div>
                                                 <div class="tp-product-details-review-rating-percent">
-                                                   <span>6%</span>
+                                                   <span>{{ two }}%</span>
                                                 </div>
                                              </div> <!-- end single item -->
 
@@ -501,13 +503,15 @@
                                                 <span>1 Start</span>
                                                 <div class="tp-product-details-review-rating-bar">
                                                    <span class="tp-product-details-review-rating-bar-inner"
-                                                      data-width="10%"></span>
+                                                      [attr.data-width]="one + '%'"></span>
                                                 </div>
                                                 <div class="tp-product-details-review-rating-percent">
-                                                   <span>10%</span>
+                                                   <span>{{ one }}%</span>
                                                 </div>
                                              </div> <!-- end single item -->
                                           </div>
+                                          <!-- end rating -->
+
                                        </div>
                                     </div>
                                  </div> <!-- end col -->

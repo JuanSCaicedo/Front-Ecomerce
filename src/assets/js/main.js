@@ -66,9 +66,9 @@ function HOMEINIT($) {
 		$(this).css("background-image", "url( " + $(this).attr("data-background") + "  )");
 	});
 
-	$("[data-width]").each(function () {
-		$(this).css("width", $(this).attr("data-width"));
-	});
+	// $("[data-width]").each(function () {
+	// 	$(this).css("width", $(this).attr("data-width"));
+	// });
 
 	// $("[data-bg-color]").each(function () {
 	// 	$(this).css("background-color", $(this).attr("data-bg-color"));
@@ -2167,6 +2167,10 @@ function MODAL_PRODUCT_DETAIL($) {
 
 		$('.tp-size-variation-btn')?.on('click', function () {
 			$(this).addClass('active').siblings().removeClass('active');
+		});
+
+		$("[data-width]").each(function () {
+			$(this).css("width", $(this).attr("data-width"));
 		});
 
 	}, 50)
