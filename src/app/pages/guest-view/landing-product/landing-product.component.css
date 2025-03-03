@@ -39,3 +39,13 @@
     overflow-x: hidden;
     /* Evita el desbordamiento horizontal */
 }
+
+.no-stock {
+    background-color: #fd2d6c !important;
+    color: white !important;
+    /* Letra blanca */
+}
+
+.no-stock span {
+    color: inherit !important;
+}

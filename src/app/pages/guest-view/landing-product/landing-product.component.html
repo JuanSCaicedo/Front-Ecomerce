@@ -18,9 +18,9 @@
                      <span><a href="#" onclick="return false;">{{ PRODUCT_SELECTED?.categorie_first?.name }}</a></span>
 
                      <span *ngIf="PRODUCT_SELECTED.categorie_second"><a href="#" onclick="return false;">{{
-                           PRODUCT_SELECTED.categorie_second.name }}</a></span>
+                           PRODUCT_SELECTED.categorie_second?.name }}</a></span>
 
-                     <span *ngIf="PRODUCT_SELECTED.categorie_third">{{ PRODUCT_SELECTED.categorie_third.name }}</span>
+                     <span *ngIf="PRODUCT_SELECTED.categorie_third">{{ PRODUCT_SELECTED.categorie_third?.name }}</span>
                   </div>
                </div>
             </div>
@@ -92,9 +92,24 @@
 
                      <!-- inventory details -->
                      <div class="tp-product-details-inventory d-flex align-items-center mb-10">
+                        @if(PRODUCT_SELECTED.stock > 0 && PRODUCT_SELECTED.variations.length == 0){
                         <div class="tp-product-details-stock mb-10">
-                           <span>In Stock</span>
+                           <span>In Stock - {{ PRODUCT_SELECTED.stock }} </span>
                         </div>
+                        }
+
+                        @if(PRODUCT_SELECTED.variations.length > 0){
+                        <div class="tp-product-details-stock mb-10">
+                           <span> Stock Variation </span>
+                        </div>
+                        }
+
+                        @if(PRODUCT_SELECTED.stock == 0 && PRODUCT_SELECTED.variations.length == 0){ <div
+                           class="tp-product-details-stock no-stock mb-10">
+                           <span>Sold Out</span>
+                        </div>
+                        }
+
                         <div class="tp-product-details-rating-wrapper d-flex align-items-center mb-10">
                            <div class="tp-product-details-rating">
                               <span><i class="fa-solid fa-star"
