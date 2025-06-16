@@ -383,14 +383,18 @@
                                     </div>
 
                                     <div class="tp-header-login-content d-none d-xl-block" *ngIf="!user">
-                                        <span>Hello, Invitado</span>
-                                        <h5 class="tp-header-login-title"><a routerLink="/login">Sign In</a></h5>
+                                        <a routerLink="/login">
+                                            <span>Hello, Invitado</span>
+                                            <h5 class="tp-header-login-title">Sign In</h5>
+                                        </a>
                                     </div>
 
                                     <div class="tp-header-login-content d-none d-xl-block" *ngIf="user">
-                                        <span>Hello, {{ user?.name }}</span>
-                                        <h5 class="tp-header-login-title"><a routerLink="/perfil-del-cliente">Go
-                                                Profile</a> </h5>
+                                        <a routerLink="/perfil-del-cliente">
+                                            <span>Hello, {{ user?.name }}</span>
+                                            <h5 class="tp-header-login-title">Go
+                                                Profile</h5>
+                                        </a>
                                     </div>
 
                                 </div>
