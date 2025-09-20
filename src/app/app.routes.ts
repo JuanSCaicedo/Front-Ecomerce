@@ -13,6 +13,7 @@ import { CheckoutFailureComponent } from './pages/view-auth/checkout/checkout-fa
 import { CheckoutSuccessComponent } from './pages/view-auth/checkout/checkout-success/checkout-success.component';
 import { CheckoutPendingComponent } from './pages/view-auth/checkout/checkout-pending/checkout-pending.component';
 import { ProfileClientComponent } from './pages/view-auth/profile-client/profile-client.component';
+import { FilterAdvanceProductComponent } from './pages/guest-view/filter-advance-product/filter-advance-product.component';
 
 export const routes: Routes = [
     {
@@ -70,6 +71,10 @@ export const routes: Routes = [
         canActivate: [authGuard],
         path: 'perfil-del-cliente',
         component: ProfileClientComponent
+    },
+        {
+        path: 'productos-busqueda',
+        component: FilterAdvanceProductComponent
     },
     {
         path: '**', // Ruta comodín

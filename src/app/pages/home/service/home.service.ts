@@ -40,9 +40,19 @@ export class HomeService {
     return this.http.get(URL);
   }
 
+  getConfigFilter() {
+    const URL = `${URL_SERVICIOS}/ecommerce/config-filter-advance`;
+    return this.http.get(URL);
+  }
+
   menu() {
     const URL = `${URL_SERVICIOS}/ecommerce/menu`;
     return this.http.get(URL);
+  }
+
+  filterAdvanceProduct(data: any) {
+    const URL = `${URL_SERVICIOS}/ecommerce/filter-advance-product`;
+    return this.http.post(URL, data);
   }
 
   showProduct(slug: string, code_discount: string) {
