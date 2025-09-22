@@ -67,16 +67,10 @@
                             <div class="tp-shop-widget-content">
                                 <div class="tp-shop-widget-categories">
                                     <ul>
-                                        <li><a href="#">Leather <span>10</span></a></li>
-                                        <li><a href="#">Classic Watch <span>18</span></a></li>
-                                        <li><a href="#">Leather Man Wacth <span>22</span></a></li>
-                                        <li><a href="#">Trending Watch <span>17</span></a></li>
-                                        <li><a href="#">Google <span>22</span></a></li>
-                                        <li><a href="#">Woman Wacth <span>14</span></a></li>
-                                        <li><a href="#">Tables <span>19</span></a></li>
-                                        <li><a href="#">Electronics <span>29</span></a></li>
-                                        <li><a href="#">Phones <span>05</span></a></li>
-                                        <li><a href="#">Grocery <span>14</span></a></li>
+                                        @for(categorie of categories; track categorie.id) {
+                                        <li><a href="#">{{categorie.name}} <span>{{categorie.products_count}}</span></a>
+                                        </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -88,60 +82,18 @@
                             <div class="tp-shop-widget-content">
                                 <div class="tp-shop-widget-checkbox-circle-list">
                                     <ul>
+                                        @for(color of colors; track color.id) {
                                         <li>
                                             <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="red">
-                                                <label for="red">Red</label>
-                                                <span data-bg-color="#FF401F"
+                                                <input type="checkbox" [id]="color.name">
+                                                <label [for]="color.name">{{color.name}}</label>
+                                                <span [style.backgroundColor]="color.code"
                                                     class="tp-shop-widget-checkbox-circle-self"></span>
                                             </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">8</span>
+                                            <span
+                                                class="tp-shop-widget-checkbox-circle-number">{{color.products_count}}</span>
                                         </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="dark_blue">
-                                                <label for="dark_blue">Dark Blue</label>
-                                                <span data-bg-color="#4666FF"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">14</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="oragnge">
-                                                <label for="oragnge">Orange</label>
-                                                <span data-bg-color="#FF9E2C"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">18</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="purple">
-                                                <label for="purple">Purple</label>
-                                                <span data-bg-color="#B615FD"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">23</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="yellow">
-                                                <label for="yellow">Yellow</label>
-                                                <span data-bg-color="#FFD747"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">17</span>
-                                        </li>
-                                        <li>
-                                            <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" id="green">
-                                                <label for="green">Green</label>
-                                                <span data-bg-color="#41CF0F"
-                                                    class="tp-shop-widget-checkbox-circle-self"></span>
-                                            </div>
-                                            <span class="tp-shop-widget-checkbox-circle-number">15</span>
-                                        </li>
+                                        }
                                     </ul>
                                 </div>
                             </div>

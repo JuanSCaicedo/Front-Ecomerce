@@ -12,13 +12,16 @@ export class FilterAdvanceProductComponent {
   categories: any = [];
   colors: any = [];
   brands: any = [];
-  PRODUCTOS:any = [];
+  PRODUCTOS: any = [];
 
   constructor(
     public homeService: HomeService
-  ) { 
-    this.homeService.getConfigFilter().subscribe((resp:any) => {
+  ) {
+    this.homeService.getConfigFilter().subscribe((resp: any) => {
       console.log(resp);
+      this.categories = resp.categories;
+      this.colors = resp.colors;
+      this.brands = resp.brands;
     });
   }
 }
