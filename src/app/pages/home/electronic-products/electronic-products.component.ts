@@ -25,6 +25,7 @@ export class ElectronicProductsComponent {
   @Input() ELECTRONIC_PRODUCTS: any[] = [];  // Usamos @Input() para recibir los datos
   @Input() VIEW_READY_ELECTRONIC_PRODUCTS: boolean = false;
   @Input() ELECTRONIC_PRODUCTS_STATE: boolean = false;
+  @Input() HAS_DISCOUNT_FLASH: boolean = false;
   currency: string = 'COP';
   is_flash: boolean = false;
 

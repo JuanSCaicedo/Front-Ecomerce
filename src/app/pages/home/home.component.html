@@ -37,7 +37,7 @@
     <!-- Banner & Product Electronics -->
     <app-electronic-products (isFlash)="viewFlash($event)" (productSelected)="handleProductSelect($event)"
         [ELECTRONIC_PRODUCTS]="ELECTRONIC_PRODUCTS" [VIEW_READY_ELECTRONIC_PRODUCTS]="VIEW_READY_ELECTRONIC_PRODUCTS"
-        [ELECTRONIC_PRODUCTS_STATE]="ELECTRONIC_PRODUCTS_STATE"></app-electronic-products>
+        [ELECTRONIC_PRODUCTS_STATE]="ELECTRONIC_PRODUCTS_STATE" [HAS_DISCOUNT_FLASH]="!!DISCOUNT_FLASH && DISCOUNT_FLASH_PRODUCTS_STATE && VIEW_READY_FLASH"></app-electronic-products>
     <!-- End Banner & Product Electronics -->
 
     <!-- product banner area start -->

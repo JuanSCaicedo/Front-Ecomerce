@@ -133,7 +133,7 @@ export class HomeComponent {
 
       this.SLIDERS_SECUNDARIOS.length > 0 ? this.VIEW_READY_SLIDERS_SECUNDARIOS = true : this.VIEW_READY_SLIDERS_SECUNDARIOS = false;
 
-      this.DISCOUNT_FLASH_PRODUCTS.length > 0 ? this.VIEW_READY_FLASH = true : this.VIEW_READY_FLASH = false;
+      this.DISCOUNT_FLASH && this.DISCOUNT_FLASH_PRODUCTS.length > 0 ? this.VIEW_READY_FLASH = true : this.VIEW_READY_FLASH = false;
 
       this.ELECTRONIC_PRODUCTS ? this.VIEW_READY_ELECTRONIC_PRODUCTS = true : this.VIEW_READY_ELECTRONIC_PRODUCTS = false;
 
@@ -144,6 +144,11 @@ export class HomeComponent {
       this.LAST_PRODUCT_DISCOUNTS && this.LAST_PRODUCT_FEATURED && this.LAST_PRODUCT_SELLING ? this.VIEW_READY_LAST_PRODUCTS = true : this.VIEW_READY_LAST_PRODUCTS = false;
 
       this.llamarHomeViews(this.HOME_VIEWS);
+
+      // Ocultar preloader si no hay discount flash o no hay productos
+      if (!this.DISCOUNT_FLASH || this.DISCOUNT_FLASH_PRODUCTS.length === 0) {
+        this.DISCOUNT_FLASH_PRODUCTS_STATE = false;
+      }
 
       if (isPlatformBrowser(this.platformId)) {
         this.callPlugin();
