@@ -109,7 +109,7 @@ npm install
 ng serve
 ```
 
-La aplicación estará disponible en `http://localhost:4200`.
+La aplicación estará disponible en `https://ecommerce.juandevops.com`.
 
 ---
 
