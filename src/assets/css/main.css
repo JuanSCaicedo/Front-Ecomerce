@@ -22318,7 +22318,7 @@ only screen and (min-width: 576px) and (max-width: 767px),
 
 .tp-shop-widget-checkbox-circle label::before {
   position: absolute;
-  content: url("../img/product/icons/check-2.svg");
+  /* content: url("../img/product/icons/check-2.svg"); */
   top: 3px;
   left: 0;
   width: 18px;

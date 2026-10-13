@@ -21,6 +21,7 @@
     "@angular/platform-server": "^17.3.12",
     "@angular/router": "^17.3.12",
     "@angular/ssr": "^17.3.17",
+    "@webcreate/infinite-ajax-scroll": "^3.1.0",
     "express": "^4.22.1",
     "http-proxy-middleware": "^2.0.9",
     "ngx-cookie-service": "^17.1.0",
