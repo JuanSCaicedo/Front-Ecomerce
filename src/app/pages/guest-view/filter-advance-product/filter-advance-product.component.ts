@@ -28,6 +28,9 @@ export class FilterAdvanceProductComponent {
   colors: any = [];
   brands: any = [];
   PRODUCTOS: any = [];
+  total: number = 0;
+  currentPage: number = 1;
+  lastPage: number = 1;
   product_relateds: any = [];
   currency: string = 'COP';
   is_flash: boolean = false;
@@ -90,17 +93,33 @@ export class FilterAdvanceProductComponent {
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     };
 
-    this.homeService.filterAdvanceProduct({}).subscribe((resp: any) => {
-      console.log(resp);
-      this.PRODUCTOS = resp.productos.data;
-    }), (error: any) => {
-      console.log(error);
-      this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
-    };
+    this.loadProducts();
   }
 
   ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+  }
+
+  get paginationPages(): number[] {
+    return Array.from({ length: this.lastPage }, (_, index) => index + 1);
+  }
+
+  loadProducts(page: number = 1): void {
+    this.homeService.filterAdvanceProduct({ page }).subscribe({
+      next: (resp: any) => {
+        const pagination = resp.productos;
+        const meta = pagination.meta || {};
+
+        this.PRODUCTOS = pagination.data;
+        this.total = resp.total ?? meta.total ?? 0;
+        this.currentPage = meta.current_page ?? page;
+        this.lastPage = meta.last_page ?? Math.max(1, Math.ceil(this.total / (meta.per_page || 15)));
+      },
+      error: (error: any) => {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error?.message || error.message);
+      }
+    });
   }
 
   getTotalCurrency(PRODUCT: any) {

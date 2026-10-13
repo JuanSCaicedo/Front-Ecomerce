@@ -292,9 +292,9 @@
                             <div class="tab-content" id="productTabContent">
                                 <div class="tab-pane fade show active" id="grid-tab-pane" role="tabpanel"
                                     aria-labelledby="grid-tab" tabindex="0">
-                                    <div class="row infinite-container">
+                                    <div class="row">
                                         @for(PRODUCT of PRODUCTOS; track PRODUCT.id) {
-                                        <div class="col-xl-4 col-md-6 col-sm-6 infinite-item">
+                                        <div class="col-xl-4 col-md-6 col-sm-6">
                                             <div class="tp-product-item-2 mb-40">
                                                 <div class="tp-product-thumb-2 p-relative z-index-1 fix w-img">
                                                     <a [routerLink]="'/producto/'+PRODUCT.slug">
@@ -554,15 +554,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="infinite-pagination d-none">
-                            <a href="shop.html" class="infinite-next-link">Next</a>
-                        </div>
                         <div class="tp-shop-pagination mt-20">
                             <div class="tp-pagination">
                                 <nav>
                                     <ul>
                                         <li>
-                                            <a href="shop.html" class="tp-pagination-prev prev page-numbers">
+                                            <a href="#" class="tp-pagination-prev prev page-numbers"
+                                                [class.disabled]="currentPage === 1"
+                                                [attr.aria-disabled]="currentPage === 1"
+                                                (click)="$event.preventDefault(); currentPage > 1 && loadProducts(currentPage - 1)">
                                                 <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M1.00017 6.77879L14 6.77879" stroke="currentColor"
@@ -574,17 +574,20 @@
                                                 </svg>
                                             </a>
                                         </li>
+                                        @for(page of paginationPages; track page) {
                                         <li>
-                                            <a href="shop.html">1</a>
+                                            @if (page === currentPage) {
+                                            <span class="current" [attr.aria-current]="'page'">{{ page }}</span>
+                                            } @else {
+                                            <a href="#" (click)="$event.preventDefault(); loadProducts(page)">{{ page }}</a>
+                                            }
                                         </li>
+                                        }
                                         <li>
-                                            <span class="current">2</span>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html">3</a>
-                                        </li>
-                                        <li>
-                                            <a href="shop.html" class="next page-numbers">
+                                            <a href="#" class="next page-numbers"
+                                                [class.disabled]="currentPage === lastPage"
+                                                [attr.aria-disabled]="currentPage === lastPage"
+                                                (click)="$event.preventDefault(); currentPage < lastPage && loadProducts(currentPage + 1)">
                                                 <svg width="15" height="13" viewBox="0 0 15 13" fill="none"
                                                     xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M13.9998 6.77883L1 6.77883" stroke="currentColor"
