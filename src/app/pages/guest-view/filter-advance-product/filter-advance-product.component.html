@@ -73,7 +73,9 @@
                                 <div class="tp-shop-widget-categories">
                                     <ul>
                                         @for(categorie of categories; track categorie.id) {
-                                        <li><a href="#">{{categorie.name}} <span>{{categorie.products_count}}</span></a>
+                                        <li><a href="/" onclick="return false;" (click)="addCategorie(categorie)"
+                                                [ngClass]="{'selected-categories': categories_selected.includes(categorie.id)}">{{categorie.name}}
+                                                <span>{{categorie.products_count}}</span></a>
                                         </li>
                                         }
                                     </ul>
@@ -579,7 +581,8 @@
                                             @if (page === currentPage) {
                                             <span class="current" [attr.aria-current]="'page'">{{ page }}</span>
                                             } @else {
-                                            <a href="#" (click)="$event.preventDefault(); loadProducts(page)">{{ page }}</a>
+                                            <a href="#" (click)="$event.preventDefault(); loadProducts(page)">{{ page
+                                                }}</a>
                                             }
                                         </li>
                                         }

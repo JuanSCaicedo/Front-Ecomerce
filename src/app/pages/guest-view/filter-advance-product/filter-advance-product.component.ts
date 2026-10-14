@@ -25,6 +25,7 @@ export class FilterAdvanceProductComponent {
   @Output() isFlash = new EventEmitter<boolean>();
   product_selected: any = null;
   categories: any = [];
+  categories_selected: any = [];
   colors: any = [];
   brands: any = [];
   PRODUCTOS: any = [];
@@ -282,5 +283,32 @@ export class FilterAdvanceProductComponent {
       this.productSelected.emit(product);
       this.isFlash.emit(false);
     }, 50);
+  }
+
+  addCategorie(categorie: any) {
+    let INDEX = this.categories_selected.findIndex((item: any) => item == categorie.id);
+    if (INDEX != -1) {
+      this.categories_selected.splice(INDEX, 1);
+    } else {
+      this.categories_selected.push(categorie.id);
+    }
+    console.log(this.categories_selected);
+    this.filterAdvanceProduct();
+  }
+
+  filterAdvanceProduct() {
+    let data = {
+      categories_selected: this.categories_selected,
+    }
+
+    this.homeService.filterAdvanceProduct(data).subscribe({
+      next: (resp: any) => {
+        this.PRODUCTOS = resp.productos.data;
+      },
+      error: (error: any) => {
+        console.log(error);
+        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error?.message || error.message);
+      }
+    });
   }
 }
