@@ -106,7 +106,10 @@ export class FilterAdvanceProductComponent {
   }
 
   loadProducts(page: number = 1): void {
-    this.homeService.filterAdvanceProduct({ page }).subscribe({
+    this.homeService.filterAdvanceProduct({
+      page,
+      categories_selected: this.categories_selected,
+    }).subscribe({
       next: (resp: any) => {
         const pagination = resp.productos;
         const meta = pagination.meta || {};
@@ -297,18 +300,6 @@ export class FilterAdvanceProductComponent {
   }
 
   filterAdvanceProduct() {
-    let data = {
-      categories_selected: this.categories_selected,
-    }
-
-    this.homeService.filterAdvanceProduct(data).subscribe({
-      next: (resp: any) => {
-        this.PRODUCTOS = resp.productos.data;
-      },
-      error: (error: any) => {
-        console.log(error);
-        this.toastr.error('API Response - Comuniquese con el desarrollador', error.error?.message || error.message);
-      }
-    });
+    this.loadProducts(1);
   }
 }
