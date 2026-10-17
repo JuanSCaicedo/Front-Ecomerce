@@ -94,13 +94,13 @@
                                         @for(color of colors; track color.id) {
                                         <li>
                                             <div class="tp-shop-widget-checkbox-circle">
-                                                <input type="checkbox" [id]="color.name">
+                                                <input type="checkbox" (click)="addColor(color)" [id]="color.name">
                                                 <label [for]="color.name">{{color.name}}</label>
                                                 <span [style.backgroundColor]="color.code"
                                                     class="tp-shop-widget-checkbox-circle-self"></span>
                                             </div>
                                             <span
-                                                class="tp-shop-widget-checkbox-circle-number">{{color.products_count}}</span>
+                                                class="tp-shop-widget-checkbox-circle-number" [ngClass]="{'tp-shop-widget-checkbox-selected': colors_selected.includes(color.id)}">{{color.products_count}}</span>
                                         </li>
                                         }
                                     </ul>

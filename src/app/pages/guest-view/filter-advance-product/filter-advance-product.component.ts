@@ -27,6 +27,7 @@ export class FilterAdvanceProductComponent {
   categories: any = [];
   categories_selected: any = [];
   colors: any = [];
+  colors_selected: any = [];
   brands: any = [];
   PRODUCTOS: any = [];
   total: number = 0;
@@ -109,6 +110,7 @@ export class FilterAdvanceProductComponent {
     this.homeService.filterAdvanceProduct({
       page,
       categories_selected: this.categories_selected,
+      colors_selected: this.colors_selected,
     }).subscribe({
       next: (resp: any) => {
         const pagination = resp.productos;
@@ -302,4 +304,16 @@ export class FilterAdvanceProductComponent {
   filterAdvanceProduct() {
     this.loadProducts(1);
   }
+
+  addColor(color: any) {
+    let INDEX = this.colors_selected.findIndex((item: any) => item == color.id);
+    if (INDEX != -1) {
+      this.colors_selected.splice(INDEX, 1);
+    } else {
+      this.colors_selected.push(color.id);
+    }
+    console.log(this.colors_selected);
+    this.filterAdvanceProduct();
+  }
+
 }
