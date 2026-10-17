@@ -23,6 +23,7 @@ declare var $: any;
 export class FilterAdvanceProductComponent {
   @Output() productSelected = new EventEmitter<any>();
   @Output() isFlash = new EventEmitter<boolean>();
+  brands_selected: any = [];
   product_selected: any = null;
   categories: any = [];
   categories_selected: any = [];
@@ -111,6 +112,7 @@ export class FilterAdvanceProductComponent {
       page,
       categories_selected: this.categories_selected,
       colors_selected: this.colors_selected,
+      brands_selected: this.brands_selected
     }).subscribe({
       next: (resp: any) => {
         const pagination = resp.productos;
@@ -316,4 +318,14 @@ export class FilterAdvanceProductComponent {
     this.filterAdvanceProduct();
   }
 
+  addBrand(brand: any) {
+        let INDEX = this.brands_selected.findIndex((item: any) => item == brand.id);
+    if (INDEX != -1) {
+      this.brands_selected.splice(INDEX, 1);
+    } else {
+      this.brands_selected.push(brand.id);
+    }
+    console.log(this.brands_selected);
+    this.filterAdvanceProduct();
+  }
 }

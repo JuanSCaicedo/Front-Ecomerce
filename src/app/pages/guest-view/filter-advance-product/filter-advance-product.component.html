@@ -99,8 +99,8 @@
                                                 <span [style.backgroundColor]="color.code"
                                                     class="tp-shop-widget-checkbox-circle-self"></span>
                                             </div>
-                                            <span
-                                                class="tp-shop-widget-checkbox-circle-number" [ngClass]="{'tp-shop-widget-checkbox-selected': colors_selected.includes(color.id)}">{{color.products_count}}</span>
+                                            <span class="tp-shop-widget-checkbox-circle-number"
+                                                [ngClass]="{'tp-shop-widget-checkbox-selected': colors_selected.includes(color.id)}">{{color.products_count}}</span>
                                         </li>
                                         }
                                     </ul>
@@ -167,7 +167,20 @@
                         <div class="tp-shop-widget mb-50">
                             <h3 class="tp-shop-widget-title">Popular Brands</h3>
 
-                            <div class="tp-shop-widget-content ">
+                            <div class="tp-shop-widget-content">
+                                <div class="tp-shop-widget-categories">
+                                    <ul>
+                                        @for(brand of brands; track brand.id) {
+                                        <li><a href="/" onclick="return false;" (click)="addBrand(brand)"
+                                                [ngClass]="{'selected-categories': brands_selected.includes(brand.id)}">{{brand.name}}
+                                                <span>{{brand.products_count}}</span></a>
+                                        </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- <div class="tp-shop-widget-content ">
                                 <div
                                     class="tp-shop-widget-brand-list d-flex align-items-center justify-content-between flex-wrap">
 
@@ -179,7 +192,7 @@
                                     </div>
                                     }
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <!-- end brand -->
 
