@@ -37,6 +37,8 @@ export class FilterAdvanceProductComponent {
   product_relateds: any = [];
   currency: string = 'COP';
   is_flash: boolean = false;
+  min_price: number = 0;
+  max_price: number = 0;
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -101,6 +103,8 @@ export class FilterAdvanceProductComponent {
 
   ngOnInit() {
     this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
+
+    this.rangoPrecios();
   }
 
   get paginationPages(): number[] {
@@ -112,7 +116,11 @@ export class FilterAdvanceProductComponent {
       page,
       categories_selected: this.categories_selected,
       colors_selected: this.colors_selected,
-      brands_selected: this.brands_selected
+      brands_selected: this.brands_selected,
+      min_price: this.min_price,
+      max_price: this.max_price,
+      currency: this.currency,
+
     }).subscribe({
       next: (resp: any) => {
         const pagination = resp.productos;
@@ -319,7 +327,7 @@ export class FilterAdvanceProductComponent {
   }
 
   addBrand(brand: any) {
-        let INDEX = this.brands_selected.findIndex((item: any) => item == brand.id);
+    let INDEX = this.brands_selected.findIndex((item: any) => item == brand.id);
     if (INDEX != -1) {
       this.brands_selected.splice(INDEX, 1);
     } else {
@@ -327,5 +335,25 @@ export class FilterAdvanceProductComponent {
     }
     console.log(this.brands_selected);
     this.filterAdvanceProduct();
+  }
+
+  rangoPrecios() {
+    if (typeof window !== 'undefined') {
+      $("#slider-range").slider({
+        range: true,
+        min: 0,
+        max: 3000000,
+        values: [100, 300],
+        slide: (event: any, ui: any) => {
+          $("#amount").val(this.currency + " " + ui.values[0] + " - " + this.currency + " "  + ui.values[1]);
+          this.min_price = ui.values[0];
+          this.max_price = ui.values[1];
+        }, stop: () => {
+          this.filterAdvanceProduct();
+        }
+      });
+      $("#amount").val(this.currency + $("#slider-range").slider("values", 0) +
+        " - " + this.currency + $("#slider-range").slider("values", 1));
+    }
   }
 }
