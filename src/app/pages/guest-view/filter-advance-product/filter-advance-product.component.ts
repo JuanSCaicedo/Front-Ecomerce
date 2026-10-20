@@ -39,6 +39,7 @@ export class FilterAdvanceProductComponent {
   is_flash: boolean = false;
   min_price: number = 0;
   max_price: number = 0;
+  options_aditional: any = [];
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -120,6 +121,7 @@ export class FilterAdvanceProductComponent {
       min_price: this.min_price,
       max_price: this.max_price,
       currency: this.currency,
+      options_aditional: this.options_aditional,
 
     }).subscribe({
       next: (resp: any) => {
@@ -345,7 +347,7 @@ export class FilterAdvanceProductComponent {
         max: 3000000,
         values: [100, 300],
         slide: (event: any, ui: any) => {
-          $("#amount").val(this.currency + " " + ui.values[0] + " - " + this.currency + " "  + ui.values[1]);
+          $("#amount").val(this.currency + " " + ui.values[0] + " - " + this.currency + " " + ui.values[1]);
           this.min_price = ui.values[0];
           this.max_price = ui.values[1];
         }, stop: () => {
@@ -355,5 +357,16 @@ export class FilterAdvanceProductComponent {
       $("#amount").val(this.currency + $("#slider-range").slider("values", 0) +
         " - " + this.currency + $("#slider-range").slider("values", 1));
     }
+  }
+
+  addOptionAditional(option: string) {
+    let INDEX = this.options_aditional.findIndex((item: any) => item == option);
+    if (INDEX != -1) {
+      this.options_aditional.splice(INDEX, 1);
+    } else {
+      this.options_aditional.push(option);
+    }
+    console.log(this.options_aditional);
+    this.filterAdvanceProduct();
   }
 }

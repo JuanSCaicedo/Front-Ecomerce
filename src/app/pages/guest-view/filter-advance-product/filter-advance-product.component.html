@@ -52,12 +52,12 @@
                                 <div class="tp-shop-widget-checkbox">
                                     <ul class="filter-items filter-checkbox">
                                         <li class="filter-item checkbox">
-                                            <input id="on_sale" type="checkbox">
-                                            <label for="on_sale">On sale</label>
+                                            <input id="on_sale" type="checkbox" (click)="addOptionAditional('campaing')">
+                                            <label for="on_sale">Campaña de descuentos</label>
                                         </li>
                                         <li class="filter-item checkbox">
-                                            <input id="in_stock" type="checkbox">
-                                            <label for="in_stock">In Stock</label>
+                                            <input id="in_stock" type="checkbox" (click)="addOptionAditional('review')">
+                                            <label for="in_stock">Reseñas</label>
                                         </li>
                                     </ul><!-- .filter-items -->
                                 </div>
