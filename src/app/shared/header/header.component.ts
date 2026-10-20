@@ -1,6 +1,7 @@
 import { Inject, PLATFORM_ID, Component } from '@angular/core';
 import { MenuCategoriesComponent } from './menu-categories/menu-categories.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { isPlatformServer } from '@angular/common';
@@ -19,7 +20,7 @@ declare var $: any;
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MenuCategoriesComponent, CommonModule, RouterModule],
+  imports: [MenuCategoriesComponent, CommonModule, FormsModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -32,6 +33,7 @@ export class HeaderComponent {
   userAuth: any;
   listCart: any = [];
   totalCarts: number = 0;
+  searchT: string = '';
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -280,5 +282,9 @@ export class HeaderComponent {
   closeCart() {
     $(".cartmini__area").removeClass("cartmini-opened");
     $(".body-overlay").removeClass("opened");
+  }
+
+  searchProduct() {
+    window.location.href = "/productos-busqueda?search=" + this.searchT;
   }
 }

@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { HomeService } from '../../home/service/home.service';
 import { ToastrService } from 'ngx-toastr';
 import { CookieService } from 'ngx-cookie-service';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ModalProductoComponent } from '../../home/modal-producto/modal-producto.component';
@@ -40,6 +40,7 @@ export class FilterAdvanceProductComponent {
   min_price: number = 0;
   max_price: number = 0;
   options_aditional: any = [];
+  search: string = '';
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -85,7 +86,8 @@ export class FilterAdvanceProductComponent {
     public cookieService: CookieService,
     public cartService: CartService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    public activatedRoute: ActivatedRoute,
 
   ) {
     this.homeService.getConfigFilter().subscribe((resp: any) => {
@@ -99,13 +101,17 @@ export class FilterAdvanceProductComponent {
       this.toastr.error('API Response - Comuniquese con el desarrollador', error.error.message || error.message);
     };
 
+    this.searchProduct();
     this.loadProducts();
   }
 
   ngOnInit() {
-    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
-
+    this.currencyChange();
     this.rangoPrecios();
+  }
+
+  currencyChange() {
+    this.currency = this.cookieService.get("currency") ? this.cookieService.get("currency") : 'COP';
   }
 
   get paginationPages(): number[] {
@@ -122,6 +128,7 @@ export class FilterAdvanceProductComponent {
       max_price: this.max_price,
       currency: this.currency,
       options_aditional: this.options_aditional,
+      search: this.search,
 
     }).subscribe({
       next: (resp: any) => {
@@ -368,5 +375,11 @@ export class FilterAdvanceProductComponent {
     }
     console.log(this.options_aditional);
     this.filterAdvanceProduct();
+  }
+
+  searchProduct() {
+    this.activatedRoute.queryParams.subscribe((resp: any) => {
+      this.search = resp.search || '';
+    });
   }
 }

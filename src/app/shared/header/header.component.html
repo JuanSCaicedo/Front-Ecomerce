@@ -144,8 +144,9 @@
                     </div>
                     <form action="#">
                         <div class="tp-search-input mb-10">
-                            <input type="text" placeholder="Search for product...">
-                            <button type="submit"><i class="flaticon-search-1"></i></button>
+                            <input type="text" (keyup.enter)="searchProduct()" [(ngModel)]="searchT" name="searchT"
+                                placeholder="Search for product...">
+                            <button type="submit"><i class="flaticon-search-1" (click)="searchProduct()"></i></button>
                         </div>
                         <div class="tp-search-category">
                             <span>Search by : </span>
@@ -336,7 +337,8 @@
                             <form action="#">
                                 <div class="tp-header-search-wrapper d-flex align-items-center">
                                     <div class="tp-header-search-box">
-                                        <input type="text" placeholder="Search for Products...">
+                                        <input type="text" (keyup.enter)="searchProduct()" [(ngModel)]="searchT"
+                                            name="searchT" placeholder="Search for Products...">
                                     </div>
                                     <div class="tp-header-search-category">
                                         <select>
@@ -348,7 +350,7 @@
                                         </select>
                                     </div>
                                     <div class="tp-header-search-btn">
-                                        <button type="submit">
+                                        <button type="submit" (click)="searchProduct()">
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
