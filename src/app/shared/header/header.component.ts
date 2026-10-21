@@ -34,6 +34,8 @@ export class HeaderComponent {
   listCart: any = [];
   totalCarts: number = 0;
   searchT: string = '';
+  selectedCategory: string = '';
+  mainCategories: any[] = [];
 
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
@@ -92,6 +94,20 @@ export class HeaderComponent {
 
       this.cambioVista();
     }
+
+    this.homeService.menu().subscribe({
+      next: (resp: any) => {
+        this.mainCategories = resp.categories_menus || [];
+      },
+      error: (error) => {
+        if (error.status === 503) {
+          this.homeService.homeView('SYSTEM_MAINTENANCE_ACTIVE').subscribe();
+        } else {
+          console.log(error);
+          this.toastr.error('API Response - Comuniquese con el desarrollador', error.error?.message || error.message);
+        }
+      }
+    });
   }
 
   ngOnInit() {
@@ -284,7 +300,29 @@ export class HeaderComponent {
     $(".body-overlay").removeClass("opened");
   }
 
-  searchProduct() {
-    window.location.href = "/productos-busqueda?search=" + this.searchT;
+  searchProduct(event?: Event) {
+    event?.preventDefault();
+
+    const search = this.searchT.trim();
+    const form = event?.currentTarget as HTMLFormElement | null;
+    const categoryControl = form?.elements.namedItem('selectedCategory') as HTMLSelectElement | null;
+    const selectedCategory = categoryControl?.value || this.selectedCategory;
+
+    if (!search && !selectedCategory) {
+      this.toastr.warning('Escribe un valor o selecciona una categoría para buscar.', 'Búsqueda requerida');
+      return;
+    }
+
+    const queryParams: Record<string, string> = {};
+
+    if (search) {
+      queryParams['search'] = search;
+    }
+
+    if (selectedCategory) {
+      queryParams['category'] = selectedCategory;
+    }
+
+    this.router.navigate(['/productos-busqueda'], { queryParams });
   }
 }

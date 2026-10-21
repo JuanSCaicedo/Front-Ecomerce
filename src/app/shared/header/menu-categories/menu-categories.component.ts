@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HomeService } from '../../../pages/home/service/home.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-menu-categories',
@@ -18,8 +20,20 @@ export class MenuCategoriesComponent {
   constructor(
     private homeService: HomeService,
     private toastr: ToastrService,
+    private elementRef: ElementRef,
   ) {
     this.callMenu();
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeMenuWhenClickingOutside(event: Event) {
+    if (!this.elementRef.nativeElement.contains(event.target)) {
+      this.closeMenu();
+    }
+  }
+
+  closeMenu() {
+    $('.tp-category-menu > nav > ul').stop(true, true).slideUp();
   }
 
   callMenu() {

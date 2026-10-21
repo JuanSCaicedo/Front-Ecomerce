@@ -142,19 +142,20 @@
                     <div class="tp-search-close text-center mb-20">
                         <button class="tp-search-close-btn tp-search-close-btn"></button>
                     </div>
-                    <form action="#">
+                    <form action="#" (ngSubmit)="searchProduct($event)">
                         <div class="tp-search-input mb-10">
-                            <input type="text" (keyup.enter)="searchProduct()" [(ngModel)]="searchT" name="searchT"
+                            <input type="text" [(ngModel)]="searchT" name="searchT"
                                 placeholder="Search for product...">
-                            <button type="submit"><i class="flaticon-search-1" (click)="searchProduct()"></i></button>
+                            <button type="submit"><i class="flaticon-search-1"></i></button>
                         </div>
                         <div class="tp-search-category">
                             <span>Search by : </span>
-                            <a href="#">Men, </a>
-                            <a href="#">Women, </a>
-                            <a href="#">Children, </a>
-                            <a href="#">Shirt, </a>
-                            <a href="#">Demin</a>
+                            @for(category of mainCategories; track category.id; let last = $last) {
+                            <a href="#" onclick="return false;"
+                                (click)="selectedCategory = category.id.toString()">
+                                {{ category.name }}{{ last ? '' : ', ' }}
+                            </a>
+                            }
                         </div>
                     </form>
                 </div>
@@ -334,23 +335,23 @@
                     </div>
                     <div class="col-xl-6 col-lg-7 d-none d-lg-block">
                         <div class="tp-header-search pl-70">
-                            <form action="#">
+                            <form action="#" (ngSubmit)="searchProduct($event)">
                                 <div class="tp-header-search-wrapper d-flex align-items-center">
                                     <div class="tp-header-search-box">
-                                        <input type="text" (keyup.enter)="searchProduct()" [(ngModel)]="searchT"
+                                        <input type="text" [(ngModel)]="searchT"
                                             name="searchT" placeholder="Search for Products...">
                                     </div>
                                     <div class="tp-header-search-category">
-                                        <select>
-                                            <option>Select Category</option>
-                                            <option>Mobile</option>
-                                            <option>Digital Watch</option>
-                                            <option>Computer</option>
-                                            <option>Watch</option>
+                                        <select [(ngModel)]="selectedCategory" name="selectedCategory"
+                                            (change)="selectedCategory = $any($event.target).value">
+                                            <option value="">Select Category</option>
+                                            @for(category of mainCategories; track category.id) {
+                                            <option [value]="category.id">{{ category.name }}</option>
+                                            }
                                         </select>
                                     </div>
                                     <div class="tp-header-search-btn">
-                                        <button type="submit" (click)="searchProduct()">
+                                        <button type="submit">
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path

@@ -45,6 +45,7 @@ export class FilterAdvanceProductComponent {
   private isProcessing = new BehaviorSubject<boolean>(false);
   private attemptCount = 0;
   private isBlocked = false;
+  private priceFilterApplied = false;
   private lastAttemptTime = Date.now();
   private readonly ATTEMPT_THRESHOLD = 10; // Número máximo de intentos
   private readonly ATTEMPT_WINDOW = 5000; // Ventana de tiempo para contar intentos (5 segundos)
@@ -102,7 +103,6 @@ export class FilterAdvanceProductComponent {
     };
 
     this.searchProduct();
-    this.loadProducts();
   }
 
   ngOnInit() {
@@ -116,6 +116,19 @@ export class FilterAdvanceProductComponent {
 
   get paginationPages(): number[] {
     return Array.from({ length: this.lastPage }, (_, index) => index + 1);
+  }
+
+  get hasActiveFilters(): boolean {
+    const queryParams = this.activatedRoute.snapshot.queryParamMap;
+    return Boolean(
+      queryParams.get('search')?.trim() ||
+      queryParams.get('category') ||
+      this.categories_selected.length ||
+      this.colors_selected.length ||
+      this.brands_selected.length ||
+      this.options_aditional.length ||
+      this.priceFilterApplied
+    );
   }
 
   loadProducts(page: number = 1): void {
@@ -324,6 +337,25 @@ export class FilterAdvanceProductComponent {
     this.loadProducts(1);
   }
 
+  clearFilters() {
+    this.categories_selected = [];
+    this.colors_selected = [];
+    this.brands_selected = [];
+    this.options_aditional = [];
+    this.search = '';
+    this.min_price = 0;
+    this.max_price = 0;
+    this.priceFilterApplied = false;
+
+    if (typeof window !== 'undefined' && $('#slider-range').hasClass('ui-slider')) {
+      $('#slider-range').slider('values', [0, 0]);
+      $('#amount').val(this.currency + ' 0 - ' + this.currency + ' 0');
+    }
+
+    this.loadProducts(1);
+    this.router.navigateByUrl('/productos-busqueda');
+  }
+
   addColor(color: any) {
     let INDEX = this.colors_selected.findIndex((item: any) => item == color.id);
     if (INDEX != -1) {
@@ -358,6 +390,7 @@ export class FilterAdvanceProductComponent {
           this.min_price = ui.values[0];
           this.max_price = ui.values[1];
         }, stop: () => {
+          this.priceFilterApplied = true;
           this.filterAdvanceProduct();
         }
       });
@@ -380,6 +413,13 @@ export class FilterAdvanceProductComponent {
   searchProduct() {
     this.activatedRoute.queryParams.subscribe((resp: any) => {
       this.search = resp.search || '';
+
+      const categoryId = Number(resp.category);
+      this.categories_selected = Number.isInteger(categoryId) && categoryId > 0
+        ? [categoryId]
+        : [];
+
+      this.loadProducts(1);
     });
   }
 }
