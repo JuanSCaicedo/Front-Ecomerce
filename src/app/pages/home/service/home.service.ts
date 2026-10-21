@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { shareReplay } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
 import { URL_SERVICIOS } from '../../../config/config';
 
@@ -12,6 +13,9 @@ export class HomeService {
   // Almacena y comparte los datos de homeView
   private homeViewSubject = new BehaviorSubject<any>(null);
   public homeViewData$ = this.homeViewSubject.asObservable();
+  private menuRequest$ = this.http.get(`${URL_SERVICIOS}/ecommerce/menu`).pipe(
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
 
   constructor(
     public http: HttpClient,
@@ -46,8 +50,7 @@ export class HomeService {
   }
 
   menu() {
-    const URL = `${URL_SERVICIOS}/ecommerce/menu`;
-    return this.http.get(URL);
+    return this.menuRequest$;
   }
 
   filterAdvanceProduct(data: any) {
