@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HomeService } from '../../../pages/home/service/home.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 declare var $: any;
 
@@ -21,6 +22,7 @@ export class MenuCategoriesComponent {
     private homeService: HomeService,
     private toastr: ToastrService,
     private elementRef: ElementRef,
+    private sanitizer: DomSanitizer,
   ) {
     this.callMenu();
   }
@@ -41,7 +43,10 @@ export class MenuCategoriesComponent {
     this.homeService.menu().subscribe(
       (resp: any) => {
         // console.log(resp);
-        this.categories_menus = resp.categories_menus;
+        this.categories_menus = resp.categories_menus.map((menu: any) => ({
+          ...menu,
+          iconHtml: menu.icon ? this.sanitizer.bypassSecurityTrustHtml(menu.icon) : null as SafeHtml | null,
+        }));
       },
       (error) => {
         if (error.status === 503) {

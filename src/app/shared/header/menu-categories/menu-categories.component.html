@@ -25,7 +25,7 @@
                                         (click)="closeMenu()"
                                         class="{{ menu.categories.length > 0 ? 'has-mega-menu' : '' }}">
 
-                                        <span #iconContainer [id]="'icon-' + menu.id"></span>
+                                        <span [innerHTML]="menu.iconHtml"></span>
 
                                         {{ menu.name }}
                                     </a>
